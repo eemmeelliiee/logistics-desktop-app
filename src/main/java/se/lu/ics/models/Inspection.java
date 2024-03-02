@@ -57,7 +57,7 @@ public class Inspection {
     }
 
     public static String inspectionHistory(Shipment shipment){
-        return "Inspection history for shipment with ID: " + shipment.getShipmentId() + shipment.getInspections();
+        return "Inspection history for shipment with ID: " + shipment.getShipmentId() + shipment.getInspectionsMade();
     }
 
     @Override

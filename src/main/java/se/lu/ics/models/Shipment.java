@@ -61,7 +61,7 @@ public class Shipment {
         this.shipmentLogs = shipmentLogs;
     }
 
-    public ArrayList<Inspection> getInspections() {
+    public ArrayList<Inspection> getInspectionsMade() {
         return inspectionsMade;
     }
 

@@ -49,6 +49,7 @@ public class Main {
 
     System.out.println("\nShipments in warehouse " + warehouse1.getName() + ": " + warehouse1.getShipments());
     System.out.println("\nInspections in warehouse " + warehouse1.getName() + ": " + warehouse1.getInspections());
+    System.out.println("\nInspections for shipment " + shipment1.getShipmentId() + ": " + shipment1.getInspectionsMade());
 
     }
 }
