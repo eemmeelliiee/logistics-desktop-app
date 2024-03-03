@@ -8,34 +8,33 @@ public class Shipment {
     private Boolean inspected;
     private String label; // sets a label if the shipment is at warehouse > 14 days
     private ArrayList <ShipmentLog> shipmentLogs;
-    private ArrayList <Inspection> inspectionsMade;
+    private ArrayList <InspectionLog> inspectionsMade;
 
     public Shipment() {
     }
 
-    public Shipment(String shipmentId, Boolean inspected, String label) {
-        this.shipmentId = shipmentId;
+    public Shipment(Boolean inspected, String label) {
+        this.shipmentId = generateRandomID();
         this.inspected = inspected;
         this.label = label;
         this.inspectionsMade = new ArrayList<>();
         this.shipmentLogs = new ArrayList<>();
     }
 
-    public void addShipmentLog(ShipmentLog shipmentLog) {
-        this.shipmentLogs.add(shipmentLog);
-    }
-
-    public void addInspection(Inspection inspection) {
-        this.inspectionsMade.add(inspection);
+    public String generateRandomID(){
+        String randomID = "";
+        for (int i = 0; i < 3; i++) {
+            int random = (int) (Math.random() * 10);
+            randomID += random;
+        }
+        this.shipmentId = randomID;
+        return randomID;
     }
 
     public String getShipmentId() {
         return shipmentId;
     }
 
-    public void setShipmentId(String shipmentId) {
-        this.shipmentId = shipmentId;
-    }
 
     public Boolean getInspected() {
         return inspected;
@@ -53,24 +52,40 @@ public class Shipment {
         this.label = label;
     }
 
-    public ArrayList<ShipmentLog> getShipmentLogs() {
-        return shipmentLogs;
+    public String getShipmentLogs() {
+        return shipmentLogs.toString();
     }
 
     public void setShipmentLogs(ArrayList<ShipmentLog> shipmentLogs) {
         this.shipmentLogs = shipmentLogs;
     }
 
-    public ArrayList<Inspection> getInspectionsMade() {
+    public ArrayList<InspectionLog> getInspectionsMade() {
         return inspectionsMade;
     }
 
-    public void setInspecLogs(ArrayList<Inspection> inspections) {
+    public void setInspecLogs(ArrayList<InspectionLog> inspections) {
         this.inspectionsMade = inspections;
     }
-    
+    public void addShipmentLog(ShipmentLog shipmentLog) {
+        this.shipmentLogs.add(shipmentLog);
+        System.out.println("Shipmentlog added to shipment " + shipmentLog.getShipment().getShipmentId());
+    }
 
+    public void removeShipmentLog(ShipmentLog shipmentLog) {
+        this.shipmentLogs.remove(shipmentLog);
+        System.out.println("Shipmentlog removed from shipment " + shipmentLog.getShipment().getShipmentId());
+    }
 
+    public void addInspection(InspectionLog inspection) {
+        this.inspectionsMade.add(inspection);
+        System.out.println("Inspection added to shipment " + inspection.getShipment().getShipmentId());
+    }
+
+    public void removeInspection(InspectionLog inspection) {
+        this.inspectionsMade.remove(inspection);
+        System.out.println("Inspection removed from shipment " + inspection.getShipment().getShipmentId());
+    }
 
 
 }
