@@ -53,10 +53,6 @@ public class ShipmentLog {
         this.shipment = shipment;
     }
 
-    public static String shipmentHistory(Shipment shipment){
-    return "Shipment history for shipment with ID: " + shipment.getShipmentId() + shipment.getShipmentLogs();
-
-    }
     @Override
     public String toString() {
         return  "\n\nShipmentID=" + shipment.getShipmentId() +
