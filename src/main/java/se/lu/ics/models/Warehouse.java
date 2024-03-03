@@ -10,18 +10,7 @@ public class Warehouse {
     private double capacity;
     private double currentStockLevel;
     private ArrayList <ShipmentLog> shipments;
-    private ArrayList <Inspection> inspections;
-
-    private double currentCapacity = capacity - currentStockLevel;
-    private double usedCapacity = currentStockLevel/capacity;
-
-    public double getCurrentCapacity(double capacity, double currentStockLevel) {
-        return capacity - currentStockLevel;
-    }
-
-    public void setCurrentCapacity(double currentCapacity) {
-        this.currentCapacity = currentCapacity;
-    }
+    private ArrayList <InspectionLog> inspections;
 
     public Warehouse() {
     }
@@ -33,24 +22,6 @@ public class Warehouse {
         this.capacity = capacity;
         this.shipments = new ArrayList<>();
         this.inspections = new ArrayList<>();
-    }
-
-    public void addShipment(ShipmentLog shipmentLog) {
-        if (shipmentLog.getDirection() == Direction.INCOMING) {
-            this.currentStockLevel += 1;
-        } else {
-            this.currentStockLevel -= 1;
-        } if (this.getCurrentCapacity(capacity, currentStockLevel) < 1) {
-            //INSERT ERROR HANDLING FOR CAPACITY
-            System.out.println("Warehouse is full");
-        } else {
-            this.shipments.add(shipmentLog);
-        }
-    }
-
-    public void addInspection(Inspection inspection) {
-
-        this.inspections.add(inspection);
     }
 
     public String getName() {
@@ -90,19 +61,7 @@ public class Warehouse {
     }
 
     public double getCurrentStockLevel() {
-        return currentStockLevel;
-    }
-
-    public void setCurrentStockLevel(double currentStockLevel) {
-        this.currentStockLevel = currentStockLevel;
-    }
-
-    public double getUsedCapacity() {
-        return usedCapacity;
-    }
-
-    public void setUsedCapacity(double usedCapacity) {
-        this.usedCapacity = usedCapacity;
+        return shipments.size();
     }
 
     public ArrayList<ShipmentLog> getShipments() {
@@ -113,13 +72,124 @@ public class Warehouse {
         this.shipments = shipments;
     }
 
-    public ArrayList<Inspection> getInspections() {
+    public ArrayList<InspectionLog> getInspections() {
         return inspections;
     }
 
-    public void setInspections(ArrayList<Inspection> inspections) {
+    public void setInspections(ArrayList<InspectionLog> inspections) {
         this.inspections = inspections;
     }
+
+    // CRUD OPERATIONS:
+
+    public void createWarehouse(String name, Location location, String address, double capacity){
+        Warehouse warehouse = new Warehouse();
+        warehouse.setName(name);
+        warehouse.setLocation(location);
+        warehouse.setAddress(address);
+        warehouse.setCapacity(capacity);
+
+    }
+
+    public String readWarehouse() {
+        if (this.getName() == null) {
+        //INSERT ERROR HANDLING FOR NULL VALUES
+            return "Warehouse does not exist";
+        } else {
+        return 
+        "Warehouse: " + this.getName() + 
+        "\nLocation: " + this.getLocation() + 
+        "\nAddress: " + this.getAddress() + 
+        "\nCapacity: " + this.getCapacity() + 
+        "\nCurrent stock level: " + this.getCurrentStockLevel() + 
+        "\nUsed capacity: " + this.getUsedCapacity() + 
+        "\nShipments: " + this.getShipmentCount() + 
+        "\nInspections: " + this.getInspectionCount();
+        }
+    }
+
+    public void updateWarehouse(String name, Location location, String address, double capacity){
+        String output;
+        if (name == null || location == null || address == null || capacity < 1) {
+            //INSERT ERROR HANDLING FOR NULL VALUES
+            output = "Name, location and address must be set and capacity must be greater than 0";
+        } else {
+            this.setName(name);
+            this.setLocation(location);
+            this.setAddress(address);
+            this.setCapacity(capacity);
+            output = "Warehouse updated";
+        }
+        System.out.println(output);
+    }
+
+    public void deleteWarehouse(){
+        if (this.getName() == null) {
+            //INSERT ERROR HANDLING FOR NULL VALUES
+            System.out.println("Warehouse does not exist");
+        }
+        this.setName(null);
+        this.setLocation(null);
+        this.setAddress(null);
+        this.setCapacity(0);
+        System.out.println("Warehouse deleted");
+    }
+
+    public void addShipment(ShipmentLog shipmentLog) {
+        String output;
+        if (shipmentLog.getDirection() == Direction.INCOMING) {
+            this.currentStockLevel += 1;
+        } else {
+            this.currentStockLevel -= 1;
+        } if (this.getCurrentCapacity() < 1) {
+            output = "Warehouse is full";
+        } else {
+            this.shipments.add(shipmentLog);
+            output = "Shipment added";
+        }
+        System.out.println(output);
+    }
+    public void removeShipment(ShipmentLog shipmentLog) {
+        String output;
+        if (shipmentLog.getDirection() == Direction.INCOMING) {
+            this.currentStockLevel -= 1;
+        } else {
+            this.currentStockLevel += 1;
+        }
+        this.shipments.remove(shipmentLog);
+        output = "Shipment removed";
+        System.out.println(output);
+    }
+
+    public void addInspection(InspectionLog inspection) {
+        String output;
+        if (inspection.getShipment().getInspected() == true) {
+            output = "Shipment has already been inspected";
+        } else {
+        this.inspections.add(inspection);
+        output = "Inspection added";
+        }
+        System.out.println(output);
+    }
+
+    // GETTERS for shipment count, inspection count, current capacity and used capacity:
+     
+    public double getShipmentCount() {
+        return shipments.size();
+    }
+
+    public double getInspectionCount() {
+        return inspections.size();
+    }
+
+    public double getCurrentCapacity() {
+        return capacity - currentStockLevel;
+    }
+
+    public String getUsedCapacity(){
+        return (currentStockLevel/capacity)*100 + "%";
+    }
+
 // COMPARING TWO DATES:
     // // Assuming inspections is your List of Inspection objects
 // Collections.sort(inspections, new Comparator<Inspection>() {
