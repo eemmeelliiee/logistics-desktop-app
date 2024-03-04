@@ -1,8 +1,8 @@
 Nästa gång:
-
-1. Fixa test-felen i ModelIntegrationTest (kolla specifikt på rad 213)
+1. Git push
+2. Fixa test-felen i ModelIntegrationTest (kolla specifikt på rad 213)
     kolla kommentar
-2. Gör testfunktioner för InspecLog och ShipmentLog
+3. Gör testfunktioner för InspecLog och ShipmentLog
 
-3. Fortsätt med funktioner för alla klasser
-4. Kolla upp error handling
+4. Fortsätt med funktioner för alla klasser
+5. Kolla upp error handling
