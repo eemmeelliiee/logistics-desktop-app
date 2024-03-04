@@ -209,16 +209,8 @@ public void testGetShipmentCount() {
     public void testGetShipmentLogs() {
         Shipment shipment = new Shipment(false, "OK");
         assertNotNull(shipment.getShipmentLogs());
+        assertEquals(0, shipment.getAmountOfShipmentLogs());
     }
-
-    /* @Test
-    public void testGetAmountOfShipmentsMade() {
-        Shipment shipment = new Shipment();
-        ArrayList<ShipmentLog> shipmentLogs = new ArrayList<>();
-        shipment.setShipmentLogs(shipmentLogs);
-        assertEquals(shipmentLogs, shipment.getShipmentLogs());
-    }*/
-
 
     @Test
     public void testSetShipmentLogs() {
