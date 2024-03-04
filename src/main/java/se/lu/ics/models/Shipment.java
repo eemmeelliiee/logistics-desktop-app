@@ -90,8 +90,12 @@ public class Shipment {
         System.out.println("Inspection added to shipment " + inspection.getShipment().getShipmentId());
     }
     public void removeInspection(InspectionLog inspection) {
-        inspectionsMade.remove(inspection);
-        System.out.println("Inspection removed from shipment " + inspection.getShipment().getShipmentId());
+        if (inspection.getShipment().getInspected() == true) {
+            inspectionsMade.remove(inspection);
+            System.out.println("Inspection removed from shipment " + inspection.getShipment().getShipmentId());
+        }
+        System.out.println("Shipment has not been inspected yet");
+        
     }
 
 

@@ -124,7 +124,7 @@ public void testGetShipmentCount() {
     }
 
     @Test
-    public void testAddInspection() {
+    public void testAddInspectionToWarehouse() {
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
         Shipment shipment = new Shipment(false, "OK");
         InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, LocalDate.now(), "Test Inspector", "OK");
@@ -184,27 +184,29 @@ public void testGetShipmentCount() {
 
     @Test
     public void testAddInspectionToShipment() {
-        Shipment shipment = new Shipment();
-        InspectionLog inspectionLog = new InspectionLog();
+        Shipment shipment = new Shipment(false, "OK");
+        Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
+        InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, LocalDate.of(2023,1,2), "Test Inspector", "OK");
         assertTrue(shipment.getInspectionsMade().contains(inspectionLog));
     }
 
     @Test
     public void testRemoveInspection() {
-        Shipment shipment = new Shipment();
-        InspectionLog inspectionLog = new InspectionLog();
+        Shipment shipment = new Shipment(true, "Test Label");
+        Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
+        InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, LocalDate.of(2023,1,2), "Test Inspector", "OK");
         shipment.removeInspection(inspectionLog);
         assertFalse(shipment.getInspectionsMade().contains(inspectionLog));
     }
     @Test
     public void testGenerateRandomID() {
-        Shipment shipment = new Shipment();
+        Shipment shipment = new Shipment(true, "Test Label" );
         assertNotNull(shipment.generateRandomID());
     }
 
     @Test
     public void testGetShipmentLogs() {
-        Shipment shipment = new Shipment();
+        Shipment shipment = new Shipment(false, "OK");
         assertNotNull(shipment.getShipmentLogs());
     }
 
