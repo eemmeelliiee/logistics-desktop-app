@@ -5,3 +5,6 @@ Nästa gång:
 2. Gör testfunktioner för InspecLog och ShipmentLog
 2. Fortsätt med funktioner för alla klasser
 3. Kolla upp error handling
+
+4. When shipment.getShipmentLogs.toString() is called (on shipment) it should return a list of shipment logs and EXCLUDE shipmentID
+5. When warehouse.getShipmentLogs.toString() is called (on warehouse) it should return a list of shipment logs and EXCLUDE warehouse name
