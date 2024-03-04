@@ -71,6 +71,10 @@ public class Shipment {
         return inspectionsMade;
     }
 
+    public double getInspectionCount(){
+        return inspectionsMade.size();
+    }
+
     public void setInspecLogs(ArrayList<InspectionLog> inspections) {
         this.inspectionsMade = inspections;
     }
@@ -84,10 +88,10 @@ public class Shipment {
         System.out.println("Shipmentlog removed from shipment " + shipmentLog.getShipment().getShipmentId());
     }
 
-    public void addInspection(InspectionLog inspection) {
-        inspectionsMade.add(inspection);
-        inspection.getShipment().setInspected(true);
-        System.out.println("Inspection added to shipment " + inspection.getShipment().getShipmentId());
+    public void addInspection(InspectionLog inspectionLog) {
+        inspectionsMade.add(inspectionLog);
+        inspectionLog.getShipment().setInspected(true);
+        System.out.println("Inspection added to shipment " + inspectionLog.getShipment().getShipmentId());
     }
     public void removeInspection(InspectionLog inspection) {
         if (inspection.getShipment().getInspected() == true) {

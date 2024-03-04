@@ -127,8 +127,10 @@ public void testGetShipmentCount() {
     public void testAddInspectionToWarehouse() {
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
         Shipment shipment = new Shipment(false, "OK");
-        InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, LocalDate.now(), "Test Inspector", "OK");
+        InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, LocalDate.of(2021,2,3), "Test Inspector", "OK");
         assertEquals(1, warehouse.getInspectionCount(), 0.01);
+        assertEquals(true, shipment.getInspected());
+        assertEquals(1, shipment.getInspectionCount());
     }
 
     // Shipment testing
@@ -210,17 +212,28 @@ public void testGetShipmentCount() {
         assertNotNull(shipment.getShipmentLogs());
     }
 
-    @Test
-    public void testSetShipmentLogs() {
+    /* @Test
+    public void testGetAmountOfShipmentsMade() {
         Shipment shipment = new Shipment();
         ArrayList<ShipmentLog> shipmentLogs = new ArrayList<>();
+        shipment.setShipmentLogs(shipmentLogs);
+        assertEquals(shipmentLogs, shipment.getShipmentLogs());
+    }*/
+
+
+    @Test
+    public void testSetShipmentLogs() {
+        Shipment shipment = new Shipment(true, "OK");
+        Shipment shipmentLog = new ShipmentLog())
         shipment.setShipmentLogs(shipmentLogs);
         assertEquals(shipmentLogs, shipment.getShipmentLogs());
     }
 
     @Test
     public void testGetInspectionsMade() {
-        Shipment shipment = new Shipment();
+        Shipment shipment = new Shipment(false, "OK");
+        Warehouse warehouse = new Warehouse("Test", Location.MIDDLE, "TEST", 100.0);
+        InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, LocalDate.of(2021,9,8), "OLA", "OK");
         assertNotNull(shipment.getInspectionsMade());
     }
 

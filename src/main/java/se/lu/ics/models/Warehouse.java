@@ -170,12 +170,8 @@ public class Warehouse {
 
     public void addInspection(InspectionLog inspection) {
         String output;
-        if (inspection.getShipment().getInspected() == true) {
-            output = "Shipment has already been inspected";
-        } else {
         this.inspections.add(inspection);
         output = "Inspection added";
-        }
         System.out.println(output);
     }
 

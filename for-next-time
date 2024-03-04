@@ -1,6 +1,7 @@
 Nästa gång:
 
-1. Fixa test-felen i ModelIntegrationTest
+1. Fixa test-felen i ModelIntegrationTest (kolla specifikt på rad 213)
+    kolla kommentar
 2. Gör testfunktioner för InspecLog och ShipmentLog
 
 3. Fortsätt med funktioner för alla klasser
