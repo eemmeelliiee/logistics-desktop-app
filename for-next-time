@@ -1,8 +1,7 @@
 Nästa gång:
-1. Git push
-2. Fixa test-felen i ModelIntegrationTest (kolla specifikt på rad 213)
-    kolla kommentar
-3. Gör testfunktioner för InspecLog och ShipmentLog
 
-4. Fortsätt med funktioner för alla klasser
-5. Kolla upp error handling
+1. Kontrollera toString()
+    vad ska return en toString? getShipemtLogs ???
+2. Gör testfunktioner för InspecLog och ShipmentLog
+2. Fortsätt med funktioner för alla klasser
+3. Kolla upp error handling

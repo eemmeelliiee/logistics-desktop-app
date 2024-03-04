@@ -64,7 +64,7 @@ public class InspectionLog {
     public String toString() {
         return  "\n\nShipmentID=" + shipment.getShipmentId() +
                 "\nWarehouse=" + warehouse.getName() +
-                "\nDate='" + date +
+                "\nDate=" + date +
                 "\nInspector='" + inspector +
                 "\nResult='" + result +
                 "\n";
