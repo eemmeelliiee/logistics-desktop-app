@@ -52,8 +52,8 @@ public class Shipment {
         this.label = label;
     }
 
-    public String getShipmentLogs() {
-        return shipmentLogs.toString();
+    public ArrayList<ShipmentLog> getShipmentLogs() {
+        return shipmentLogs;
     }
 
     public double getAmountOfShipmentLogs() {
@@ -94,7 +94,7 @@ public class Shipment {
         System.out.println("Inspection added to shipment " + inspectionLog.getShipment().getShipmentId());
     }
     public void removeInspection(InspectionLog inspection) {
-        if (inspection.getShipment().getInspected() == true) {
+        if (inspection.getShipment().getInspected()) {
             inspectionsMade.remove(inspection);
             System.out.println("Inspection removed from shipment " + inspection.getShipment().getShipmentId());
         }

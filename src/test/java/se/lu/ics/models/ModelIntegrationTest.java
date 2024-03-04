@@ -172,7 +172,7 @@ public void testGetShipmentCount() {
         Shipment shipment = new Shipment(false, "OK");
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
         ShipmentLog shipmentLog = new ShipmentLog(LocalDate.of(2013,3,9), Direction.INCOMING, warehouse, shipment);
-        assertTrue(shipment.getShipmentLogs().contains(shipmentLog.toString()));
+        assertTrue(shipment.getShipmentLogs().contains(shipmentLog));
     }
 
     @Test
@@ -223,8 +223,12 @@ public void testGetShipmentCount() {
 
     @Test
     public void testSetShipmentLogs() {
-        Shipment shipment = new Shipment(true, "OK");
-        Shipment shipmentLog = new ShipmentLog())
+        Shipment shipment = new Shipment(false, "OK");
+        Shipment shipment1 = new Shipment(true, "OK");
+
+        // Get the already initialized shipment logs
+        ArrayList<ShipmentLog> shipmentLogs = shipment.getShipmentLogs();
+        // Set the modified shipment logs
         shipment.setShipmentLogs(shipmentLogs);
         assertEquals(shipmentLogs, shipment.getShipmentLogs());
     }
