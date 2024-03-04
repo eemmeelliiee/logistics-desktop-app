@@ -281,11 +281,11 @@ public void testGetShipmentCount() {
         Shipment shipment = new Shipment(false, "OK");
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
         InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, LocalDate.now(), "Inspector", "Pass");
-        String expectedString = "\n\nShipmentID=" + shipment.getShipmentId() +
-                "\nWarehouse=" + warehouse.getName() +
-                "\nDate=" + LocalDate.now() +
-                "\nInspector='Inspector" +
-                "\nResult='Pass" +
+        String expectedString = "\n\nShipmentID: " + shipment.getShipmentId() +
+                "\nWarehouse: " + warehouse.getName() +
+                "\nDate: " + LocalDate.now() +
+                "\nInspector: 'Inspector" +
+                "\nResult: Pass" +
                 "\n";
         assertEquals(expectedString, inspectionLog.toString());
     }

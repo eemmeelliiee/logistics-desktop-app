@@ -9,6 +9,7 @@ public class Shipment {
     private String label; // sets a label if the shipment is at warehouse > 14 days
     private ArrayList <ShipmentLog> shipmentLogs;
     private ArrayList <InspectionLog> inspectionsMade;
+    private static ArrayList<String> generatedIDs = new ArrayList<>();
 
     public Shipment() {
     }
@@ -21,12 +22,17 @@ public class Shipment {
         this.shipmentLogs = new ArrayList<>();
     }
 
-    public String generateRandomID(){
-        String randomID = "";
-        for (int i = 0; i < 3; i++) {
-            int random = (int) (Math.random() * 10);
-            randomID += random;
-        }
+    public String generateRandomID() {
+        String randomID;
+        do {
+            randomID = "";
+            for (int i = 0; i < 3; i++) {
+                int random = (int) (Math.random() * 10);
+                randomID += random;
+            }
+        } while (generatedIDs.contains(randomID)); // generates until we get a unique shipmentID
+    
+        generatedIDs.add(randomID);
         this.shipmentId = randomID;
         return randomID;
     }

@@ -1,7 +1,7 @@
 package se.lu.ics.models;
 
 public enum Location {
-    SOUTH,
+    NORTH,
     MIDDLE,
-    NORTH
+    SOUTH
 }

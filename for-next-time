@@ -1,10 +1,22 @@
 Nästa gång:
 
+ Innehåller Shipment CRUD-function ??? (samt resterande klasser)
 1. Kontrollera toString()
     vad ska return en toString? getShipemtLogs ???
-2. Gör testfunktioner för InspecLog och ShipmentLog
 2. Fortsätt med funktioner för alla klasser
 3. Kolla upp error handling
 
 4. When shipment.getShipmentLogs.toString() is called (on shipment) it should return a list of shipment logs and EXCLUDE shipmentID
 5. When warehouse.getShipmentLogs.toString() is called (on warehouse) it should return a list of shipment logs and EXCLUDE warehouse name
+
+HUR:
+if the inspectionentry is the only inspection, set inspected to false
+public void removeInspection(InspectionLog inspection) {
+    if (inspection.getShipment().getInspected()) {
+        inspectionsMade.remove(inspection);
+        System.out.println("Inspection removed from shipment " + inspection.getShipment().getShipmentId());
+    }
+    System.out.println("Shipment has not been inspected yet");
+
+}
+

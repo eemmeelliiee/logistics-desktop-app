@@ -1,4 +1,6 @@
 package se.lu.ics.models;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 //import java.util.Collections;
 //import java.util.Comparator;
@@ -95,23 +97,6 @@ public class Warehouse {
 
     }
 
-    public String readWarehouse() {
-        if (this.getName() == null) {
-        //INSERT ERROR HANDLING FOR NULL VALUES
-            return "Warehouse does not exist";
-        } else {
-        return 
-        "Warehouse: " + this.getName() + 
-        "\nLocation: " + this.getLocation() + 
-        "\nAddress: " + this.getAddress() + 
-        "\nCapacity: " + this.getCapacity() + 
-        "\nCurrent stock level: " + this.getCurrentStockLevel() + 
-        "\nUsed capacity: " + this.getUsedCapacity() + 
-        "\nShipments: " + this.getShipmentCount() + 
-        "\nInspections: " + this.getInspectionCount();
-        }
-    }
-
     public void updateWarehouse(String name, Location location, String address, double capacity){
         String output;
         if (name == null || location == null || address == null || capacity < 1) {
@@ -192,6 +177,66 @@ public class Warehouse {
     public String getUsedCapacity(){
         return (currentStockLevel/capacity)*100 + "%";
     }
+
+    // ------- tests done until here ----------------------------------------
+
+    // ------- new methods: --------------------------
+
+    public LocalDate getMostRecentInspectionDate() {
+        LocalDate mostRecentDate = LocalDate.MIN;
+        for (InspectionLog inspection : inspections) {
+            if (inspection.getDate().isAfter(mostRecentDate)) {
+                mostRecentDate = inspection.getDate();
+            }
+        }
+        return mostRecentDate;
+    }
+
+    public void printWarehouseInfo(){
+        System.out.println("Warehouse: " + this.getName() +
+        "\nLocation: " + this.getLocation() +
+        "\nAddress: " + this.getAddress() +
+        "\nCapacity: " + this.getCapacity() +
+        "\nCurrent stock level: " + this.getCurrentStockLevel() +
+        "\nUsed capacity: " + this.getUsedCapacity() +
+        "\nShipments: " + this.getShipmentCount() +
+        "\nInspections: " + this.getInspectionCount());
+    }
+
+    public void printShipmentLogs(){
+        for (ShipmentLog shipmentLog : shipments) {
+            System.out.println(shipmentLog);
+        }
+    }
+    public double calculateAverageShipmentTime() {
+    double totalDays = 0;
+    int count = 0;
+
+    for (int i = 0; i < shipments.size(); i += 2) {
+        if (i + 1 < shipments.size()) {
+            ShipmentLog incoming = shipments.get(i);
+            ShipmentLog outgoing = shipments.get(i + 1);
+
+            if (incoming.getDirection() == Direction.INCOMING && outgoing.getDirection() == Direction.OUTGOING) {
+                long daysBetween = ChronoUnit.DAYS.between(incoming.getDate(), outgoing.getDate());
+                totalDays += daysBetween;
+                count++;
+            }
+        }
+    }
+
+    return count > 0 ? totalDays / count : 0;
+    }
+    //print current capacities for all warehouses
+    public void printAllCurrentCapacities(ArrayList<Warehouse> warehouses) {
+        for (Warehouse warehouse : warehouses) {
+            System.out.println(warehouse.getName() + " currently has a capacity of " + warehouse.getCurrentCapacity() + " and is currently at " + warehouse.getCurrentStockLevel() + " items");
+        }
+    }
+
+    
+
+
 
 // COMPARING TWO DATES:
     // // Assuming inspections is your List of Inspection objects
