@@ -14,7 +14,6 @@ public class ModelIntegrationTest {
   @Test
     public void testGetCurrentStockLevel() {
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
-
         ShipmentLog shipmentLog = new ShipmentLog(LocalDate.of(2021,02,23), Direction.INCOMING, warehouse, new Shipment(false, "OK"));
 
         // Assert that the current stock level is equal to the number of shipments added
@@ -181,7 +180,7 @@ public void testGetShipmentCount() {
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
         ShipmentLog shipmentLog = new ShipmentLog(LocalDate.of(2013,3,9), Direction.INCOMING, warehouse, shipment);
         shipment.removeShipmentLog(shipmentLog);
-        assertFalse(shipment.getShipmentLogs().contains(shipmentLog.toString()));
+        assertFalse(shipment.getShipmentLogs().contains(shipmentLog));
     }
 
     @Test
@@ -224,7 +223,13 @@ public void testGetShipmentCount() {
     @Test
     public void testSetShipmentLogs() {
         Shipment shipment = new Shipment(false, "OK");
-        Shipment shipment1 = new Shipment(true, "OK");
+        Warehouse warehouse = new Warehouse("Test name", Location.MIDDLE, "TEST ADDRESS", 18.0);
+
+        ShipmentLog shipmentLog = new ShipmentLog(LocalDate.of(2019,9,2), Direction.INCOMING, warehouse, shipment);
+        ShipmentLog shipmentLog1 = new ShipmentLog(LocalDate.of(2017,9,2), Direction.INCOMING, warehouse, shipment);
+
+        shipment.addShipmentLog(shipmentLog);
+        shipment.addShipmentLog(shipmentLog1);
 
         // Get the already initialized shipment logs
         ArrayList<ShipmentLog> shipmentLogs = shipment.getShipmentLogs();
