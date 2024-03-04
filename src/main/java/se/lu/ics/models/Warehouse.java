@@ -155,7 +155,7 @@ public class Warehouse {
         shipments.add(shipmentLog); 
         System.out.println(output);
     }
-    
+    // error handling if its not in the list!
     public void removeShipment(ShipmentLog shipmentLog) {
         String output;
         if (shipmentLog.getDirection() == Direction.INCOMING) {

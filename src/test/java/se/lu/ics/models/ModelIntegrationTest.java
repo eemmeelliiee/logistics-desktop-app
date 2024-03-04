@@ -14,13 +14,11 @@ public class ModelIntegrationTest {
   @Test
     public void testGetCurrentStockLevel() {
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
-    
-        // Assume some shipments have been added to the warehouse
-        warehouse.addShipment(new ShipmentLog());
-        warehouse.addShipment(new ShipmentLog());
-        
+
+        ShipmentLog shipmentLog = new ShipmentLog(LocalDate.of(2021,02,23), Direction.INCOMING, warehouse, new Shipment(false, "OK"));
+
         // Assert that the current stock level is equal to the number of shipments added
-        assertEquals(2, warehouse.getCurrentStockLevel(), 0); // The third argument is the delta for floating-point comparisons
+        assertEquals(1, warehouse.getCurrentStockLevel(), 0); // The third argument is the delta for floating-point comparisons
     }
 
     @Test
@@ -118,25 +116,25 @@ public void testGetShipmentCount() {
 
     @Test
     public void testRemoveShipment() {
-        Warehouse warehouse = new Warehouse();
-        ShipmentLog shipmentLog = new ShipmentLog();
-        warehouse.addShipment(shipmentLog);
+        Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
+        Shipment shipment = new Shipment(false, "OK");
+        ShipmentLog shipmentLog = new ShipmentLog(LocalDate.of(2021,02,23), Direction.INCOMING, warehouse, shipment);
         warehouse.removeShipment(shipmentLog);
         assertEquals(0, warehouse.getShipmentCount(), 0.01);
     }
 
     @Test
     public void testAddInspection() {
-        Warehouse warehouse = new Warehouse();
-        InspectionLog inspectionLog = new InspectionLog();
-        warehouse.addInspection(inspectionLog);
+        Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
+        Shipment shipment = new Shipment(false, "OK");
+        InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, LocalDate.now(), "Test Inspector", "OK");
         assertEquals(1, warehouse.getInspectionCount(), 0.01);
     }
 
     // Shipment testing
     @Test
     public void testGetShipmentId() {
-        Shipment shipment = new Shipment();
+        Shipment shipment = new Shipment(false, "OK");
         assertNotNull(shipment.getShipmentId());
     }
 
@@ -169,17 +167,17 @@ public void testGetShipmentCount() {
 
     @Test
     public void testAddShipmentLog() {
-        Shipment shipment = new Shipment();
-        ShipmentLog shipmentLog = new ShipmentLog();
-        shipment.addShipmentLog(shipmentLog);
+        Shipment shipment = new Shipment(false, "OK");
+        Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
+        ShipmentLog shipmentLog = new ShipmentLog(LocalDate.of(2013,3,9), Direction.INCOMING, warehouse, shipment);
         assertTrue(shipment.getShipmentLogs().contains(shipmentLog.toString()));
     }
 
     @Test
     public void testRemoveShipmentLog() {
-        Shipment shipment = new Shipment();
-        ShipmentLog shipmentLog = new ShipmentLog();
-        shipment.addShipmentLog(shipmentLog);
+        Shipment shipment = new Shipment(true, "Test Label");
+        Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
+        ShipmentLog shipmentLog = new ShipmentLog(LocalDate.of(2013,3,9), Direction.INCOMING, warehouse, shipment);
         shipment.removeShipmentLog(shipmentLog);
         assertFalse(shipment.getShipmentLogs().contains(shipmentLog.toString()));
     }
@@ -188,7 +186,6 @@ public void testGetShipmentCount() {
     public void testAddInspectionToShipment() {
         Shipment shipment = new Shipment();
         InspectionLog inspectionLog = new InspectionLog();
-        shipment.addInspection(inspectionLog);
         assertTrue(shipment.getInspectionsMade().contains(inspectionLog));
     }
 
@@ -196,7 +193,6 @@ public void testGetShipmentCount() {
     public void testRemoveInspection() {
         Shipment shipment = new Shipment();
         InspectionLog inspectionLog = new InspectionLog();
-        shipment.addInspection(inspectionLog);
         shipment.removeInspection(inspectionLog);
         assertFalse(shipment.getInspectionsMade().contains(inspectionLog));
     }

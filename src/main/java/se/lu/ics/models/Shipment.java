@@ -78,7 +78,7 @@ public class Shipment {
         shipmentLogs.add(shipmentLog);
         System.out.println("Shipmentlog added to shipment " + shipmentLog.getShipment().getShipmentId());
     }
-
+// error handling if its not in the list!
     public void removeShipmentLog(ShipmentLog shipmentLog) {
         shipmentLogs.remove(shipmentLog);
         System.out.println("Shipmentlog removed from shipment " + shipmentLog.getShipment().getShipmentId());
@@ -86,14 +86,13 @@ public class Shipment {
 
     public void addInspection(InspectionLog inspection) {
         inspectionsMade.add(inspection);
+        inspection.getShipment().setInspected(true);
         System.out.println("Inspection added to shipment " + inspection.getShipment().getShipmentId());
     }
-
     public void removeInspection(InspectionLog inspection) {
         inspectionsMade.remove(inspection);
         System.out.println("Inspection removed from shipment " + inspection.getShipment().getShipmentId());
     }
-    
 
 
 }
