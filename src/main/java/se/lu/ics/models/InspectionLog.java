@@ -62,13 +62,14 @@ public class InspectionLog {
 
     @Override
     public String toString() {
-        return  "\n\nShipmentID=" + shipment.getShipmentId() +
-                "\nWarehouse=" + warehouse.getName() +
-                "\nDate=" + date +
-                "\nInspector='" + inspector +
-                "\nResult='" + result +
+        return  "\n\nShipmentID: " + shipment.getShipmentId() +
+                "\nWarehouse: " + warehouse.getName() +
+                "\nDate: " + date +
+                "\nInspector: '" + inspector +
+                "\nResult: " + result +
                 "\n";
     }
+    
 
 
 }

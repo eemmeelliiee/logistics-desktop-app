@@ -96,7 +96,7 @@ public void testGetShipmentCount() {
     }
 
     @Test
-    public void testAddShipment() {
+    public void testAddShipmentLog() {
         // Create a new warehouse
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
         Shipment shipment = new Shipment(false, "OK");
@@ -115,7 +115,7 @@ public void testGetShipmentCount() {
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
         Shipment shipment = new Shipment(false, "OK");
         ShipmentLog shipmentLog = new ShipmentLog(LocalDate.of(2021,02,23), Direction.INCOMING, warehouse, shipment);
-        warehouse.removeShipment(shipmentLog);
+        warehouse.removeShipmentLog(shipmentLog);
         assertEquals(0, warehouse.getShipmentCount(), 0.01);
     }
 
@@ -164,7 +164,7 @@ public void testGetShipmentCount() {
 
 
     @Test
-    public void testAddShipmentLog() {
+    public void testAddShipmentLogToShipment() {
         Shipment shipment = new Shipment(false, "OK");
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
         ShipmentLog shipmentLog = new ShipmentLog(LocalDate.of(2013,3,9), Direction.INCOMING, warehouse, shipment);
@@ -376,13 +376,12 @@ public void testGetShipmentCount() {
 
         ShipmentLog shipmentLog = new ShipmentLog(date, direction, warehouse, shipment);
 
-        String expectedString = "\n\nShipmentID=" + shipment.getShipmentId() +
-                                "\nDate='" + date +
-                                "\nDirection=" + direction +
-                                "\nWarehouse=" + warehouse.getName() +
-                                "\n";
+        String expectedString = "[\n\nShipmentID: " + shipment.getShipmentId() +
+                                "\nDate: " + date +
+                                "\nDirection: " + direction +
+                                "\nWarehouse: " + warehouse.getName() + "\n]";
 
-        assertEquals(expectedString, shipmentLog.toString());
+        assertEquals(expectedString, shipment.getShipmentLogs().toString());
     }
 
     @Test

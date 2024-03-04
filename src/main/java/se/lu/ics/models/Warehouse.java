@@ -139,7 +139,7 @@ public class Warehouse {
         System.out.println("Warehouse deleted");
     }
 
-    public void addShipment(ShipmentLog shipmentLog) {
+    public void addShipmentLog(ShipmentLog shipmentLog) {
         String output = "";
         if (shipmentLog.getDirection() == Direction.INCOMING) {
             if (getCurrentCapacity() < 1) {
@@ -156,7 +156,7 @@ public class Warehouse {
         System.out.println(output);
     }
     // error handling if its not in the list!
-    public void removeShipment(ShipmentLog shipmentLog) {
+    public void removeShipmentLog(ShipmentLog shipmentLog) {
         String output;
         if (shipmentLog.getDirection() == Direction.INCOMING) {
             this.currentStockLevel -= 1;

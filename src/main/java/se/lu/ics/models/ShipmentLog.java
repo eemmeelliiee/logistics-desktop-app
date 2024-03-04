@@ -17,7 +17,7 @@ public class ShipmentLog {
         this.warehouse = warehouse;
         this.shipment = shipment;
         shipment.addShipmentLog(this);
-        warehouse.addShipment(this);
+        warehouse.addShipmentLog(this);
     }
 
     public LocalDate getDate() {
@@ -52,12 +52,12 @@ public class ShipmentLog {
         this.shipment = shipment;
     }
 
-    @Override
+ @Override
     public String toString() {
-        return  "\n\nShipmentID=" + shipment.getShipmentId() +
-                "\nDate='" + date +
-                "\nDirection=" + direction +
-                "\nWarehouse=" + warehouse.getName() +
+        return  "\n\nShipmentID: " + shipment.getShipmentId() +
+                "\nDate: " + date +
+                "\nDirection: " + direction +
+                "\nWarehouse: " + warehouse.getName() +
                 "\n";
     }
     
