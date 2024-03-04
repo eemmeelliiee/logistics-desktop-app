@@ -1,7 +1,7 @@
 package se.lu.ics.models;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+//import java.util.Collections;
+//import java.util.Comparator;
 
 public class Warehouse {
     private String name;
@@ -61,7 +61,11 @@ public class Warehouse {
     }
 
     public double getCurrentStockLevel() {
+        if (shipments == null) {
+            return 0;
+        } else {     
         return shipments.size();
+        }
     }
 
     public ArrayList<ShipmentLog> getShipments() {
@@ -136,19 +140,22 @@ public class Warehouse {
     }
 
     public void addShipment(ShipmentLog shipmentLog) {
-        String output;
+        String output = "";
         if (shipmentLog.getDirection() == Direction.INCOMING) {
-            this.currentStockLevel += 1;
-        } else {
+            if (getCurrentCapacity() < 1) {
+                output = "Warehouse is full";
+            } else {
+                this.currentStockLevel += 1;
+                output = "Shipment added";
+            }
+        } else if (shipmentLog.getDirection() == Direction.OUTGOING) {
             this.currentStockLevel -= 1;
-        } if (this.getCurrentCapacity() < 1) {
-            output = "Warehouse is full";
-        } else {
-            this.shipments.add(shipmentLog);
             output = "Shipment added";
-        }
+        } 
+        shipments.add(shipmentLog); 
         System.out.println(output);
     }
+    
     public void removeShipment(ShipmentLog shipmentLog) {
         String output;
         if (shipmentLog.getDirection() == Direction.INCOMING) {

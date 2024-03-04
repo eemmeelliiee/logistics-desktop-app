@@ -1,5 +1,5 @@
 package se.lu.ics.models;
-import java.lang.reflect.Array;
+// import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Shipment {
@@ -56,6 +56,13 @@ public class Shipment {
         return shipmentLogs.toString();
     }
 
+    public double getAmountOfShipmentLogs() {
+        if (shipmentLogs == null) {
+            return 0;
+        }
+        return shipmentLogs.size();
+    }
+
     public void setShipmentLogs(ArrayList<ShipmentLog> shipmentLogs) {
         this.shipmentLogs = shipmentLogs;
     }
@@ -68,24 +75,25 @@ public class Shipment {
         this.inspectionsMade = inspections;
     }
     public void addShipmentLog(ShipmentLog shipmentLog) {
-        this.shipmentLogs.add(shipmentLog);
+        shipmentLogs.add(shipmentLog);
         System.out.println("Shipmentlog added to shipment " + shipmentLog.getShipment().getShipmentId());
     }
 
     public void removeShipmentLog(ShipmentLog shipmentLog) {
-        this.shipmentLogs.remove(shipmentLog);
+        shipmentLogs.remove(shipmentLog);
         System.out.println("Shipmentlog removed from shipment " + shipmentLog.getShipment().getShipmentId());
     }
 
     public void addInspection(InspectionLog inspection) {
-        this.inspectionsMade.add(inspection);
+        inspectionsMade.add(inspection);
         System.out.println("Inspection added to shipment " + inspection.getShipment().getShipmentId());
     }
 
     public void removeInspection(InspectionLog inspection) {
-        this.inspectionsMade.remove(inspection);
+        inspectionsMade.remove(inspection);
         System.out.println("Inspection removed from shipment " + inspection.getShipment().getShipmentId());
     }
+    
 
 
 }

@@ -1,6 +1,5 @@
 package se.lu.ics.models;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class ShipmentLog {
 
@@ -61,5 +60,6 @@ public class ShipmentLog {
                 "\nWarehouse=" + warehouse.getName() +
                 "\n";
     }
+    
 
 }
