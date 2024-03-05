@@ -1,4 +1,5 @@
 package se.lu.ics.models;
+import java.time.LocalDate;
 // import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -123,5 +124,31 @@ public class Shipment {
         System.out.println("Shipment has not been inspected yet");
         
     }
+//testing until here
+public void updateShipmentLog(int userSelection, LocalDate newDate, Direction newDirection, Warehouse newWarehouse) {
+    try {
+        int index = userSelection - 1; // subtracts 1 to convert from 1-based to 0-based indexing
+        ShipmentLog log = shipmentLogs.get(index);
+        log.setDate(newDate);
+        log.setDirection(newDirection);
+        log.setWarehouse(newWarehouse);
+    } catch (IndexOutOfBoundsException e) {
+        System.out.println("Invalid selection");
+        throw new IllegalArgumentException("Invalid selection");
+    }
+    }
 
+    public void updateInspectionLog(int userSelection, LocalDate newDate, String newInspector, String newResult) {
+        try {
+        int index = userSelection - 1; 
+        InspectionLog log = inspectionsMade.get(index);
+        log.setDate(newDate);
+        log.setInspector(newInspector);
+        log.setResult(newResult);
+    } catch (IndexOutOfBoundsException e) {
+        System.out.println("Invalid selection");
+        throw new IllegalArgumentException("Invalid selection");
+    }
+
+    }
 }
