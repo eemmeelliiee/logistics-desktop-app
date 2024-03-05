@@ -1,10 +1,10 @@
 Nästa gång:
 
  Innehåller Shipment CRUD-function ??? (samt resterande klasser)
-1. Kontrollera toString()
-    vad ska return en toString? getShipemtLogs ???
 2. Fortsätt med funktioner för alla klasser
 3. Kolla upp error handling
+
+hur snygga till formatering?
 
 HUR:
 if the inspectionentry is the only inspection, set inspected to false
@@ -16,4 +16,6 @@ public void removeInspection(InspectionLog inspection) {
     System.out.println("Shipment has not been inspected yet");
 
 }
+
+if i try to add a shipmentlog to a warehouse that doesnt exist?
 

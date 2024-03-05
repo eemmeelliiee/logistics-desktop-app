@@ -3,6 +3,8 @@ import java.time.LocalDate;
 // import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import javafx.scene.control.TextField;
+
 public class Shipment {
 
     private String shipmentId;
@@ -137,18 +139,21 @@ public void updateShipmentLog(int userSelection, LocalDate newDate, Direction ne
         throw new IllegalArgumentException("Invalid selection");
     }
     }
-
-    public void updateInspectionLog(int userSelection, LocalDate newDate, String newInspector, String newResult) {
-        try {
+// justera utefter gui:
+    public void updateInspectionLog(TextField userSelectionField, LocalDate newDate, String newInspector, String newResult) {
+    try {
+        int userSelection = Integer.parseInt(userSelectionField.getText());
         int index = userSelection - 1; 
         InspectionLog log = inspectionsMade.get(index);
         log.setDate(newDate);
         log.setInspector(newInspector);
         log.setResult(newResult);
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid input. Please enter an integer.");
+        userSelectionField.setText(""); // Clear the text field for the user to try again
     } catch (IndexOutOfBoundsException e) {
         System.out.println("Invalid selection");
         throw new IllegalArgumentException("Invalid selection");
     }
-
-    }
+}
 }

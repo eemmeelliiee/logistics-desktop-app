@@ -1,5 +1,7 @@
 package se.lu.ics.models;
 import java.time.LocalDate;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,6 +10,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ModelIntegrationTest {
+
+    /*
+    Warehouse mockWarehouse;
+
+  @BeforeEach 
+  void hej() 
+    {
+      System.out.println("Before each test");
+      mockWarehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
+    }
+    */
+
 
     // Warehouse testing
   @Test
