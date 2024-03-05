@@ -52,14 +52,19 @@ public class ShipmentLog {
         this.shipment = shipment;
     }
 
- @Override
-    public String toString() {
-        return  "\n\nShipmentID: " + shipment.getShipmentId() +
-                "\nDate: " + date +
+ 
+    public String toStringForShipment() {
+        return  "\nWarehouse: " + warehouse.getName() +
+                 "\nDate: " + date +
                 "\nDirection: " + direction +
-                "\nWarehouse: " + warehouse.getName() +
                 "\n";
     }
     
+    public String toStringForWarehouse() {
+        return  "\n\nShipmentID: " + shipment.getShipmentId() +
+                "\nDate: " + date +
+                "\nDirection: " + direction +
+                "\n";
+    }
 
 }

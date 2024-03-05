@@ -277,17 +277,22 @@ public void testGetShipmentCount() {
     }
 
     @Test
-    public void testToStringInspectionLog() {
+    public void testToStringsInspectionLog() {
         Shipment shipment = new Shipment(false, "OK");
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
         InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, LocalDate.now(), "Inspector", "Pass");
-        String expectedString = "\n\nShipmentID: " + shipment.getShipmentId() +
-                "\nWarehouse: " + warehouse.getName() +
-                "\nDate: " + LocalDate.now() +
-                "\nInspector: 'Inspector" +
-                "\nResult: Pass" +
-                "\n";
-        assertEquals(expectedString, inspectionLog.toString());
+        String expectedString1 = "\nWarehouse: " + warehouse.getName() +
+                                 "\nDate: " + LocalDate.now() +
+                                 "\nInspector: '" + "Inspector" +
+                                 "\nResult: " + "Pass" +
+                                 "\n\n";
+        String expectedString2 =   "\nShipmentID: " + shipment.getShipmentId() +
+                                 "\nDate: " + LocalDate.now() +
+                                  "\nInspector: '" + "Inspector" +
+                                  "\nResult: " + "Pass" +
+                                 "\n\n";
+        assertEquals(expectedString1, shipment.getInspectionHistory());
+        assertEquals(expectedString2, warehouse.getInspectionHistory());
     }
     
     @Test
@@ -368,7 +373,7 @@ public void testGetShipmentCount() {
     }
 
     @Test
-    public void testToStringShipmentLog() {
+    public void testToStringsShipmentLog() {
         LocalDate date = LocalDate.now();
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 100);
         Shipment shipment = new Shipment(false, "OK");
@@ -376,12 +381,17 @@ public void testGetShipmentCount() {
 
         ShipmentLog shipmentLog = new ShipmentLog(date, direction, warehouse, shipment);
 
-        String expectedString = "[\n\nShipmentID: " + shipment.getShipmentId() +
+        String expectedStringShipment = "\nWarehouse: " + warehouse.getName() +
                                 "\nDate: " + date +
                                 "\nDirection: " + direction +
-                                "\nWarehouse: " + warehouse.getName() + "\n]";
+                                 "\n\n";
+        String expectedStringWarehouse = "\n\nShipmentID: " + shipment.getShipmentId() +
+                                "\nDate: " + date +
+                                 "\nDirection: " + direction +
+                                 "\n\n";
 
-        assertEquals(expectedString, shipment.getShipmentLogs().toString());
+        assertEquals(expectedStringShipment, shipment.getShipmentHistory());
+        assertEquals(expectedStringWarehouse, warehouse.getShipmentHistory());
     }
 
     @Test

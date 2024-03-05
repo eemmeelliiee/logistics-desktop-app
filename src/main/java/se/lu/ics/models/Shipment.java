@@ -62,6 +62,14 @@ public class Shipment {
         return shipmentLogs;
     }
 
+    public String getShipmentHistory(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (ShipmentLog log : shipmentLogs) {
+            stringBuilder.append(log.toStringForShipment()).append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
     public double getAmountOfShipmentLogs() {
         if (shipmentLogs == null) {
             return 0;
@@ -75,6 +83,14 @@ public class Shipment {
 
     public ArrayList<InspectionLog> getInspectionsMade() {
         return inspectionsMade;
+    }
+
+    public String getInspectionHistory() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (InspectionLog log : inspectionsMade) {
+            stringBuilder.append(log.toStringForShipment()).append("\n");
+        }
+        return stringBuilder.toString();
     }
 
     public double getInspectionCount(){

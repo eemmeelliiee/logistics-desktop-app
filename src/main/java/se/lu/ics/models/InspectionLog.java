@@ -60,16 +60,22 @@ public class InspectionLog {
         return "Inspection history for shipment with ID: " + shipment.getShipmentId() + shipment.getInspectionsMade();
     }
 
-    @Override
-    public String toString() {
-        return  "\n\nShipmentID: " + shipment.getShipmentId() +
-                "\nWarehouse: " + warehouse.getName() +
+    
+    public String toStringForShipment() {
+        return  "\nWarehouse: " + warehouse.getName() +
                 "\nDate: " + date +
                 "\nInspector: '" + inspector +
                 "\nResult: " + result +
                 "\n";
     }
     
+    public String toStringForWarehouse() {
+        return  "\nShipmentID: " + shipment.getShipmentId() +
+                "\nDate: " + date +
+                "\nInspector: '" + inspector +
+                "\nResult: " + result +
+                "\n";
+    }
 
 
 }

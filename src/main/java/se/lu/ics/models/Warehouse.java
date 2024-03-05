@@ -74,12 +74,28 @@ public class Warehouse {
         return shipments;
     }
 
+    public String getShipmentHistory() {
+        StringBuilder sb = new StringBuilder();
+        for (ShipmentLog log : shipments) {
+            sb.append(log.toStringForWarehouse()).append("\n");
+        }
+        return sb.toString();
+    }
+
     public void setShipments(ArrayList<ShipmentLog> shipments) {
         this.shipments = shipments;
     }
 
     public ArrayList<InspectionLog> getInspections() {
         return inspections;
+    }
+
+    public String getInspectionHistory() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (InspectionLog log : inspections) {
+            stringBuilder.append(log.toStringForWarehouse()).append("\n");
+        }
+        return stringBuilder.toString();
     }
 
     public void setInspections(ArrayList<InspectionLog> inspections) {
@@ -192,7 +208,7 @@ public class Warehouse {
         return mostRecentDate;
     }
 
-    public void printWarehouseInfo(){
+    public void readWarehouseInfo(){
         System.out.println("Warehouse: " + this.getName() +
         "\nLocation: " + this.getLocation() +
         "\nAddress: " + this.getAddress() +
