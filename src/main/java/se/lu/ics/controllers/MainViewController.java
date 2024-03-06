@@ -2,8 +2,15 @@ package se.lu.ics.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import se.lu.ics.models.DataManager;
 
@@ -25,6 +32,59 @@ public class MainViewController {
     }   
     
 
+    @FXML
+    public void initialize() {
+        // myComboBox.getItems().addAll("Option 1", "Option 2", "Option 3");
+
+        ArrayList<String> arrayList = new ArrayList<String>();
+        arrayList.add("Option 1");
+        arrayList.add("Option 2");
+        arrayList.add("Option 3");
+
+
+        // items är en "wrapper" för vår arraylist
+        ObservableList<String> items = FXCollections.observableList(arrayList);
+
+        myComboBox.setItems(items);
+
+        
+
+        myComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            
+            
+            myLabel.setText(newValue);
+
+            arrayList.add("Option 4");
+            System.out.println(items.size());
+
+            items.add("Option 5");
+
+
+        }
+
+        // (ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+        //     myLabel.setText(newValue);
+        //     arrayList.add("Option 4");
+        //     System.out.println(items.size());
+        // }
+
+
+        
+
+        // //här skapas en instans av en anonym klass (som också skapas här) som implementerar ChangeListener
+        // new ChangeListener<String>() {
+        //     @Override
+        //     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        //         myLabel.setText(newValue);
+        //         arrayList.add("Option 4");
+        //         System.out.println(items.size());
+        //     }
+        // }
+        
+        
+        );
+
+    }
 
 }
     
