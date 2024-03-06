@@ -15,18 +15,15 @@ public class Shipment {
     private static ArrayList<String> generatedIDs = new ArrayList<>();
 
     public Shipment() {
-    }
-
-    public Shipment(Boolean inspected, String label) {
         this.shipmentId = generateRandomID();
-        this.inspected = inspected;
-        this.label = label;
+        this.inspected = false;
+        this.label = null;
         this.inspectionsMade = new ArrayList<>();
-        this.shipmentLogs = new ArrayList<>();
+        this.shipmentLogs = new ArrayList<>(); // remove these, these are now in ShipmentLogHandler, that is accessed through DataManager
     }
 
     public String generateRandomID() {
-        String randomID;
+        String randomID = "";
         do {
             randomID = "";
             for (int i = 0; i < 3; i++) {
@@ -36,7 +33,6 @@ public class Shipment {
         } while (generatedIDs.contains(randomID)); // generates until we get a unique shipmentID
     
         generatedIDs.add(randomID);
-        this.shipmentId = randomID;
         return randomID;
     }
 
@@ -156,4 +152,17 @@ public void updateShipmentLog(int userSelection, LocalDate newDate, Direction ne
         throw new IllegalArgumentException("Invalid selection");
     }
 }
+
+    public void setShipmentId(String newShipmentId) {
+    
+        generatedIDs.remove(shipmentId);
+        this.shipmentId = newShipmentId;
+        generatedIDs.add(newShipmentId);
+
+    }
+
+
+    static public void resetGeneratedIDs() {
+        generatedIDs.clear();
+    }
 }

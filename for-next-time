@@ -19,3 +19,8 @@ public void removeInspection(InspectionLog inspection) {
 
 if i try to add a shipmentlog to a warehouse that doesnt exist?
 
+glöm inte att make sure alla fält nollställs vid buttonclick!!
+
+if warehouse name matches list of warehouses existing in the system, add shipmentlog to warehouse
+else, print error message
+

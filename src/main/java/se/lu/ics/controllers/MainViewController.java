@@ -25,15 +25,30 @@ public class MainViewController {
         saveButton.setOnAction(e -> {
             String comboBoxInput = comboBox.getValue();
             String userInput = textField.getText();
+
+            /*
             DataManager.getInstance().setData("comboBoxKey", comboBoxInput);
             DataManager.getInstance().setData("shipment", userInput);
             DataManager.getInstance().saveData();
+            */
+
+            String oldId = "100";
+            String newId = "101";
+
+            try {
+                DataManager.getInstance().updateShipmentId(oldId, newId);
+
+            } catch (Exception ex) {
+
+                //errorMesssageRuta.setString(ex.getMessage());
+                System.out.println(ex.getMessage());
+            }
         });
 
         deleteButton.setOnAction(e -> {
-            DataManager.getInstance().removeData("comboBoxKey");
-            DataManager.getInstance().removeData("shipment");
-            DataManager.getInstance().saveData();
+            //DataManager.getInstance().removeData("comboBoxKey");
+            //DataManager.getInstance().removeData("shipment");
+            //DataManager.getInstance().saveData();
         });
 
         tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
@@ -41,8 +56,8 @@ public class MainViewController {
             public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
                 String key = newTab.getId();
                 String newData = newTab.getText();
-                DataManager.getInstance().setData(key, newData);
-                DataManager.getInstance().saveData();
+                //DataManager.getInstance().setData(key, newData);
+                //DataManager.getInstance().saveData();
             }
         });
     }
