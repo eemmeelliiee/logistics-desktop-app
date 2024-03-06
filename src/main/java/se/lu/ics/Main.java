@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("MainViewISP.fxml")); // insert mainview fxml file
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainViewISP.fxml")); // insert mainview fxml file
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
