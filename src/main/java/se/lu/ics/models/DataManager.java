@@ -15,6 +15,7 @@ public class DataManager {
     private ArrayList<Warehouse> warehouses;
     private ArrayList<InspectionLog> inspectionLogs;
     private ArrayList<ShipmentLog> shipmentLogs;
+   // private Stack<Shipment> deletedShipments;
 
     private static DataManager instance;
 
@@ -30,6 +31,7 @@ public class DataManager {
     private DataManager() {
 
         shipmentHandler = new ShipmentHandler();
+      //  deletedShipments = new Stack<>();
 
         // se till att dessa blir handlers!
         shipmentLogs = new ArrayList<>();
@@ -100,7 +102,13 @@ public class DataManager {
         shipmentLogs.add(shipmentLog);
     }
 
+   // public Stack<Shipment> getDeletedShipments() {
+    //    return deletedShipments;
+    //}
 
+   // public void addDeletedShipment(Shipment shipment) {
+    //    deletedShipments.push(shipment);
+   // }
 
 
 

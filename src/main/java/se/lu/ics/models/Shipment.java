@@ -15,27 +15,20 @@ public class Shipment {
     private ArrayList <ShipmentLog> shipmentLogs;
     private ArrayList <InspectionLog> inspectionsMade;
     private static ArrayList<String> generatedIDs = new ArrayList<>();
+    private static String idCounter = "000";
 
     public Shipment() {
-        this.shipmentId = new SimpleStringProperty(generateRandomID());
+        this.shipmentId = new SimpleStringProperty(generateShipmentID());
         this.inspected = false;
         this.label = null;
         this.inspectionsMade = new ArrayList<>();
         this.shipmentLogs = new ArrayList<>(); // remove these, these are now in ShipmentLogHandler, that is accessed through DataManager
     }
 
-    public String generateRandomID() {
-        String randomID = "";
-        do {
-            randomID = "";
-            for (int i = 0; i < 3; i++) {
-                int random = (int) (Math.random() * 10);
-                randomID += random;
-            }
-        } while (generatedIDs.contains(randomID)); // generates until we get a unique shipmentID
-    
-        generatedIDs.add(randomID);
-        return randomID;
+    public String generateShipmentID() {
+        String generatedID = idCounter;
+        idCounter = String.format("%03d", Integer.parseInt(idCounter) + 1);
+        return "S" + generatedID;
     }
 
     public StringProperty getShipmentId() {

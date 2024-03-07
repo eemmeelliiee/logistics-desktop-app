@@ -9,6 +9,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
+
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -17,16 +19,23 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+
+import se.lu.ics.models.Constants;
 import se.lu.ics.models.DataManager;
 import se.lu.ics.models.Shipment;
 
 public class MainViewController {
+
+    //private Stack<Shipment> deletedShipments;
 
     @FXML
     private ComboBox<Shipment> myComboBox;
 
     @FXML
     private Button createButton;
+
+    @FXML
+    private Button deleteButton;
 
     @FXML
     private Label myLabel;
@@ -51,14 +60,44 @@ public class MainViewController {
     @FXML
     private void handleButtonCreateButton(ActionEvent event) {
         // Code to execute when the button is pressed
-        System.out.println("Button was pressed!");
+        System.out.println("create button was pressed!");
         DataManager.getInstance().createShipment();
     }   
+
+    @FXML
+    private void handleButtonDeleteButton(ActionEvent event) throws Exception {
+        Shipment selectedShipment = myTableView.getSelectionModel().getSelectedItem();
+        if (selectedShipment != null) {
+            // Remove the selected shipment from the data source
+            DataManager.getInstance().deleteShipment(selectedShipment.getShipmentId());
+            // Refresh the table view
+            myTableView.getItems().remove(selectedShipment);
+        } else {
+            // Display an error message
+            errorLabel.setText(Constants.NO_ROW_SELECTED);
+            System.out.println("No row selected");
+        }
+    }
+
+//  @FXML
+// private void handleButtonUndoButton(ActionEvent event) throws Exception {
+//     if (!deletedShipments.isEmpty()) {
+//         // Get the last deleted shipment
+//         Shipment lastDeletedShipment = deletedShipments.pop();
+//         // Add the shipment back to the data source
+//         DataManager.getInstance().addDeletedShipment(lastDeletedShipment);
+//         // Refresh the table view
+//         myTableView.getItems().add(lastDeletedShipment);
+//     } else {
+//         // Display an error message
+//         System.out.println("No shipment to undo delete");
+//     }
+// }
     
     @FXML
     private void handleButtonUpdateID(ActionEvent event) {
         // Code to execute when the button is pressed
-        System.out.println("Button was pressed!");
+        System.out.println("update button was pressed!");
         StringProperty oldId = myComboBox.getValue().getShipmentId();
         StringProperty newId = new SimpleStringProperty(newIDTextField.getText());
 
@@ -88,7 +127,7 @@ public class MainViewController {
         
 
         myComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            
+        
             myLabel.setText(newValue.toString());
 
         });

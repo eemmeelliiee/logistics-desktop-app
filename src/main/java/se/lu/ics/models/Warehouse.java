@@ -13,6 +13,7 @@ public class Warehouse {
     private double currentStockLevel;
     private ArrayList <ShipmentLog> shipments;
     private ArrayList <InspectionLog> inspections;
+    private LocalDate mostRecentInspectionDate;
 
     public Warehouse() {
     }

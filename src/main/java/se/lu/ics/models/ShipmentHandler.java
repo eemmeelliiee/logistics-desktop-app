@@ -55,7 +55,7 @@ public class ShipmentHandler {
                 forceUpdateOfObservableList();
                 return;
                 //forceUpdateOfObservableList(); //because we changed something to a shipment object
-                // maybe this should be a part of all public methods in Shipment that can change its state
+                // maybe this should be a part of all public methods in Shipment that can change its state )
             }
         }
     }
