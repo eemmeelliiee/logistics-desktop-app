@@ -1,10 +1,4 @@
-Nästa gång:
-
- Innehåller Shipment CRUD-function ??? (samt resterande klasser)
-2. Fortsätt med funktioner för alla klasser
-3. Kolla upp error handling
-
-hur snygga till formatering?
+hur snygga till formattering?
 
 HUR:
 if the inspectionentry is the only inspection, set inspected to false
@@ -26,12 +20,29 @@ else, print error message
 
 
 ---------------HAM------------------
-skapa handlers för warehouse, shipmentlog, inspectionLog
+överblicka kod, få grepp
+strunta i GUI nu
+skapa alla handlers för warehouse, inspectionLog, shipmentlog (shipmentlog innehåller ju shipment och warehouse)(varje klass har en lista, WarehouseHandler har en lista av warehouses, osv.) 
+    GÖR TESETER (ny testklass för varje handler, med beforeeach, glöm ej att kasta exeptions)
+    kolla om int beföver bli intproperty? (- samma med stringproperty, hredan gjort i shipment)
     skapa instancer av dessa i DataManager 
-    skapa CRUD-funktioner för dessa i DataManager (samt först respektive Handler-klass) (för att centralisera alla UI-funktioner som behövs för att hantera dessa)
-skapa en DataService som har
-    alla funktioner som på något sätt kräver en kombination av flera klasser. t.ex.
+    skapa ALLA CRUD-funktioner för dessa i DataManager (samt först respektive Handler-klass) (för att centralisera alla UI-funktioner som behövs för att hantera dessa)
+        vilket fel kan hända i en CRUD-funktion= lägg till error handling.
+            (när en CRUD-funktion sker i en klass, hur kan detta påverka andra??*)
+        se till att forceUpdateOfObservableList() finns i varje handler, i update-funktionerna!
+        ändra endast värden genom DataManager, inte på handlers (DataManager.updateShipmentId, inte shipmentHandler.updateShipmentId)
+skapa en DataService-klass, inga attributes, bara funktioner som använder DataManager-funktioner
+    kommer vilja använda funktioner som t.ex DataManager.getInstance().getShipmentHandler().getShipments()
+        (eller i konstruktorn, ha en instans av DataManager (för att kunna använda dess funktioner) ??))
+    alla funktioner som på något sätt kräver en kombination av flera klasser - skönt att kunna printa saker och visa logiska (matte)-grejer
+    och som inte kommer påverka något t.ex.
     - getAllShipmentLogsForWarehouse
-    - getAllShipmentsInWareHouse
-    
+    - getCurrentShipmentsInWareHouse
+
     - getAllShipmentLogsForShipment
+
+*removeShipment kommer radera de shipmentLogs med det id:t osv
+
+sen kolla på GUI !!!
+hur göra för att byta tabs?
+
