@@ -113,6 +113,7 @@ public class MainViewController {
 
             try 
             {
+                // maybe change updatedShipmentId to take a reference to Shipment instead of having to write shipment.getShipmentId()
                 DataManager.getInstance().getShipmentHandler().updateShipmentId(shipment.getShipmentId(), newValueAsStringProperty);
                 errorLabel.setText("");
             } 
