@@ -159,10 +159,19 @@ public void updateShipmentLog(int userSelection, LocalDate newDate, Direction ne
         this.shipmentId = newShipmentId;
         generatedIDs.add(newShipmentId);
 
+        //DataManager.getInstance().getShipmentHandler().forceUpdateOfObservableList();
+
     }
 
 
     static public void resetGeneratedIDs() {
         generatedIDs.clear();
     }
+
+
+    @Override
+    public String toString() {
+        return shipmentId;
+    }
+
 }

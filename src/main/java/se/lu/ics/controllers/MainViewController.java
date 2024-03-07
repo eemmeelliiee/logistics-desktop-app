@@ -1,6 +1,7 @@
 package se.lu.ics.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.*;
 
 import java.lang.reflect.Array;
@@ -13,54 +14,99 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import se.lu.ics.models.DataManager;
+import se.lu.ics.models.Shipment;
 
 public class MainViewController {
 
     @FXML
-    private ComboBox<String> myComboBox;
+    private ComboBox<Shipment> myComboBox;
 
     @FXML
-    private Button myButton;
+    private Button createButton;
 
     @FXML
     private Label myLabel;
 
     @FXML
-    private void handleButtonMyButton(ActionEvent event) {
+    private TextField newIDTextField;
+
+    @FXML
+    private Button updateIDButton;
+
+    @FXML
+    private Label errorLabel;
+    
+
+
+
+    @FXML
+    private void handleButtonCreateButton(ActionEvent event) {
         // Code to execute when the button is pressed
         System.out.println("Button was pressed!");
+        DataManager.getInstance().createShipment();
     }   
     
+    @FXML
+    private void handleButtonUpdateID(ActionEvent event) {
+        // Code to execute when the button is pressed
+        System.out.println("Button was pressed!");
+        String oldId = myComboBox.getValue().getShipmentId();
+        String newId = newIDTextField.getText();
+
+        try {
+            DataManager.getInstance().updateShipmentId(oldId, newId);
+            errorLabel.setText("");
+        } catch (Exception e) {
+            errorLabel.setText(e.getMessage());
+        }
+    }
+
 
     @FXML
     public void initialize() {
-        // myComboBox.getItems().addAll("Option 1", "Option 2", "Option 3");
 
-        ArrayList<String> arrayList = new ArrayList<String>();
-        arrayList.add("Option 1");
-        arrayList.add("Option 2");
-        arrayList.add("Option 3");
+        // hide error messages
+        errorLabel.setText("");
 
-
-        // items är en "wrapper" för vår arraylist
-        ObservableList<String> items = FXCollections.observableList(arrayList);
-
-        myComboBox.setItems(items);
+        myComboBox.setItems(DataManager.getInstance().getShipmentHandler().getShipments());
 
         
 
         myComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             
-            
-            myLabel.setText(newValue);
-
-            arrayList.add("Option 4");
-            System.out.println(items.size());
-
-            items.add("Option 5");
-
+            myLabel.setText(newValue.toString());
 
         }
+
+
+    
+        // myComboBox.getItems().addAll("Option 1", "Option 2", "Option 3");
+
+        // ArrayList<String> arrayList = new ArrayList<String>();
+        // arrayList.add("Option 1");
+        // arrayList.add("Option 2");
+        // arrayList.add("Option 3");
+
+
+        // // items är en "wrapper" för vår arraylist
+        // ObservableList<String> items = FXCollections.observableList(arrayList);
+
+        // myComboBox.setItems(items);
+
+        
+
+        // myComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            
+            
+        //     myLabel.setText(newValue);
+
+        //     arrayList.add("Option 4");
+        //     System.out.println(items.size());
+
+        //     items.add("Option 5");
+
+
+        // }
 
         // (ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
         //     myLabel.setText(newValue);

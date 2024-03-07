@@ -24,3 +24,14 @@ glöm inte att make sure alla fält nollställs vid buttonclick!!
 if warehouse name matches list of warehouses existing in the system, add shipmentlog to warehouse
 else, print error message
 
+
+---------------HAM------------------
+skapa handlers för warehouse, shipmentlog, inspectionLog
+    skapa instancer av dessa i DataManager 
+    skapa CRUD-funktioner för dessa i DataManager (samt först respektive Handler-klass) (för att centralisera alla UI-funktioner som behövs för att hantera dessa)
+skapa en DataService som har
+    alla funktioner som på något sätt kräver en kombination av flera klasser. t.ex.
+    - getAllShipmentLogsForWarehouse
+    - getAllShipmentsInWareHouse
+    
+    - getAllShipmentLogsForShipment

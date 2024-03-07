@@ -2,16 +2,18 @@ package se.lu.ics.models;
 
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class ShipmentHandler {
 
-    private ArrayList<Shipment> shipments;
+    private ObservableList<Shipment> shipments;
 
     public ShipmentHandler() {
-        shipments = new ArrayList<>();
+        shipments = FXCollections.observableList(new ArrayList<>());
     }
 
-
-    public ArrayList<Shipment> getShipments() {
+    public ObservableList<Shipment> getShipments() {
         return shipments;
     }
 
@@ -31,7 +33,7 @@ public class ShipmentHandler {
 
     // does the same thing as getShipments right now, should this return a list of Strings by doing .toString on each shipment?
     // or will that kind of thing be handled in the view?
-    public ArrayList<Shipment> readShipments() {
+    public ObservableList<Shipment> readShipments() {
         return shipments;
     }
 
@@ -49,6 +51,10 @@ public class ShipmentHandler {
         for (Shipment shipment : shipments) {
             if (shipment.getShipmentId().equals(shipmentIdToBeUpdated)) {
                 shipment.setShipmentId(newShipmentId);
+                forceUpdateOfObservableList();
+                return;
+                //forceUpdateOfObservableList(); //because we changed something to a shipment object
+                // maybe this should be a part of all public methods in Shipment that can change its state
             }
         }
     }
@@ -65,6 +71,13 @@ public class ShipmentHandler {
         throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
     }
 
+
+    public void forceUpdateOfObservableList() {
+        //shipments = FXCollections.observableList(shipments);
+        
+        shipments.add(0, null);
+        shipments.remove(0);
+    }
 
 
     private boolean doesAShipmentExistWithId(String shipmentId) {

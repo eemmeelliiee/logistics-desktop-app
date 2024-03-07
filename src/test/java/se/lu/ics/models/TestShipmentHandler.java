@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart.Data;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class TestShipmentHandler {
         dataManager.createShipment();
         dataManager.createShipment();
 
-        ArrayList<Shipment> shipments = dataManager.readShipments();
+        ObservableList<Shipment> shipments = dataManager.readShipments();
         assertEquals(3, shipments.size());
     }
 

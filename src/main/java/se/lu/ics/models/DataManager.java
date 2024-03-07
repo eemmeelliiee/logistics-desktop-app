@@ -2,11 +2,15 @@ package se.lu.ics.models;
 
 import java.io.*;
 import java.util.*;
+
+import javafx.collections.ObservableList;
+
 import java.time.LocalDate;
 
 public class DataManager {
 
     private ShipmentHandler shipmentHandler;
+    // samma för dessa v
     private ArrayList<Warehouse> warehouses;
     private ArrayList<InspectionLog> inspectionLogs;
     private ArrayList<ShipmentLog> shipmentLogs;
@@ -33,11 +37,16 @@ public class DataManager {
     }
 
 
+    public ShipmentHandler getShipmentHandler() {
+        return shipmentHandler;
+    }
+
+
     public Shipment createShipment() {
         return shipmentHandler.createShipment();
     }
 
-    public ArrayList<Shipment> readShipments() {
+    public ObservableList<Shipment> readShipments() {
         return shipmentHandler.getShipments();
     }
 
