@@ -22,9 +22,9 @@ else, print error message
 ---------------HAM------------------
 överblicka kod, få grepp
 strunta i GUI nu
-skapa alla handlers för warehouse, inspectionLog, shipmentlog (shipmentlog innehåller ju shipment och warehouse)(varje klass har en lista, WarehouseHandler har en lista av warehouses, osv.) 
+skapa handlers för inspectionLog och shipmentlog (shipmentlog innehåller ju shipment och warehouse)(varje klass har en lista,
+    WarehouseHandler har en lista av warehouses, osv.) 
     GÖR TESETER (ny testklass för varje handler, med beforeeach, glöm ej att kasta exeptions)
-    kolla om int beföver bli intproperty? (- samma med stringproperty, hredan gjort i shipment)
     skapa instancer av dessa i DataManager 
     skapa ALLA CRUD-funktioner för dessa i DataManager (samt först respektive Handler-klass) (för att centralisera alla UI-funktioner som behövs för att hantera dessa)
         vilket fel kan hända i en CRUD-funktion= lägg till error handling.
@@ -33,13 +33,15 @@ skapa alla handlers för warehouse, inspectionLog, shipmentlog (shipmentlog inne
         ändra endast värden genom DataManager, inte på handlers (DataManager.updateShipmentId, inte shipmentHandler.updateShipmentId)
 skapa en DataService-klass, inga attributes, bara funktioner som använder DataManager-funktioner
     kommer vilja använda funktioner som t.ex DataManager.getInstance().getShipmentHandler().getShipments()
-        (eller i konstruktorn, ha en instans av DataManager (för att kunna använda dess funktioner) ??))
+        (eller i konstruktorn, ha en instans av DataManager (för att kunna använda dess funktioner) ??)
     alla funktioner som på något sätt kräver en kombination av flera klasser - skönt att kunna printa saker och visa logiska (matte)-grejer
     och som inte kommer påverka något t.ex.
     - getAllShipmentLogsForWarehouse
     - getCurrentShipmentsInWareHouse
 
     - getAllShipmentLogsForShipment
+
+    glöm ej 14 dagar => setLabel
 
 *removeShipment kommer radera de shipmentLogs med det id:t osv
 

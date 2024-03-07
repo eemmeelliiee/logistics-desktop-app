@@ -11,6 +11,8 @@ public class WarehouseHandler {
 
     public WarehouseHandler() {
         warehouses = FXCollections.observableList(new ArrayList<>());
+        //addTestData(); <--- metoden ska deklareras i Warehouse
+        // bör finnas en i varje konstruktor för handlers
     }
 // 
     public ObservableList<Warehouse> getWarehouses() {
@@ -37,9 +39,9 @@ public class WarehouseHandler {
 
 // does the same thing as getWarehouses right now, should this return a list of Strings by doing .toString on each warehouse?
     // or will that kind of thing be handled in the view?
-    public ObservableList<Warehouse> readWarehouses(){
-        return warehouses;
-    }
+    // public ObservableList<Warehouse> readWarehouses(){
+    //     return warehouses;
+    // }
 
     // UPDATE
 

@@ -16,8 +16,8 @@ public class ShipmentLog {
         this.direction = direction;
         this.warehouse = warehouse;
         this.shipment = shipment;
-        shipment.addShipmentLog(this);
-        warehouse.addShipmentLog(this);
+        // shipment.addShipmentLog(this);
+        // warehouse.addShipmentLog(this);
     }
 
     public LocalDate getDate() {

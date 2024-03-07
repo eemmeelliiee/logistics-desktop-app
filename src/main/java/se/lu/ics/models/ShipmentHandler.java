@@ -35,9 +35,9 @@ public class ShipmentHandler {
 
     // does the same thing as getShipments right now, should this return a list of Strings by doing .toString on each shipment?
     // or will that kind of thing be handled in the view?
-    public ObservableList<Shipment> readShipments() {
-        return shipments;
-    }
+    // public ObservableList<Shipment> readShipments() {
+    //     return shipments;
+    // }
 
     public void updateShipmentId(Shipment shipment, String newShipmentId) throws Exception {
 
@@ -113,22 +113,22 @@ public class ShipmentHandler {
 
 
     /*
-
-    Om jag vill göra så att ShipmentHandler fungerar som DataManager,
-    dvs. att den är en Singleton, så kan jag göra så här:
-
-    OBS: konstruktorn måste då sättas private
-
-    private static ShipmentHandler instance;
-
-    public static ShipmentHandler getInstance() {
-        if (instance == null) {
-            instance = new ShipmentHandler();
-        }
-        return instance;
-    }
-
-    */
+     * 
+     * Om jag vill göra så att ShipmentHandler fungerar som DataManager,
+     * dvs. att den är en Singleton, så kan jag göra så här:
+     * 
+     * OBS: konstruktorn måste då sättas private
+     * 
+     * private static ShipmentHandler instance;
+     * 
+     * public static ShipmentHandler getInstance() {
+     * if (instance == null) {
+     * instance = new ShipmentHandler();
+     * }
+     * return instance;
+     * }
+     * 
+     */
 
 
 }

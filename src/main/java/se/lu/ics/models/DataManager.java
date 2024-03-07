@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class DataManager {
 
     private ShipmentHandler shipmentHandler;
-    private WarehouseHandler WarehouseHandler;
+    private WarehouseHandler warehouseHandler;
     // samma för dessa v, det är dessa som har själva listorna av sig sjäva
     private ArrayList<InspectionLog> inspectionLogs;
     private ArrayList<ShipmentLog> shipmentLogs;
@@ -34,9 +34,9 @@ public class DataManager {
     private DataManager() {
 
         shipmentHandler = new ShipmentHandler();
-        WarehouseHandler = new WarehouseHandler();
+        warehouseHandler = new WarehouseHandler();
 
-        // se till att alla dessa blir handlers!
+        // se till att alla dessa v blir handlers!
        // ShipmentLogHandler = new ShipmentLogHandler();
         inspectionLogs = new ArrayList<>();
 
@@ -51,7 +51,6 @@ public class DataManager {
         return shipmentHandler;
     }
 
-
     public Shipment createShipment() {
         return shipmentHandler.createShipment();
     }
@@ -60,8 +59,8 @@ public class DataManager {
         return shipmentHandler.getShipments();
     }
 
-    public void updateShipmentId(Shipment shipmentToBeUpdated, String newShipmentId) throws Exception {
-        shipmentHandler.updateShipmentId(shipmentToBeUpdated, newShipmentId);
+    public void updateShipmentId(Shipment shipment, String newId) throws Exception {
+        shipmentHandler.updateShipmentId(shipment, newId);
     }
 
     public void deleteShipment(Shipment shipment) throws Exception {
@@ -71,12 +70,38 @@ public class DataManager {
     // WarehouseHandler
 
     public WarehouseHandler getWarehouseHandler() {
-        return WarehouseHandler;
+        return warehouseHandler;
     }
 
-    public void createWarehouse(String name, Location location, String address, double capacity) {
-        WarehouseHandler.createWarehouse(name, location, address, capacity);
+    public Warehouse createWarehouse(String name, Location location, String address, double capacity) {
+        return warehouseHandler.createWarehouse(name, location, address, capacity);
     }
+
+    public ObservableList<Warehouse> readWarehouses() {
+        return warehouseHandler.getWarehouses();
+    }
+
+    public void updateWarehouseName(Warehouse warehouse, String newWarehouseName) throws Exception {
+        warehouseHandler.updateWarehouseName(warehouse, newWarehouseName);
+    }
+
+    public void updateWarehouseLocation(Warehouse warehouse, Location newLocation) {
+        warehouseHandler.updateWarehouseLocation(warehouse, newLocation);
+    }
+
+    public void updateWarehouseAddress(Warehouse warehouse, String newAddress) {
+        warehouseHandler.updateWarehouseAddress(warehouse, newAddress);
+    }
+
+    public void updateWarehouseCapacity(Warehouse warehouse, double newCapacity) throws Exception {
+        warehouseHandler.updateWarehouseCapacity(warehouse, newCapacity);
+    }
+
+    public void deleteWarehouse(Warehouse warehouse) throws Exception {
+        warehouseHandler.deleteWarehouse(warehouse);
+    }
+
+
 
 
 
@@ -138,6 +163,7 @@ public class DataManager {
     public void clearData() {
 
         shipmentHandler.clearData();
+        warehouseHandler.clearData();
 
 
         // Do this for all the other classes also

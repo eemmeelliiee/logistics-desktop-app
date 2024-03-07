@@ -151,7 +151,7 @@ private void handleButtonUpdateId(ActionEvent event) {
             {
                 // maybe change updatedShipmentId to take a reference to Shipment instead of having to write shipment.getShipmentId()
                 DataManager.getInstance().getShipmentHandler().updateShipmentId(shipment, newValueAsStringProperty);
-                errorLabel.setText("");
+                errorLabel.setText("Shipment ID updated!");
             } 
             catch (Exception e) 
             {

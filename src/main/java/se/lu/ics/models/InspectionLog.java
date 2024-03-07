@@ -19,8 +19,8 @@ public class InspectionLog {
         this.date = date;
         this.inspector = inspector;
         this.result = result;
-        shipment.addInspection(this);
-        warehouse.addInspection(this);
+        // shipment.addInspection(this);
+        // warehouse.addInspection(this);
 
     }
 
@@ -56,26 +56,26 @@ public class InspectionLog {
         this.result = result;
     }
 
-    public static String inspectionHistory(Shipment shipment){
-        return "Inspection history for shipment with ID: " + shipment.getShipmentId() + shipment.getInspectionsMade();
-    }
+    // public static String inspectionHistory(Shipment shipment){
+    //     return "Inspection history for shipment with ID: " + shipment.getShipmentId() + shipment.getInspectionsMade();
+    // }
 
     
-    public String toStringForShipment() {
-        return  "\nWarehouse: " + warehouse.getName() +
-                "\nDate: " + date +
-                "\nInspector: '" + inspector +
-                "\nResult: " + result +
-                "\n";
-    }
+    // public String toStringForShipment() {
+    //     return  "\nWarehouse: " + warehouse.getName() +
+    //             "\nDate: " + date +
+    //             "\nInspector: '" + inspector +
+    //             "\nResult: " + result +
+    //             "\n";
+    // }
     
-    public String toStringForWarehouse() {
-        return  "\nShipmentID: " + shipment.getShipmentId() +
-                "\nDate: " + date +
-                "\nInspector: '" + inspector +
-                "\nResult: " + result +
-                "\n";
-    }
+    // public String toStringForWarehouse() {
+    //     return  "\nShipmentID: " + shipment.getShipmentId() +
+    //             "\nDate: " + date +
+    //             "\nInspector: '" + inspector +
+    //             "\nResult: " + result +
+    //             "\n";
+    // }
 
 
 }
