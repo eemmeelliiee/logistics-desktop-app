@@ -10,6 +10,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -42,7 +44,7 @@ public class MainViewController {
     private TableView<Shipment> myTableView;
 
     @FXML
-    private TableColumn<Shipment, String> shipmentIdColumn;
+    private TableColumn<Shipment, String> shipmentIDColumn;
 
 
 
@@ -57,12 +59,18 @@ public class MainViewController {
     private void handleButtonUpdateID(ActionEvent event) {
         // Code to execute when the button is pressed
         System.out.println("Button was pressed!");
-        String oldId = myComboBox.getValue().getShipmentId();
-        String newId = newIDTextField.getText();
+        StringProperty oldId = myComboBox.getValue().getShipmentId();
+        StringProperty newId = new SimpleStringProperty(newIDTextField.getText());
+
+        myTableView.refresh();
+
+        //String x = "hejsan";
+        //StringProperty tja = new SimpleStringProperty(x);
 
         try {
             DataManager.getInstance().updateShipmentId(oldId, newId);
             errorLabel.setText("");
+            newIDTextField.setText("");
         } catch (Exception e) {
             errorLabel.setText(e.getMessage());
         }
@@ -91,13 +99,29 @@ public class MainViewController {
         myTableView.setEditable(true);
 
         // Initialize the shipmentId column
-        shipmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("shipmentId"));
+        //shipmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("shipmentId")); // VIKTIGT: KRÄVER EN GETTER I SHIPMENT, FRÅGA COPILOT
+        shipmentIDColumn.setCellValueFactory(cellData -> cellData.getValue().getShipmentId());
 
         // Make the shipmentId column editable
-        shipmentIdColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        shipmentIdColumn.setOnEditCommit(event -> {
+        shipmentIDColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        shipmentIDColumn.setOnEditCommit(event -> {
             Shipment shipment = event.getRowValue();
-            shipment.setShipmentId(event.getNewValue());
+
+            String newValue = event.getNewValue();
+            StringProperty newValueAsStringProperty = new SimpleStringProperty(newValue);
+
+            try 
+            {
+                DataManager.getInstance().getShipmentHandler().updateShipmentId(shipment.getShipmentId(), newValueAsStringProperty);
+                errorLabel.setText("");
+            } 
+            catch (Exception e) 
+            {
+                errorLabel.setText(e.getMessage());
+                event.getOldValue(); // VIKTIGT reset to this value in table!!!
+                System.out.println("error: " + e.getMessage());
+            }
 
             //needs to check if valid here
         });

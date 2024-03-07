@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart.Data;
 
@@ -41,8 +43,8 @@ public class TestShipmentHandler {
     public void testUpdateId() throws Exception {
         Shipment shipment = dataManager.createShipment();
         
-        String oldId = shipment.getShipmentId();
-        String newId = String.valueOf(Integer.parseInt(oldId) + 1);
+        StringProperty oldId = shipment.getShipmentId();
+        StringProperty newId = new SimpleStringProperty(String.valueOf(Integer.parseInt(oldId.get()) + 1));
 
         dataManager.updateShipmentId(oldId, newId);
         assertEquals(shipment.getShipmentId(), newId);
@@ -53,7 +55,7 @@ public class TestShipmentHandler {
     public void testUpdateIncorrectly() {
         Shipment shipment = dataManager.createShipment();
         
-        String oldId = shipment.getShipmentId();
+        StringProperty oldId = shipment.getShipmentId();
 
         try {
             dataManager.updateShipmentId(oldId, oldId);

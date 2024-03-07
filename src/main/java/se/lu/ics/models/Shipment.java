@@ -3,11 +3,13 @@ import java.time.LocalDate;
 // import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.TextField;
 
 public class Shipment {
 
-    private String shipmentId;
+    private StringProperty shipmentId;
     private Boolean inspected;
     private String label; // sets a label if the shipment is at warehouse > 14 days
     private ArrayList <ShipmentLog> shipmentLogs;
@@ -15,7 +17,7 @@ public class Shipment {
     private static ArrayList<String> generatedIDs = new ArrayList<>();
 
     public Shipment() {
-        this.shipmentId = generateRandomID();
+        this.shipmentId = new SimpleStringProperty(generateRandomID());
         this.inspected = false;
         this.label = null;
         this.inspectionsMade = new ArrayList<>();
@@ -36,7 +38,7 @@ public class Shipment {
         return randomID;
     }
 
-    public String getShipmentId() {
+    public StringProperty getShipmentId() {
         return shipmentId;
     }
 
@@ -153,11 +155,11 @@ public void updateShipmentLog(int userSelection, LocalDate newDate, Direction ne
     }
 }
 
-    public void setShipmentId(String newShipmentId) {
+    public void setShipmentId(StringProperty newShipmentId) {
     
-        generatedIDs.remove(shipmentId);
+        generatedIDs.remove(shipmentId.get());
         this.shipmentId = newShipmentId;
-        generatedIDs.add(newShipmentId);
+        generatedIDs.add(newShipmentId.get());
 
         //DataManager.getInstance().getShipmentHandler().forceUpdateOfObservableList();
 
@@ -171,7 +173,7 @@ public void updateShipmentLog(int userSelection, LocalDate newDate, Direction ne
 
     @Override
     public String toString() {
-        return shipmentId;
+        return shipmentId.get();
     }
 
 }

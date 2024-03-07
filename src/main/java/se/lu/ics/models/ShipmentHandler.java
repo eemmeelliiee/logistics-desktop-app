@@ -2,6 +2,7 @@ package se.lu.ics.models;
 
 import java.util.ArrayList;
 
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -37,7 +38,7 @@ public class ShipmentHandler {
         return shipments;
     }
 
-    public void updateShipmentId(String shipmentIdToBeUpdated, String newShipmentId) throws Exception {
+    public void updateShipmentId(StringProperty shipmentIdToBeUpdated, StringProperty newShipmentId) throws Exception {
 
         if (!doesAShipmentExistWithId(shipmentIdToBeUpdated)) {
             throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
@@ -60,9 +61,9 @@ public class ShipmentHandler {
     }
 
 
-    public void deleteShipment(String shipmentId) throws Exception{
+    public void deleteShipment(StringProperty shipmentId) throws Exception{
         for (Shipment shipment : shipments) {
-            if (shipment.getShipmentId().equals(shipmentId)) {
+            if (shipment.getShipmentId().get().equals(shipmentId.get())) {
                 shipments.remove(shipment);
                 return;
             }
@@ -72,6 +73,7 @@ public class ShipmentHandler {
     }
 
 
+    // only needed to updated ComboBoxes!
     public void forceUpdateOfObservableList() {
         //shipments = FXCollections.observableList(shipments);
         
@@ -80,9 +82,9 @@ public class ShipmentHandler {
     }
 
 
-    private boolean doesAShipmentExistWithId(String shipmentId) {
+    private boolean doesAShipmentExistWithId(StringProperty shipmentId) {
         for (Shipment shipment : shipments) {
-            if (shipment.getShipmentId().equals(shipmentId)) {
+            if (shipment.getShipmentId().get().equals(shipmentId.get())) {
                 return true;
             }
         }

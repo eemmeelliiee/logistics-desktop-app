@@ -3,6 +3,7 @@ package se.lu.ics.models;
 import java.io.*;
 import java.util.*;
 
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
@@ -50,11 +51,11 @@ public class DataManager {
         return shipmentHandler.getShipments();
     }
 
-    public void updateShipmentId(String shipmentIdToBeUpdated, String newShipmentId) throws Exception {
+    public void updateShipmentId(StringProperty shipmentIdToBeUpdated, StringProperty newShipmentId) throws Exception {
         shipmentHandler.updateShipmentId(shipmentIdToBeUpdated, newShipmentId);
     }
 
-    public void deleteShipment(String shipmentId) throws Exception {
+    public void deleteShipment(StringProperty shipmentId) throws Exception {
         shipmentHandler.deleteShipment(shipmentId);
     }
 
