@@ -3,6 +3,8 @@ package se.lu.ics.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -36,6 +38,11 @@ public class MainViewController {
     @FXML
     private Label errorLabel;
     
+    @FXML
+    private TableView<Shipment> myTableView;
+
+    @FXML
+    private TableColumn<Shipment, String> shipmentIdColumn;
 
 
 
@@ -76,7 +83,27 @@ public class MainViewController {
             
             myLabel.setText(newValue.toString());
 
-        }
+        });
+
+
+
+            // Make the TableView editable
+        myTableView.setEditable(true);
+
+        // Initialize the shipmentId column
+        shipmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("shipmentId"));
+
+        // Make the shipmentId column editable
+        shipmentIdColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        shipmentIdColumn.setOnEditCommit(event -> {
+            Shipment shipment = event.getRowValue();
+            shipment.setShipmentId(event.getNewValue());
+
+            //needs to check if valid here
+        });
+
+        // Set the items of the table view
+        myTableView.setItems(DataManager.getInstance().getShipmentHandler().getShipments());
 
 
     
@@ -128,7 +155,6 @@ public class MainViewController {
         // }
         
         
-        );
 
     }
 
