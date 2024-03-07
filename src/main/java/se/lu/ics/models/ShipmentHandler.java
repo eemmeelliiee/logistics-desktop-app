@@ -2,7 +2,6 @@ package se.lu.ics.models;
 
 import java.util.ArrayList;
 
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -40,7 +39,7 @@ public class ShipmentHandler {
         return shipments;
     }
 
-    public void updateShipmentId(Shipment shipmentToBeUpdated, StringProperty newShipmentId) throws Exception {
+    public void updateShipmentId(Shipment shipment, String newShipmentId) throws Exception {
 
     // inte nödvändigt om vi inte ska skriva in något i textfältet ?
       //  if (!doesAShipmentExistWithId(shipmentIdToBeUpdated)) {
@@ -51,8 +50,8 @@ public class ShipmentHandler {
            throw new Exception(Constants.ALREADY_EXISTS_SHIPMENT_WITH_ID);
         }
 
-        if (shipmentToBeUpdated != null) {
-            shipmentToBeUpdated.setShipmentId(newShipmentId);
+        if (shipment != null) {
+            shipment.setShipmentId(newShipmentId);
             forceUpdateOfObservableList();
         }
 
@@ -94,9 +93,9 @@ public class ShipmentHandler {
     }
 
 
-    private boolean doesAShipmentExistWithId(StringProperty shipmentId) {
+    private boolean doesAShipmentExistWithId(String shipmentId) {
         for (Shipment shipment : shipments) {
-            if (shipment.getShipmentId().get().equals(shipmentId.get())) {
+            if (shipment.getShipmentId().equals(shipmentId)) {
                 return true;
             }
         }

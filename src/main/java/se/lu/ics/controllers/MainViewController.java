@@ -10,7 +10,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
+import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -100,8 +100,9 @@ private void handleButtonUpdateId(ActionEvent event) {
     // Code to execute when the button is pressed
     System.out.println("update button was pressed!");
 
-    Shipment selectedShipment = myComboBox.getValue();
-    StringProperty newId = new SimpleStringProperty(newIdTextField.getText());
+    Shipment selectedShipment = myComboBox.getValue(); 
+    String newId = newIdTextField.getText();
+    ObservableValue<String> newIdObservable = new SimpleStringProperty(newId);
 
     myTableView.refresh();
 
@@ -135,7 +136,7 @@ private void handleButtonUpdateId(ActionEvent event) {
 
         // Initialize the shipmentId column
         //shipmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("shipmentId")); // VIKTIGT: KRÄVER EN GETTER I SHIPMENT, FRÅGA COPILOT
-        shipmentIdColumn.setCellValueFactory(cellData -> cellData.getValue().getShipmentId());
+        shipmentIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentId()));
 
         // Make the shipmentId column editable
         shipmentIdColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -144,7 +145,7 @@ private void handleButtonUpdateId(ActionEvent event) {
             Shipment shipment = event.getRowValue();
 
             String newValue = event.getNewValue();
-            StringProperty newValueAsStringProperty = new SimpleStringProperty(newValue);
+            String newValueAsStringProperty = newValue;
 
             try 
             {

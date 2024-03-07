@@ -2,7 +2,10 @@ package se.lu.ics.models;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.DoublePredicate;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
@@ -42,6 +45,7 @@ public class DataManager {
 
     }
 
+    // ShipmentHandler
 
     public ShipmentHandler getShipmentHandler() {
         return shipmentHandler;
@@ -56,13 +60,27 @@ public class DataManager {
         return shipmentHandler.getShipments();
     }
 
-    public void updateShipmentId(Shipment shipmentToBeUpdated, StringProperty newShipmentId) throws Exception {
+    public void updateShipmentId(Shipment shipmentToBeUpdated, String newShipmentId) throws Exception {
         shipmentHandler.updateShipmentId(shipmentToBeUpdated, newShipmentId);
     }
 
     public void deleteShipment(Shipment shipment) throws Exception {
         shipmentHandler.deleteShipment(shipment);
     }
+
+    // WarehouseHandler
+
+    public WarehouseHandler getWarehouseHandler() {
+        return WarehouseHandler;
+    }
+
+    public void createWarehouse(String name, Location location, String address, double capacity) {
+        WarehouseHandler.createWarehouse(name, location, address, capacity);
+    }
+
+
+
+
 
 
 

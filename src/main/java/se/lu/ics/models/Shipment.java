@@ -1,18 +1,13 @@
 package se.lu.ics.models;
-import java.time.LocalDate;
 // import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.scene.control.TextField;
+import javafx.beans.value.ObservableStringValue;
 
 public class Shipment {
 
-    private StringProperty shipmentId;
-    private BooleanProperty inspected;
+    private String shipmentId;
+    private boolean inspected;
     private String label; // sets a label if the shipment is at warehouse > 14 days
    // private ArrayList <ShipmentLog> shipmentLogs;
     //private ArrayList <InspectionLog> inspectionsMade;
@@ -20,8 +15,8 @@ public class Shipment {
     private static String idCounter = "000";
 
     public Shipment() {
-        this.shipmentId = new SimpleStringProperty(generateShipmentId());
-        this.inspected = new SimpleBooleanProperty(false);
+        this.shipmentId = generateShipmentId();
+        this.inspected = false;
         this.label = null;
       //  this.inspectionsMade = new ArrayList<>();
        // this.shipmentLogs = new ArrayList<>(); // remove these, these are now in ShipmentLogHandler, that is accessed through DataManager
@@ -33,25 +28,22 @@ public class Shipment {
         return "S" + generatedId;
     }
 
-    public StringProperty getShipmentId() {
+    public String getShipmentId() {
         return shipmentId;
     }
 
-    public void setShipmentId(StringProperty newShipmentId) {
+    public void setShipmentId(String newShipmentId) {
     
-        generatedIds.remove(shipmentId.get());
+        generatedIds.remove(shipmentId);
         this.shipmentId = newShipmentId;
-        generatedIds.add(newShipmentId.get());
-
-        //DataManager.getInstance().getShipmentHandler().forceUpdateOfObservableList();
-
+        generatedIds.add(newShipmentId);
     }
 
-    public BooleanProperty getInspected() {
+    public boolean getInspected() {
         return inspected;
     }
 
-    public void setInspected(BooleanProperty inspected) {
+    public void setInspected(boolean inspected) {
         this.inspected = inspected;
     }
 
@@ -66,6 +58,17 @@ public class Shipment {
     static public void resetGeneratedIds() {
         generatedIds.clear();
     }
+
+    // för att kunna använda i combobox
+    @Override
+     public String toString() {
+         return shipmentId;
+    }
+
+}
+
+
+
 
 
 
@@ -170,11 +173,5 @@ public class Shipment {
 
 
     
-
-
-    @Override
-     public String toString() {
-         return shipmentId.get();
-    }
-
-}
+//när fler attributer ska printas, modifiera denna
+    

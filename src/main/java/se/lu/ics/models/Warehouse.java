@@ -16,56 +16,54 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.TextField;
 
 public class Warehouse {
-    private StringProperty name;
-    private ObjectProperty<Location> location;
-    private StringProperty address;
-    private DoubleProperty capacity;
+    private String name;
+    private Location location;
+    private String address;
+    private double capacity;
     private double currentStockLevel;
    // private ArrayList <ShipmentLog> shipments;
   //  private ArrayList <InspectionLog> inspections;
     private LocalDate mostRecentInspectionDate;
 
-    public Warehouse() {
-    }
-
     public Warehouse(String name, Location location, String address, double capacity) {
-        this.name = new SimpleStringProperty(name);
-        this.location = new SimpleObjectProperty<>(location);
-        this.address = new SimpleStringProperty(address);
-        this.capacity = new SimpleDoubleProperty(capacity);
+        this.name = name;
+        this.location = location;
+        this.address = address;
+        this.capacity = capacity;
+        this.currentStockLevel = 0;
        // this.shipments = new ArrayList<>();
        // this.inspections = new ArrayList<>();// remove these, these are now in ShipmentLogHandler, that is accessed through DataManager
     }
 
-    public StringProperty getName() {
+    public String getName() {
         return name;
     }
-    public void setName(StringProperty name) {
-        this.name = name;
+    public void setName(String newName) {
+        this.name = newName;
     }
     
-    public ObjectProperty<Location> getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(ObjectProperty<Location> location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
-    public StringProperty getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(StringProperty address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public DoubleProperty getCapacity() {
+    public double getCapacity() {
         return capacity;
     }
     
-    public void setCapacity(DoubleProperty capacity) throws Exception {
-        if (capacity.get() < 1) {
+    public void setCapacity(double capacity) throws Exception {
+        if (capacity < 1) {
             throw new Exception(Constants.CAPACITY_MUST_BE_GREATER_THAN_0);
         } else {
             this.capacity = capacity;

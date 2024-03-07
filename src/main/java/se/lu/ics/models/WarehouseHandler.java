@@ -2,11 +2,8 @@ package se.lu.ics.models;
 
 import java.util.ArrayList;
 
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import javafx.beans.property.ObjectProperty;
 
 public class WarehouseHandler {
 
@@ -15,8 +12,8 @@ public class WarehouseHandler {
     public WarehouseHandler() {
         warehouses = FXCollections.observableList(new ArrayList<>());
     }
-
-    public ObservableList<Warehouse> getWarhouses() {
+// 
+    public ObservableList<Warehouse> getWarehouses() {
         return warehouses;
     }
     
@@ -27,13 +24,16 @@ public class WarehouseHandler {
     }
     */
 
-    public Warehouse createWarehouse(){
-        Warehouse warehouse = new Warehouse();
+    // CREATE
+
+    public Warehouse createWarehouse(String name, Location location, String address, double capacity) {
+        Warehouse warehouse = new Warehouse(name, location, address, capacity);
         warehouses.add(warehouse);
         return warehouse;
 
     }
 
+    // READ
 
 // does the same thing as getWarehouses right now, should this return a list of Strings by doing .toString on each warehouse?
     // or will that kind of thing be handled in the view?
@@ -41,72 +41,62 @@ public class WarehouseHandler {
         return warehouses;
     }
 
-   public void updateWarehouseName(StringProperty warehouseNameToBeUpdated, StringProperty newWarehouseName) throws Exception {
-        // inte nödvändigt om vi inte ska skriva in något i textfältet ?
-        // if (!doesAWarehouseExistWithName(warehouseNameToBeUpdated)){
-        //     throw new Exception(Constants.NO_WAREHOUSE_EXISTS_WITH_THAT_NAME);
-        // }
+    // UPDATE
 
+   public void updateWarehouseName(Warehouse warehouse, String newWarehouseName) throws Exception {
         if (doesAWarehouseExistWithName(newWarehouseName)){
             throw new Exception(Constants.ALREADY_EXISTS_WAREHOUSE_WITH_NAME);
-        }
-
-        for (Warehouse warehouse : warehouses){
-            if (warehouse.getName().equals(warehouseNameToBeUpdated)){
+        } else {
                 warehouse.setName(newWarehouseName);
                 forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
-
                 return;
             }
         }
 
-    }
-
-    public void deleteWarehouse(StringProperty warehouseName) throws Exception {
-
-        // inte nödvändigt om vi inte ska skriva in något i textfältet ?
-        // if (!doesAWarehouseExistWithName(warehouseName)){
-        //     throw new Exception(Constants.NO_WAREHOUSE_EXISTS_WITH_THAT_NAME);
-        // }
-
-        for (Warehouse warehouse : warehouses){
-            if (warehouse.getName().get().equals(warehouseName.get())){
-                warehouses.remove(warehouse);
+        public void updateWarehouseLocation(Warehouse warehouse, Location newLocation) {
+            if (warehouse != null){
+                warehouse.setLocation(newLocation);
+                forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
                 return;
             }
         }
-    }
+
+        public void updateWarehouseAddress(Warehouse warehouse, String newAddress){
+            if (warehouse != null){
+                warehouse.setAddress(newAddress);
+                forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
+                return;
+            }
+
+        }
+    
+        public void updateWarehouseCapacity(Warehouse warehouse, double newCapacity) throws Exception {
+            if (warehouse != null){
+                warehouse.setCapacity(newCapacity);
+                forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
+                return;
+            }
+
+        }
+
+    // DELETE
+
+    public void deleteWarehouse(Warehouse warehouse) throws Exception {
+            if (warehouse != null) {
+                 warehouses.remove(warehouse);
+            }
+        }
 
      // only needed to updated ComboBoxes!
      public void forceUpdateOfObservableList() {
-        //shipments = FXCollections.observableList(shipments);
         warehouses.add(0, null);
         warehouses.remove(0);
     }
 
-    public void updateWarehouseLocation(StringProperty warehouseName, ObjectProperty<Location> newLocation) {
 
-        
-       for (Warehouse warehouse : warehouses){
-           if (warehouse.getName().get().equals(warehouseName.get())){
-               warehouse.setLocation(newLocation);
-               forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
-               return;
-           }
-       }
-    }
-
-    updateWarehouseAddress(){
-
-    }
-
-    updateWarehouseCapacity(){}
-
-    deleteWarehouse(){}
-
-    boolean doesAWarehouseExistWithName(StringProperty warehouseName){
+    boolean doesAWarehouseExistWithName(String warehouseName){
         for (Warehouse warehouse : warehouses){
-            if (warehouse.getName().get().equals(warehouseName.get())){
+            if (warehouse.getName().equals(warehouseName)){
                 return true;
             }
         }
