@@ -48,12 +48,12 @@
             <Button fx:id="createButton" layoutX="492.0" layoutY="78.0" mnemonicParsing="false" onAction="#handleButtonCreateButton" text="Create new ID" />
             <ComboBox fx:id="myComboBox" layoutX="5.0" layoutY="39.0" prefWidth="150.0" promptText="Select shipment ID" />
             <Label fx:id="myLabel" layoutX="450.0" layoutY="74.0" text="Label" />
-            <TextField fx:id="newIDTextField" promptText="New ID" />
-            <Button fx:id="updateIDButton" layoutX="193.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleButtonUpdateID" text="Update" />
+            <TextField fx:id="newIdTextField" promptText="New ID" />
+            <Button fx:id="updateIdButton" layoutX="193.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleButtonUpdateId" text="Update" />
             <Label fx:id="errorLabel" layoutX="14.0" layoutY="122.0" prefHeight="17.0" prefWidth="280.0" text="Errors will show here" textFill="#c31515" />
             <TableView fx:id="myTableView" layoutX="404.0" layoutY="159.0" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="shipmentIDColumn" prefWidth="75.0" text="C1" />
+                <TableColumn fx:id="shipmentIdColumn" prefWidth="75.0" text="C1" />
                 <TableColumn prefWidth="75.0" text="C2" />
               </columns>
             </TableView>

@@ -6,6 +6,8 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+
+
 public class ShipmentHandler {
 
     private ObservableList<Shipment> shipments;
@@ -38,38 +40,48 @@ public class ShipmentHandler {
         return shipments;
     }
 
-    public void updateShipmentId(StringProperty shipmentIdToBeUpdated, StringProperty newShipmentId) throws Exception {
+    public void updateShipmentId(Shipment shipmentToBeUpdated, StringProperty newShipmentId) throws Exception {
 
-        if (!doesAShipmentExistWithId(shipmentIdToBeUpdated)) {
-            throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
-        }
+    // inte nödvändigt om vi inte ska skriva in något i textfältet ?
+      //  if (!doesAShipmentExistWithId(shipmentIdToBeUpdated)) {
+      //      throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
+      //  }
 
         if (doesAShipmentExistWithId(newShipmentId)) {
-            throw new Exception(Constants.ALREADY_EXISTS_SHIPMENT_WITH_ID);
+           throw new Exception(Constants.ALREADY_EXISTS_SHIPMENT_WITH_ID);
+        }
+
+        if (shipmentToBeUpdated != null) {
+            shipmentToBeUpdated.setShipmentId(newShipmentId);
+            forceUpdateOfObservableList();
         }
 
 
-        for (Shipment shipment : shipments) {
-            if (shipment.getShipmentId().equals(shipmentIdToBeUpdated)) {
-                shipment.setShipmentId(newShipmentId);
-                forceUpdateOfObservableList();
-                return;
-                //forceUpdateOfObservableList(); //because we changed something to a shipment object
-                // maybe this should be a part of all public methods in Shipment that can change its state )
-            }
-        }
+        // for (Shipment shipment : shipments) {
+        //     if (shipment.getShipmentId().equals(shipmentIdToBeUpdated)) {
+        //         shipment.setShipmentId(newShipmentId);
+        //         forceUpdateOfObservableList();
+        //         return;
+        //         //forceUpdateOfObservableList(); //because we changed something to a shipment object
+        //         // maybe this should be a part of all public methods in Shipment that can change its state )
+        //     }
+        // }
     }
 
 
-    public void deleteShipment(StringProperty shipmentId) throws Exception{
-        for (Shipment shipment : shipments) {
-            if (shipment.getShipmentId().get().equals(shipmentId.get())) {
-                shipments.remove(shipment);
-                return;
-            }
+    public void deleteShipment(Shipment shipment) throws Exception{
+        // if (!doesAShipmentExistWithId(shipmentId)) {
+        //     throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
+        // }
+        //     for (Shipment shipment : shipments){
+        //         if (shipment.getShipmentId().get().equals(shipmentId.get())) {
+        //             shipments.remove(shipment);
+        //             return;
+        //         }
+        //     }
+        if (shipment != null) {
+            shipments.remove(shipment);
         }
-
-        throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
     }
 
 

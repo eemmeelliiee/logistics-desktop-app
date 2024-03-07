@@ -41,10 +41,10 @@ public class MainViewController {
     private Label myLabel;
 
     @FXML
-    private TextField newIDTextField;
+    private TextField newIdTextField;
 
     @FXML
-    private Button updateIDButton;
+    private Button updateIdButton;
 
     @FXML
     private Label errorLabel;
@@ -53,7 +53,7 @@ public class MainViewController {
     private TableView<Shipment> myTableView;
 
     @FXML
-    private TableColumn<Shipment, String> shipmentIDColumn;
+    private TableColumn<Shipment, String> shipmentIdColumn;
 
 
 
@@ -62,6 +62,7 @@ public class MainViewController {
         // Code to execute when the button is pressed
         System.out.println("create button was pressed!");
         DataManager.getInstance().createShipment();
+        errorLabel.setText("Warehouse created!  ");
     }   
 
     @FXML
@@ -69,7 +70,7 @@ public class MainViewController {
         Shipment selectedShipment = myTableView.getSelectionModel().getSelectedItem();
         if (selectedShipment != null) {
             // Remove the selected shipment from the data source
-            DataManager.getInstance().deleteShipment(selectedShipment.getShipmentId());
+            DataManager.getInstance().deleteShipment(selectedShipment);
             // Refresh the table view
             myTableView.getItems().remove(selectedShipment);
         } else {
@@ -94,26 +95,24 @@ public class MainViewController {
 //     }
 // }
     
-    @FXML
-    private void handleButtonUpdateID(ActionEvent event) {
-        // Code to execute when the button is pressed
-        System.out.println("update button was pressed!");
-        StringProperty oldId = myComboBox.getValue().getShipmentId();
-        StringProperty newId = new SimpleStringProperty(newIDTextField.getText());
+@FXML
+private void handleButtonUpdateId(ActionEvent event) {
+    // Code to execute when the button is pressed
+    System.out.println("update button was pressed!");
 
-        myTableView.refresh();
+    Shipment selectedShipment = myComboBox.getValue();
+    StringProperty newId = new SimpleStringProperty(newIdTextField.getText());
 
-        //String x = "hejsan";
-        //StringProperty tja = new SimpleStringProperty(x);
+    myTableView.refresh();
 
-        try {
-            DataManager.getInstance().updateShipmentId(oldId, newId);
-            errorLabel.setText("");
-            newIDTextField.setText("");
-        } catch (Exception e) {
-            errorLabel.setText(e.getMessage());
-        }
+    try {
+        DataManager.getInstance().getShipmentHandler().updateShipmentId(selectedShipment, newId);
+        errorLabel.setText("");
+        newIdTextField.setText("");
+    } catch (Exception e) {
+        errorLabel.setText(e.getMessage());
     }
+}
 
 
     @FXML
@@ -123,9 +122,6 @@ public class MainViewController {
         errorLabel.setText("");
 
         myComboBox.setItems(DataManager.getInstance().getShipmentHandler().getShipments());
-
-        
-
         myComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         
             myLabel.setText(newValue.toString());
@@ -138,13 +134,13 @@ public class MainViewController {
         myTableView.setEditable(true);
 
         // Initialize the shipmentId column
-        //shipmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("shipmentId")); // VIKTIGT: KRÄVER EN GETTER I SHIPMENT, FRÅGA COPILOT
-        shipmentIDColumn.setCellValueFactory(cellData -> cellData.getValue().getShipmentId());
+        //shipmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("shipmentId")); // VIKTIGT: KRÄVER EN GETTER I SHIPMENT, FRÅGA COPILOT
+        shipmentIdColumn.setCellValueFactory(cellData -> cellData.getValue().getShipmentId());
 
         // Make the shipmentId column editable
-        shipmentIDColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        shipmentIdColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        shipmentIDColumn.setOnEditCommit(event -> {
+        shipmentIdColumn.setOnEditCommit(event -> {
             Shipment shipment = event.getRowValue();
 
             String newValue = event.getNewValue();
@@ -153,7 +149,7 @@ public class MainViewController {
             try 
             {
                 // maybe change updatedShipmentId to take a reference to Shipment instead of having to write shipment.getShipmentId()
-                DataManager.getInstance().getShipmentHandler().updateShipmentId(shipment.getShipmentId(), newValueAsStringProperty);
+                DataManager.getInstance().getShipmentHandler().updateShipmentId(shipment, newValueAsStringProperty);
                 errorLabel.setText("");
             } 
             catch (Exception e) 

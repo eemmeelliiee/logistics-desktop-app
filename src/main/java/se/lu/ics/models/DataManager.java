@@ -11,8 +11,8 @@ import java.time.LocalDate;
 public class DataManager {
 
     private ShipmentHandler shipmentHandler;
-    // samma för dessa v
-    private ArrayList<Warehouse> warehouses;
+    private WarehouseHandler WarehouseHandler;
+    // samma för dessa v, det är dessa som har själva listorna av sig sjäva
     private ArrayList<InspectionLog> inspectionLogs;
     private ArrayList<ShipmentLog> shipmentLogs;
    // private Stack<Shipment> deletedShipments;
@@ -31,12 +31,15 @@ public class DataManager {
     private DataManager() {
 
         shipmentHandler = new ShipmentHandler();
-      //  deletedShipments = new Stack<>();
+        WarehouseHandler = new WarehouseHandler();
 
-        // se till att dessa blir handlers!
-        shipmentLogs = new ArrayList<>();
-        warehouses = new ArrayList<>();
+        // se till att alla dessa blir handlers!
+       // ShipmentLogHandler = new ShipmentLogHandler();
         inspectionLogs = new ArrayList<>();
+
+        // kanske skapa stack för att undo removements
+        //deletedShipments = new Stack<>();
+
     }
 
 
@@ -53,54 +56,54 @@ public class DataManager {
         return shipmentHandler.getShipments();
     }
 
-    public void updateShipmentId(StringProperty shipmentIdToBeUpdated, StringProperty newShipmentId) throws Exception {
-        shipmentHandler.updateShipmentId(shipmentIdToBeUpdated, newShipmentId);
+    public void updateShipmentId(Shipment shipmentToBeUpdated, StringProperty newShipmentId) throws Exception {
+        shipmentHandler.updateShipmentId(shipmentToBeUpdated, newShipmentId);
     }
 
-    public void deleteShipment(StringProperty shipmentId) throws Exception {
-        shipmentHandler.deleteShipment(shipmentId);
+    public void deleteShipment(Shipment shipment) throws Exception {
+        shipmentHandler.deleteShipment(shipment);
     }
 
 
 
-    public ArrayList<Warehouse> getWarehouses() {
-        return warehouses;
-    }
+    // public ArrayList<Warehouse> getWarehouses() {
+    //     return warehouses;
+    // }
 
-    public void setWarehouses(ArrayList<Warehouse> warehouses) {
-        this.warehouses = warehouses;
-    }
+    // public void setWarehouses(ArrayList<Warehouse> warehouses) {
+    //     this.warehouses = warehouses;
+    // }
 
-    public ArrayList<InspectionLog> getInspectionLogs() {
-        return inspectionLogs;
-    }
+    // public ArrayList<InspectionLog> getInspectionLogs() {
+    //     return inspectionLogs;
+    // }
 
-    public void setInspectionLogs(ArrayList<InspectionLog> inspectionLogs) {
-        this.inspectionLogs = inspectionLogs;
-    }
+    // public void setInspectionLogs(ArrayList<InspectionLog> inspectionLogs) {
+    //     this.inspectionLogs = inspectionLogs;
+    // }
 
-    public ArrayList<ShipmentLog> getShipmentLogs() {
-        return shipmentLogs;
-    }
+    // public ArrayList<ShipmentLog> getShipmentLogs() {
+    //     return shipmentLogs;
+    // }
 
-    public void setShipmentLogs(ArrayList<ShipmentLog> shipmentLogs) {
-        this.shipmentLogs = shipmentLogs;
-    }
+    // public void setShipmentLogs(ArrayList<ShipmentLog> shipmentLogs) {
+    //     this.shipmentLogs = shipmentLogs;
+    // }
 
-    public void createWarehouse(String name, Location location, String address, double capacity) {
-        Warehouse warehouse = new Warehouse(name, location, address, capacity);
-        warehouses.add(warehouse);
-    }
+    // public void createWarehouse(String name, Location location, String address, double capacity) {
+    //     Warehouse warehouse = new Warehouse(name, location, address, capacity);
+    //     warehouses.add(warehouse);
+    // }
 
-    public void createInspectionLog(Shipment shipment, Warehouse warehouse, LocalDate date, String inspector, String result) {
-        InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, date, inspector, result);
-        inspectionLogs.add(inspectionLog);
-    }
+    // public void createInspectionLog(Shipment shipment, Warehouse warehouse, LocalDate date, String inspector, String result) {
+    //     InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, date, inspector, result);
+    //     inspectionLogs.add(inspectionLog);
+    // }
 
-    public void createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) {
-        ShipmentLog shipmentLog = new ShipmentLog(date, direction, warehouse, shipment);
-        shipmentLogs.add(shipmentLog);
-    }
+    // public void createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) {
+    //     ShipmentLog shipmentLog = new ShipmentLog(date, direction, warehouse, shipment);
+    //     shipmentLogs.add(shipmentLog);
+    // }
 
    // public Stack<Shipment> getDeletedShipments() {
     //    return deletedShipments;
@@ -113,17 +116,18 @@ public class DataManager {
 
 
 
-
+// behövs bara för tester
     public void clearData() {
 
         shipmentHandler.clearData();
+
 
         // Do this for all the other classes also
         // shipmentLogs = new ArrayList<>();
         // warehouses = new ArrayList<>();
         // inspectionLogs = new ArrayList<>();
 
-        Shipment.resetGeneratedIDs();
+        Shipment.resetGeneratedIds();
     }
 
 }
