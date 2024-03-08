@@ -97,7 +97,22 @@ public class TestShipmentHandler {
         assertEquals(0, shipments.size());
     }
 
+    // not needed scince we are using the observable list
+    // @Test
+    // public void deleteShipmentThatDoesNotExist() {
+    //     Shipment shipment = new Shipment();
+    //     assertThrows(Exception.class, () -> dataManager.deleteShipment(shipment));
+    // }
 
+    @Test
+    public void testDeleteShipment() {
+        Shipment shipment = dataManager.createShipment();
+        dataManager.deleteShipment(shipment);
+        ObservableList<Shipment> shipments = dataManager.readShipments();
+        assertEquals(0, shipments.size());
+    }
+
+ 
 
     
 

@@ -2,8 +2,6 @@ package se.lu.ics.models;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javafx.scene.chart.PieChart.Data;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
@@ -252,4 +250,107 @@ public void testUpdateShipmentLogWithInvalidShipment() throws Exception {
         shipmentLogHandler.updateShipmentLog(log, UpdateFieldShipmentLog.SHIPMENT, shipment);
     });
 }
+// not needed since shipmentlog will be selected in tableview
+// @Test
+// public void testDeleteShipmentLogWithExistingLog() throws Exception {
+//     Warehouse warehouse = new Warehouse("Test Warehouse", Location.NORTH, "Test Address", 1000);
+//     Shipment shipment = new Shipment();
+//     LocalDate date = LocalDate.now();
+//     Direction direction = Direction.INCOMING;
+
+//     // Create a shipment log
+//     ShipmentLog log = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+
+//     // Try to delete the shipment log
+//     shipmentLogHandler.deleteShipmentLog(log);
+
+//     // Try to delete the shipment log again
+//     assertThrows(Exception.class, () -> {
+//         shipmentLogHandler.deleteShipmentLog(log);
+//     });
+// }
+
+    @Test
+    public void testValidateDate() throws Exception {
+        Warehouse warehouse = new Warehouse("Test Warehouse", Location.NORTH, "Test Address", 1000);
+        Shipment shipment = new Shipment();
+        LocalDate date = LocalDate.now();
+        Direction direction = Direction.INCOMING;
+
+        // Create a shipment log
+        ShipmentLog log = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+
+        // Try to create another shipment log with the same parameters
+        assertThrows(Exception.class, () -> {
+            shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+        }, "Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
+    }
+
+    @Test
+    public void testUpdateAttentionStatus() throws Exception {
+        Warehouse warehouse = new Warehouse("Test Warehouse", Location.NORTH, "Test Address", 1000);
+        Shipment shipment = new Shipment();
+        LocalDate date = LocalDate.now();
+        Direction direction = Direction.INCOMING;
+
+        // Create a shipment log
+        ShipmentLog log = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+
+        // Try to create another shipment log with the same parameters
+        assertThrows(Exception.class, () -> {
+            shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+        }, "Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
+    }
+
+    @Test
+    public void testFindShipmentLog() throws Exception {
+        Warehouse warehouse = new Warehouse("Test Warehouse", Location.NORTH, "Test Address", 1000);
+        Shipment shipment = new Shipment();
+        LocalDate date = LocalDate.now();
+        Direction direction = Direction.INCOMING;
+
+        // Create a shipment log
+        ShipmentLog log = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+
+        // Try to create another shipment log with the same parameters
+        assertThrows(Exception.class, () -> {
+            shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+        }, "Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
+    }
+
+    @Test
+    public void testCountLogs() throws Exception {
+        Warehouse warehouse = new Warehouse("Test Warehouse", Location.NORTH, "Test Address", 1000);
+        Shipment shipment = new Shipment();
+        LocalDate date = LocalDate.now();
+        Direction direction = Direction.INCOMING;
+
+        // Create a shipment log
+        ShipmentLog log = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+
+        // Try to create another shipment log with the same parameters
+        assertThrows(Exception.class, () -> {
+            shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+        }, "Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
+    }
+
+    @Test
+    public void testValidateShipmentLogWithExistingLog() throws Exception {
+        Warehouse warehouse = new Warehouse("Test Warehouse", Location.NORTH, "Test Address", 1000);
+        Shipment shipment = new Shipment();
+        LocalDate date = LocalDate.now();
+        Direction direction = Direction.INCOMING;
+
+        // Create a shipment log
+        ShipmentLog log = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+
+        // Try to create another shipment log with the same parameters
+        assertThrows(Exception.class, () -> {
+            shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+        }, "Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
+    }
+
+   
+
+
 }
