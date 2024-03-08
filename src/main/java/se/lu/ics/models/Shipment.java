@@ -10,7 +10,7 @@ public class Shipment {
    // private ArrayList <ShipmentLog> shipmentLogs;
     //private ArrayList <InspectionLog> inspectionsMade;
     private static ArrayList<String> generatedIds = new ArrayList<>();
-    private static String idCounter = "000";
+    private static String idCounter = "001";
 
     public Shipment() {
         this.shipmentId = generateShipmentId();

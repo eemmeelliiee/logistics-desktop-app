@@ -23,10 +23,10 @@ public class TestWarehouseHandler {
 
     @Test
     public void testCreateWarehouse() throws Exception{
-        String name = "TestWarehouse";
-        Location location = Location.NORTH; // Assuming NORTH is a valid Location
-        String address = "TestAddress";
-        double capacity = 0;
+        String name = "Svedalas varuhus";
+        Location location = Location.SOUTH; // Assuming NORTH is a valid Location
+        String address = "Malmövägen 1, Svedala";
+        double capacity = 120;
 
         Warehouse result = dataManager.createWarehouse(name, location, address, capacity);
 
