@@ -9,7 +9,10 @@ public class ShipmentLog {
     private Warehouse warehouse;
     private Shipment shipment;
 
-    public ShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) {
+    public ShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) throws Exception {
+        if (date == null || direction == null || warehouse == null || shipment == null) {
+            throw new Exception(Constants.CANNOT_BE_EMPTY);
+        }
         this.date = date;
         this.direction = direction;
         this.warehouse = warehouse;

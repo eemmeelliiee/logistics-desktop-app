@@ -64,6 +64,7 @@ public class DataManager {
         shipmentHandler.deleteShipment(shipment);
     }
 
+
     // WarehouseHandler
 
     public WarehouseHandler getWarehouseHandler() {
@@ -82,25 +83,10 @@ public class DataManager {
         warehouseHandler.updateWarehouse(warehouse, field, newValue);
     }
 
-    // public void updateWarehouseName(Warehouse warehouse, String newWarehouseName) throws Exception {
-    //     warehouseHandler.updateWarehouseName(warehouse, newWarehouseName);
-    // }
-
-    // public void updateWarehouseLocation(Warehouse warehouse, Location newLocation) {
-    //     warehouseHandler.updateWarehouseLocation(warehouse, newLocation);
-    // }
-
-    // public void updateWarehouseAddress(Warehouse warehouse, String newAddress) {
-    //     warehouseHandler.updateWarehouseAddress(warehouse, newAddress);
-    // }
-
-    // public void updateWarehouseCapacity(Warehouse warehouse, double newCapacity) throws Exception {
-    //     warehouseHandler.updateWarehouseCapacity(warehouse, newCapacity);
-    // }
-
     public void deleteWarehouse(Warehouse warehouse){
         warehouseHandler.deleteWarehouse(warehouse);
     }
+
 
     // ShipmentLogHandler
 
@@ -108,8 +94,8 @@ public class DataManager {
         return shipmentLogHandler;
     }
 
-    public void createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) throws Exception{
-        shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+    public ShipmentLog createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) throws Exception{
+        return shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
     }
 
     public ObservableList<ShipmentLog> readShipmentLogs() {
