@@ -83,11 +83,9 @@ public class WarehouseHandler {
 
     // DELETE
 
-    public void deleteWarehouse(Warehouse warehouse) throws Exception {
-            if (warehouse != null) {
+    public void deleteWarehouse(Warehouse warehouse) {
                  warehouses.remove(warehouse);
-            }
-        }
+    }
 
      // only needed to updated ComboBoxes!
      public void forceUpdateOfObservableList() {

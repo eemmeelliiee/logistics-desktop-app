@@ -48,11 +48,15 @@ public class ShipmentHandler {
 
         if (doesAShipmentExistWithId(newShipmentId)) {
            throw new Exception(Constants.ALREADY_EXISTS_SHIPMENT_WITH_ID);
+        } 
+
+        if (newShipmentId.equals("")) {
+            throw new Exception(Constants.CANNOT_BE_EMPTY);
         }
 
         if (shipment != null) {
             shipment.setShipmentId(newShipmentId);
-            forceUpdateOfObservableList();
+            forceUpdateOfObservableList(); // please manually update the observable list in the controller instead
         }
 
 
@@ -68,7 +72,7 @@ public class ShipmentHandler {
     }
 
 
-    public void deleteShipment(Shipment shipment) throws Exception{
+    public void deleteShipment(Shipment shipment){
         // if (!doesAShipmentExistWithId(shipmentId)) {
         //     throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
         // }
@@ -78,12 +82,12 @@ public class ShipmentHandler {
         //             return;
         //         }
         //     }
-        if (shipment != null) {
+        // if (shipment != null) {
             shipments.remove(shipment);
-        }
+        // }
     }
 
-
+    // INTE REKOMMENDERAT, manually edit the observable list in the controller instead !!!
     // only needed to updated ComboBoxes!
     public void forceUpdateOfObservableList() {
         //shipments = FXCollections.observableList(shipments);
@@ -103,7 +107,7 @@ public class ShipmentHandler {
     }
 
 
-    // these are only for tests
+    // these are only for tests, move to a test class !? how?
     public void clearData() {
         shipments.clear();
     }

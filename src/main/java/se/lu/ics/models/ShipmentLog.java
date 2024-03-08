@@ -1,5 +1,6 @@
 package se.lu.ics.models;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class ShipmentLog {
 
@@ -8,16 +9,11 @@ public class ShipmentLog {
     private Warehouse warehouse;
     private Shipment shipment;
 
-    public ShipmentLog() {
-    }
-
     public ShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) {
         this.date = date;
         this.direction = direction;
         this.warehouse = warehouse;
         this.shipment = shipment;
-        // shipment.addShipmentLog(this);
-        // warehouse.addShipmentLog(this);
     }
 
     public LocalDate getDate() {
@@ -52,19 +48,34 @@ public class ShipmentLog {
         this.shipment = shipment;
     }
 
+// used in shipmentloghandler. the ShipmentLog class is responsible for 
+// determining if a ShipmentLog is similar to another and if it needs attention. 
+//This follows the Single Responsibility Principle, 
+//making my code cleaner and easier to maintain.
+    public boolean needsAttention(ShipmentLog other) {
+    boolean isSimilar = this.getShipment().equals(other.getShipment()) &&
+                        this.getWarehouse().equals(other.getWarehouse()) &&
+                        this.getDirection() == Direction.INCOMING &&
+                        other.getDirection() == Direction.OUTGOING;
+
+    boolean needsAttention = isSimilar && ChronoUnit.DAYS.between(this.getDate(), other.getDate()) > 14;
+
+    return needsAttention;
+}
+
  
-    public String toStringForShipment() {
-        return  "\nWarehouse: " + warehouse.getName() +
-                 "\nDate: " + date +
-                "\nDirection: " + direction +
-                "\n";
-    }
+    // public String toStringForShipment() {
+    //     return  "\nWarehouse: " + warehouse.getName() +
+    //              "\nDate: " + date +
+    //             "\nDirection: " + direction +
+    //             "\n";
+    // }
     
-    public String toStringForWarehouse() {
-        return  "\n\nShipmentID: " + shipment.getShipmentId() +
-                "\nDate: " + date +
-                "\nDirection: " + direction +
-                "\n";
-    }
+    // public String toStringForWarehouse() {
+    //     return  "\n\nShipmentID: " + shipment.getShipmentId() +
+    //             "\nDate: " + date +
+    //             "\nDirection: " + direction +
+    //             "\n";
+    // }
 
 }

@@ -2,8 +2,6 @@ package se.lu.ics.models;
 // import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import javafx.beans.value.ObservableStringValue;
-
 public class Shipment {
 
     private String shipmentId;

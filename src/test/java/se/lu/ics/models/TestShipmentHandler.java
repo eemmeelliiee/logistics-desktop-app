@@ -1,6 +1,7 @@
 package se.lu.ics.models;
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,11 +19,17 @@ import static org.junit.jupiter.api.DynamicTest.stream;
 public class TestShipmentHandler {
 
     DataManager dataManager;
+    ShipmentHandler shipmentHandler;
 
     @BeforeEach
     public void setUp() {
         dataManager = DataManager.getInstance();
-        dataManager.clearData();
+        shipmentHandler = dataManager.getShipmentHandler();
+    }
+
+     @AfterEach
+    public void tearDown() {
+        shipmentHandler.getShipments().clear();
     }
 
     @Test

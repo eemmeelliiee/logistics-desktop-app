@@ -130,7 +130,6 @@ private void handleButtonUpdateId(ActionEvent event) {
         });
 
 
-
             // Make the TableView editable
         myTableView.setEditable(true);
 

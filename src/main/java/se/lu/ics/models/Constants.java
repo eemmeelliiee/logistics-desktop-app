@@ -8,4 +8,5 @@ public class Constants {
     public static final String CAPACITY_MUST_BE_GREATER_THAN_0 = "Capacitet måste vara större än 0";
     public static final String NO_WAREHOUSE_EXISTS_WITH_THAT_NAME = "Det finns inget Warehouse med det angivna namnet";
     public static final String ALREADY_EXISTS_WAREHOUSE_WITH_NAME = "Det finns redan ett Warehouse med det angivna namnet";
+    public static final String CANNOT_BE_EMPTY = "Fältet kan inte vara tomt";
 }

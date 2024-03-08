@@ -6,6 +6,7 @@ import java.util.ArrayList;
 //import java.util.Comparator;
 import se.lu.ics.models.Location;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,11 +27,17 @@ import javafx.scene.chart.PieChart.Data;
 public class TestWarehouseHandler {
 
     DataManager dataManager;
+    WarehouseHandler warehouseHandler;
 
     @BeforeEach
     public void setUp() {
         dataManager = DataManager.getInstance();
-        dataManager.clearData();
+        warehouseHandler = dataManager.getWarehouseHandler();
+    }
+
+     @AfterEach
+    public void tearDown() {
+        warehouseHandler.getWarehouses().clear();
     }
 
     @Test
@@ -128,11 +135,10 @@ public class TestWarehouseHandler {
     @Test
     public void testDeleteWarehouseIncorrectly() throws Exception {
         Warehouse warehouse = dataManager.createWarehouse("TestWarehouse", Location.NORTH, "TestAddress", 100);
+        Warehouse warehouse2 = dataManager.createWarehouse("TestWarehouse2", Location.NORTH, "TestAddress2", 200);
         dataManager.deleteWarehouse(warehouse);
         ObservableList<Warehouse> warehouses = dataManager.readWarehouses();
-        assertEquals(0, warehouses.size());
-        assertThrows(Exception.class, () -> dataManager.deleteWarehouse(warehouse));
-    }
+        assertEquals(1, warehouses.size());    }
 
     // @Test
     // public void testForceUpdateOfObservableList() {

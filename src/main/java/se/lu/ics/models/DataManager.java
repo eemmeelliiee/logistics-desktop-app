@@ -1,23 +1,20 @@
 package se.lu.ics.models;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
-import java.util.function.DoublePredicate;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
-import java.time.LocalDate;
 
 public class DataManager {
 
     private ShipmentHandler shipmentHandler;
     private WarehouseHandler warehouseHandler;
+    private ShipmentLogHandler shipmentLogHandler;
     // samma för dessa v, det är dessa som har själva listorna av sig sjäva
     private ArrayList<InspectionLog> inspectionLogs;
-    private ArrayList<ShipmentLog> shipmentLogs;
+    
    // private Stack<Shipment> deletedShipments;
 
     private static DataManager instance;
@@ -35,9 +32,9 @@ public class DataManager {
 
         shipmentHandler = new ShipmentHandler();
         warehouseHandler = new WarehouseHandler();
+        shipmentLogHandler = new ShipmentLogHandler();
 
-        // se till att alla dessa v blir handlers!
-       // ShipmentLogHandler = new ShipmentLogHandler();
+        // se till att denna v blir handlers!
         inspectionLogs = new ArrayList<>();
 
         // kanske skapa stack för att undo removements
@@ -63,7 +60,7 @@ public class DataManager {
         shipmentHandler.updateShipmentId(shipment, newId);
     }
 
-    public void deleteShipment(Shipment shipment) throws Exception {
+    public void deleteShipment(Shipment shipment){
         shipmentHandler.deleteShipment(shipment);
     }
 
@@ -97,10 +94,47 @@ public class DataManager {
         warehouseHandler.updateWarehouseCapacity(warehouse, newCapacity);
     }
 
-    public void deleteWarehouse(Warehouse warehouse) throws Exception {
+    public void deleteWarehouse(Warehouse warehouse){
         warehouseHandler.deleteWarehouse(warehouse);
     }
 
+    // ShipmentLogHandler
+
+    public ShipmentLogHandler getShipmentLogHandler() {
+        return shipmentLogHandler;
+    }
+
+    public void createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) {
+        shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+    }
+
+    public ObservableList<ShipmentLog> readShipmentLogs() {
+        return shipmentLogHandler.getShipmentLogs();
+    }
+
+    public void updateShipmentForShipmentLog(ShipmentLog shipmentLog, Shipment newShipment) {
+        shipmentLogHandler.updateShipmentForShipmentLog(shipmentLog, newShipment);
+    }
+
+    public void updateWarehouseForShipmentLog(ShipmentLog shipmentLog, Warehouse newWarehouse) {
+        shipmentLogHandler.updateWarehouseForShipmentLog(shipmentLog, newWarehouse);
+    }
+
+    public void updateDirectionForShipmentLog(ShipmentLog shipmentLog, Direction newDirection) {
+        shipmentLogHandler.updateDirectionForShipmentLog(shipmentLog, newDirection);
+    }
+
+    public void updateDateForShipmentLog(ShipmentLog shipmentLog, LocalDate newDate) {
+        shipmentLogHandler.updateDateForShipmentLog(shipmentLog, newDate);
+    }
+
+    public void deleteShipmentLog(ShipmentLog shipmentLog) {
+        shipmentLogHandler.deleteShipmentLog(shipmentLog);
+    }
+
+
+
+    
 
 
 
