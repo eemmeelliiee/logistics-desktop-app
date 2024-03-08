@@ -7,19 +7,19 @@ public class Warehouse {
     private Location location;
     private String address;
     private double capacity;
-    private double currentStockLevel;
-   // private ArrayList <ShipmentLog> shipments;
-  //  private ArrayList <InspectionLog> inspections;
-    private LocalDate mostRecentInspectionDate;
+    private double currentStockLevel; // Get/set ????
+    private LocalDate mostRecentInspectionDate; // get/set ????
 
-    public Warehouse(String name, Location location, String address, double capacity) {
+    public Warehouse(String name, Location location, String address, double capacity) throws Exception {
+        if (capacity < 0) {
+            throw new Exception(Constants.CAPACITY_MUST_BE_GREATER_THAN_0);
+        }
         this.name = name;
         this.location = location;
         this.address = address;
         this.capacity = capacity;
         this.currentStockLevel = 0;
-       // this.shipments = new ArrayList<>();
-       // this.inspections = new ArrayList<>();// remove these, these are now in ShipmentLogHandler, that is accessed through DataManager
+        this.mostRecentInspectionDate = null; // is this needed?
     }
 
     public String getName() {

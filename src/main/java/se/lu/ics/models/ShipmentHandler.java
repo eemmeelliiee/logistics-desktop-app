@@ -50,7 +50,7 @@ public class ShipmentHandler {
            throw new Exception(Constants.ALREADY_EXISTS_SHIPMENT_WITH_ID);
         } 
 
-        if (newShipmentId.equals("")) {
+        if (newShipmentId == null || newShipmentId.equals("")) {
             throw new Exception(Constants.CANNOT_BE_EMPTY);
         }
 

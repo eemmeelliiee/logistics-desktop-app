@@ -70,7 +70,7 @@ public class DataManager {
         return warehouseHandler;
     }
 
-    public Warehouse createWarehouse(String name, Location location, String address, double capacity) {
+    public Warehouse createWarehouse(String name, Location location, String address, double capacity) throws Exception {
         return warehouseHandler.createWarehouse(name, location, address, capacity);
     }
 
@@ -78,21 +78,25 @@ public class DataManager {
         return warehouseHandler.getWarehouses();
     }
 
-    public void updateWarehouseName(Warehouse warehouse, String newWarehouseName) throws Exception {
-        warehouseHandler.updateWarehouseName(warehouse, newWarehouseName);
+    public void updateWarehouse(Warehouse warehouse, UpdateFieldWarehouse field, Object newValue) throws Exception {
+        warehouseHandler.updateWarehouse(warehouse, field, newValue);
     }
 
-    public void updateWarehouseLocation(Warehouse warehouse, Location newLocation) {
-        warehouseHandler.updateWarehouseLocation(warehouse, newLocation);
-    }
+    // public void updateWarehouseName(Warehouse warehouse, String newWarehouseName) throws Exception {
+    //     warehouseHandler.updateWarehouseName(warehouse, newWarehouseName);
+    // }
 
-    public void updateWarehouseAddress(Warehouse warehouse, String newAddress) {
-        warehouseHandler.updateWarehouseAddress(warehouse, newAddress);
-    }
+    // public void updateWarehouseLocation(Warehouse warehouse, Location newLocation) {
+    //     warehouseHandler.updateWarehouseLocation(warehouse, newLocation);
+    // }
 
-    public void updateWarehouseCapacity(Warehouse warehouse, double newCapacity) throws Exception {
-        warehouseHandler.updateWarehouseCapacity(warehouse, newCapacity);
-    }
+    // public void updateWarehouseAddress(Warehouse warehouse, String newAddress) {
+    //     warehouseHandler.updateWarehouseAddress(warehouse, newAddress);
+    // }
+
+    // public void updateWarehouseCapacity(Warehouse warehouse, double newCapacity) throws Exception {
+    //     warehouseHandler.updateWarehouseCapacity(warehouse, newCapacity);
+    // }
 
     public void deleteWarehouse(Warehouse warehouse){
         warehouseHandler.deleteWarehouse(warehouse);
@@ -104,7 +108,7 @@ public class DataManager {
         return shipmentLogHandler;
     }
 
-    public void createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) {
+    public void createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) throws Exception{
         shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
     }
 
@@ -112,20 +116,8 @@ public class DataManager {
         return shipmentLogHandler.getShipmentLogs();
     }
 
-    public void updateShipmentForShipmentLog(ShipmentLog shipmentLog, Shipment newShipment) {
-        shipmentLogHandler.updateShipmentForShipmentLog(shipmentLog, newShipment);
-    }
-
-    public void updateWarehouseForShipmentLog(ShipmentLog shipmentLog, Warehouse newWarehouse) {
-        shipmentLogHandler.updateWarehouseForShipmentLog(shipmentLog, newWarehouse);
-    }
-
-    public void updateDirectionForShipmentLog(ShipmentLog shipmentLog, Direction newDirection) {
-        shipmentLogHandler.updateDirectionForShipmentLog(shipmentLog, newDirection);
-    }
-
-    public void updateDateForShipmentLog(ShipmentLog shipmentLog, LocalDate newDate) {
-        shipmentLogHandler.updateDateForShipmentLog(shipmentLog, newDate);
+    public void updateShipmentLog(ShipmentLog shipmentLog, UpdateFieldShipmentLog field, Object newValue) throws Exception {
+        shipmentLogHandler.updateShipmentLog(shipmentLog, field, newValue);
     }
 
     public void deleteShipmentLog(ShipmentLog shipmentLog) {

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class InspectionLog {
 
     private Shipment shipment;
-    private Warehouse warehouse;
+    private Warehouse warehouse; // add set/get
     private LocalDate date;
     private String inspector;
     private String result;

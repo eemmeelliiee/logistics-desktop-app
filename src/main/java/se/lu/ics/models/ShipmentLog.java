@@ -52,16 +52,20 @@ public class ShipmentLog {
 // determining if a ShipmentLog is similar to another and if it needs attention. 
 //This follows the Single Responsibility Principle, 
 //making my code cleaner and easier to maintain.
-    public boolean needsAttention(ShipmentLog other) {
-    boolean isSimilar = this.getShipment().equals(other.getShipment()) &&
+public boolean needsAttention(ShipmentLog other) {
+    boolean isPairAndNeedsAttention = this.getShipment().equals(other.getShipment()) &&
                         this.getWarehouse().equals(other.getWarehouse()) &&
                         this.getDirection() == Direction.INCOMING &&
                         other.getDirection() == Direction.OUTGOING;
 
-    boolean needsAttention = isSimilar && ChronoUnit.DAYS.between(this.getDate(), other.getDate()) > 14;
+    boolean needsAttention = isPairAndNeedsAttention && ChronoUnit.DAYS.between(this.getDate(), other.getDate()) > 14;
 
-    return needsAttention;
-}
+    return needsAttention; 
+    }
+
+    
+
+
 
  
     // public String toStringForShipment() {

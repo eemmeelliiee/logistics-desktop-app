@@ -28,7 +28,7 @@ public class WarehouseHandler {
 
     // CREATE
 
-    public Warehouse createWarehouse(String name, Location location, String address, double capacity) {
+    public Warehouse createWarehouse(String name, Location location, String address, double capacity) throws Exception {
         Warehouse warehouse = new Warehouse(name, location, address, capacity);
         warehouses.add(warehouse);
         return warehouse;
@@ -44,6 +44,28 @@ public class WarehouseHandler {
     // }
 
     // UPDATE
+
+    public void updateWarehouse(Warehouse warehouse, UpdateFieldWarehouse field, Object newValue) throws Exception {
+        if (newValue == null || newValue.equals("")) {
+            throw new Exception(Constants.CANNOT_BE_EMPTY);
+        }
+        switch (field) {
+            case NAME:
+                updateWarehouseName(warehouse, (String) newValue);
+                break;
+            case LOCATION:
+                updateWarehouseLocation(warehouse, (Location) newValue);
+                break;
+            case ADDRESS:
+                updateWarehouseAddress(warehouse, (String) newValue);
+                break;
+            case CAPACITY:
+                updateWarehouseCapacity(warehouse, (Double) newValue);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid field: " + field);
+        }
+    }
 
    public void updateWarehouseName(Warehouse warehouse, String newWarehouseName) throws Exception {
         if (doesAWarehouseExistWithName(newWarehouseName)){
@@ -94,7 +116,10 @@ public class WarehouseHandler {
     }
 
 
-    boolean doesAWarehouseExistWithName(String warehouseName){
+    boolean doesAWarehouseExistWithName(String warehouseName) throws Exception{
+        if (warehouseName == null) {
+            throw new Exception(Constants.CANNOT_BE_EMPTY);
+        }
         for (Warehouse warehouse : warehouses){
             if (warehouse.getName().equals(warehouseName)){
                 return true;
