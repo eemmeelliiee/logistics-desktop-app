@@ -13,7 +13,7 @@ public class Warehouse {
     private LocalDate mostRecentInspectionDate; 
     private double currentAvailableCapacity;
     private double remainingCapacityInPercent;
-    private Period avarageTimeShipmentSpendsAtWarehouse;
+    private Period averageTimeShipmentSpendsAtWarehouse;
 
     public Warehouse(String name, Location location, String address, double capacity) throws Exception {
         if (capacity < 0) {
@@ -27,7 +27,7 @@ public class Warehouse {
         this.mostRecentInspectionDate = null; // is this needed?
         this.currentAvailableCapacity = capacity;
         this.remainingCapacityInPercent = 100;
-        this.avarageTimeShipmentSpendsAtWarehouse = Period.ZERO;
+        this.averageTimeShipmentSpendsAtWarehouse = Period.ZERO;
 
     }
 
@@ -98,12 +98,12 @@ public class Warehouse {
         this.currentAvailableCapacity = currentAvailableCapacity;
     }
 
-    public Period getAvarageTimeShipmentSpendsAtWarehouse() {
-        return avarageTimeShipmentSpendsAtWarehouse;
+    public Period getAverageTimeShipmentSpendsAtWarehouse() {
+        return averageTimeShipmentSpendsAtWarehouse;
     }
 
-    public void setAvarageTimeShipmentSpendsAtWarehouse(Period avarageTimeShipmentSpendsAtWarehouse) {
-        this.avarageTimeShipmentSpendsAtWarehouse = avarageTimeShipmentSpendsAtWarehouse;
+    public void setAverageTimeShipmentSpendsAtWarehouse(Period averageTimeShipmentSpendsAtWarehouse) {
+        this.averageTimeShipmentSpendsAtWarehouse = averageTimeShipmentSpendsAtWarehouse;
     }
 
 

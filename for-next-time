@@ -24,7 +24,7 @@ skapa en DataService-klass, inga attributes, bara funktioner som använder DataM
 
     - getAllShipmentLogsForShipment
 
-    <!-- MAKE SURE TO UPDATE WAREHOUSES ANS SHIPMENTS IN DATAMANAGER FOR CRUD_FUNCTIONS THAT NEED IT -->
+<!-- MAKE SURE TO UPDATE WAREHOUSES ANS SHIPMENTS IN DATAMANAGER FOR CRUD_FUNCTIONS THAT NEED IT -->
 
     glöm ej 14 dagar => setLabel
 

@@ -8,7 +8,7 @@ public class Shipment {
     private boolean inspected;
     private String label; // sets a label if the shipment is at warehouse > 14 days
     private Warehouse currentWarehouse;
-    private double totalNumberOfWarehouses;
+    private int totalNumberOfWarehouses;
     private static ArrayList<String> generatedIds = new ArrayList<>();
     private static String idCounter = "001";
 
@@ -67,11 +67,11 @@ public class Shipment {
         this.currentWarehouse = currentWarehouse;
     }
 
-    public double getTotalNumberOfWarehouses() {
+    public int getTotalNumberOfWarehouses() {
         return totalNumberOfWarehouses;
     }
 
-    public void setTotalNumberOfWarehouses(double totalNumberOfWarehouses) {
+    public void setTotalNumberOfWarehouses(int totalNumberOfWarehouses) {
         this.totalNumberOfWarehouses = totalNumberOfWarehouses;
     }
 

@@ -18,6 +18,9 @@ public class ShipmentLogHandler {
     }
 
     public ShipmentLog createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) throws Exception {
+        if (warehouse.getCurrentAvailableCapacity() < 1 && direction == Direction.INCOMING) {
+            throw new Exception("Warehouse is full");
+        }
         validateShipmentLog(shipment, warehouse, direction);
         ShipmentLog newShipmentLog = new ShipmentLog(date, direction, warehouse, shipment);
         shipmentLogs.add(newShipmentLog);

@@ -10,6 +10,7 @@ public class DataManager {
     private WarehouseHandler warehouseHandler;
     private ShipmentLogHandler shipmentLogHandler;
     private InspectionLogHandler inspectionLogHandler;
+    private DataService dataService;
     
    // private Stack<Shipment> deletedShipments;
 
@@ -30,6 +31,7 @@ public class DataManager {
         warehouseHandler = new WarehouseHandler();
         shipmentLogHandler = new ShipmentLogHandler();
         inspectionLogHandler = new InspectionLogHandler();
+        dataService = new DataService();
 
         // kanske skapa stack för att undo removements
         //deletedShipments = new Stack<>();
@@ -52,24 +54,36 @@ public class DataManager {
 
     public void updateShipmentId(Shipment shipment, String newId) throws Exception {
         shipmentHandler.updateShipmentId(shipment, newId);
-
-        // is this the way to go?
-        // for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
-        //     if (log.getShipment().equals(shipment)) {
-        //         shipmentLogHandler.updateShipmentLog(log, UpdateFieldShipmentLog.SHIPMENT, shipment);
-        //     }
-        // }
+    
+        // Updates the shipmentId for all shipmentlogs that has the shipment
+        for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+            if (log.getShipment().equals(shipment)) {
+                shipmentLogHandler.updateShipmentLog(log, UpdateFieldShipmentLog.SHIPMENT, shipment);
+            }
+        }
+        // Updates the shipmentId for all inspectionlogs that has the shipment
+        for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
+            if (log.getShipment().equals(shipment)) {
+                inspectionLogHandler.updateInspectionLog(log, UpdateFieldInspectionLog.SHIPMENT, shipment);
+            }
+        }
     }
 
     public void deleteShipment(Shipment shipment){
         shipmentHandler.deleteShipment(shipment);
 
         // is this the way to go?
-        // for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
-        //     if (log.getShipment().equals(shipment)) {
-        //         shipmentLogHandler.deleteShipmentLog(log);
-        //     }
-        // }
+        for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+            if (log.getShipment().equals(shipment)) {
+                shipmentLogHandler.deleteShipmentLog(log);
+            }
+        }
+        //Deletes all inspectionlogs for the shipment
+        for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
+            if (log.getShipment().equals(shipment)) {
+                inspectionLogHandler.deleteInspectionLog(log);
+            }
+        }
     }
 
 
@@ -89,23 +103,38 @@ public class DataManager {
 
     public void updateWarehouse(Warehouse warehouse, UpdateFieldWarehouse field, Object newValue) throws Exception {
         warehouseHandler.updateWarehouse(warehouse, field, newValue);
-        // is this the way to go?
-        // for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
-        //     if (log.getWarehouse().equals(warehouse)) {
-        //         shipmentLogHandler.updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
-        //     }
-        // }
+     
+        // Updates the warehouse for all shipmentlogs that has the warehouse
+        for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+            if (log.getWarehouse().equals(warehouse)) {
+                shipmentLogHandler.updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
+            } dataService.updateWarehouseShipmentInformation(warehouse);
+              dataService.updateShipmentInformation(log.getShipment());
+        }
+
+        // Updates the warehouse for all inspectionlogs that has the warehouse
+        for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
+            if (log.getWarehouse().equals(warehouse)) {
+                inspectionLogHandler.updateInspectionLog(log, UpdateFieldInspectionLog.WAREHOUSE, warehouse);
+            } dataService.updateMostRecentInspectionDateForWarehouse(warehouse);
+        }
     }
 
     public void deleteWarehouse(Warehouse warehouse){
         warehouseHandler.deleteWarehouse(warehouse);
 
-        // // samma för alla CRUD-metoder som kan påverka andra
-        // for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
-        //     if (log.getWarehouse().equals(warehouse)) {
-        //         shipmentLogHandler.deleteShipmentLog(log);
-        //     }
-        // }    
+        // Deletes all shipmentlogs for the warehouse
+        for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+            if (log.getWarehouse().equals(warehouse)) {
+                shipmentLogHandler.deleteShipmentLog(log);
+            } dataService.updateShipmentInformation(log.getShipment());
+        }    
+        //Deletes all inspectionlogs for the warehouse
+        for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
+            if (log.getWarehouse().equals(warehouse)) {
+                inspectionLogHandler.deleteInspectionLog(log);
+            }
+        } 
     }
 
 
@@ -117,7 +146,8 @@ public class DataManager {
 
     public ShipmentLog createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) throws Exception{
         ShipmentLog shipmentLog = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
-        DataService.updateWarehouseInformation(shipmentLog.getWarehouse());
+        dataService.updateWarehouseShipmentInformation(shipmentLog.getWarehouse());
+        dataService.updateShipmentInformation(shipmentLog.getShipment());
         return shipmentLog;
 
     }
@@ -131,16 +161,16 @@ public class DataManager {
         shipmentLogHandler.updateShipmentLog(shipmentLog, field, newValue);
         Warehouse newWarehouse = shipmentLog.getWarehouse();
         
-        DataService.updateWarehouseInformation(oldWarehouse);
+        dataService.updateWarehouseShipmentInformation(oldWarehouse);
         if (!oldWarehouse.equals(newWarehouse)) {
-            DataService.updateWarehouseInformation(newWarehouse);
-        }
-        // shipmentlog for shipment will be gotten through shipmentloghandler, so no need to update that here
+            dataService.updateWarehouseShipmentInformation(newWarehouse);
+        } 
+        dataService.updateShipmentInformation(shipmentLog.getShipment());
     }
 
     public void deleteShipmentLog(ShipmentLog shipmentLog) {
         shipmentLogHandler.deleteShipmentLog(shipmentLog);
-        // DataService.updateWarehouseInformation(shipmentLog.getWarehouse());
+        dataService.updateWarehouseShipmentInformation(shipmentLog.getWarehouse());
     }
 
     // InspectionLogHandler
@@ -150,7 +180,9 @@ public class DataManager {
     }
 
     public InspectionLog createInspectionLog(Shipment shipment, Warehouse warehouse, LocalDate date, String inspector, String result) {
-        return inspectionLogHandler.createInspectionLog(shipment, warehouse, date, inspector, result);
+        InspectionLog newLog = inspectionLogHandler.createInspectionLog(shipment, warehouse, date, inspector, result);
+        dataService.updateMostRecentInspectionDateForWarehouse(warehouse);
+        return newLog;
     }
 
     public ObservableList<InspectionLog> readInspectionLogs() {
@@ -159,10 +191,12 @@ public class DataManager {
 
     public void updateInspectionLog(InspectionLog inspectionLog, UpdateFieldInspectionLog field, Object newValue) throws Exception {
         inspectionLogHandler.updateInspectionLog(inspectionLog, field, newValue);
+        dataService.updateMostRecentInspectionDateForWarehouse(inspectionLog.getWarehouse());
     }
 
     public void deleteInspectionLog(InspectionLog inspectionLog) {
         inspectionLogHandler.deleteInspectionLog(inspectionLog);
+        dataService.updateMostRecentInspectionDateForWarehouse(inspectionLog.getWarehouse());
     }
 
 

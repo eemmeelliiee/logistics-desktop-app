@@ -86,7 +86,7 @@ public class InspectionLogHandler {
     }
 
     public void deleteInspectionLog(InspectionLog inspectionLog) {
-        inspectionLogs.remove(inspectionLog);
+        
     }
 
     public void clearData() {

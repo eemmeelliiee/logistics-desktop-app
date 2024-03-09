@@ -12,5 +12,5 @@ public class Constants {
     public static final String INVALID_FIELD = "Error: Invalid field";
     public static final String INVALID_DATE = "Error: Invalid date";
     public static final String NO_WAREHOUSES_EXIST = "Error: No warehouses exist yet";
-	public static final String NO_SHIPMENT_LOGS_EXIST_FOR_SHIPMENT = "Error: No shipment logs exist for the given shipment";
+	public static final String NO_SHIPMENT_LOGS_EXIST_FOR_SHIPMENT = "Error: No shipmentlogs exist for the given shipment";
 }
