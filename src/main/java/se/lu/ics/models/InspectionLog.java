@@ -62,4 +62,9 @@ public class InspectionLog {
         this.result = result;
     }
 
+    // 
+    public boolean isInspectionOfShipmentLog(ShipmentLog shipmentLog) {
+        return this.shipment.equals(shipmentLog.getShipment()) && this.warehouse.equals(shipmentLog.getWarehouse());
+    }
+
 }

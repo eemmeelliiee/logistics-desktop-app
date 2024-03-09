@@ -22,6 +22,7 @@ public class ShipmentLogHandler {
         ShipmentLog newShipmentLog = new ShipmentLog(date, direction, warehouse, shipment);
         shipmentLogs.add(newShipmentLog);
         return newShipmentLog;
+        
     }
 
     public void updateShipmentLog(ShipmentLog shipmentLog, UpdateFieldShipmentLog field, Object newValue) throws Exception {

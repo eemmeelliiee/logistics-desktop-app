@@ -7,8 +7,8 @@ public class Shipment {
     private String shipmentId;
     private boolean inspected;
     private String label; // sets a label if the shipment is at warehouse > 14 days
-   // private ArrayList <ShipmentLog> shipmentLogs;
-    //private ArrayList <InspectionLog> inspectionsMade;
+    private Warehouse currentWarehouse;
+    private double totalNumberOfWarehouses;
     private static ArrayList<String> generatedIds = new ArrayList<>();
     private static String idCounter = "001";
 
@@ -16,14 +16,16 @@ public class Shipment {
         this.shipmentId = generateShipmentId();
         this.inspected = false;
         this.label = null;
-      //  this.inspectionsMade = new ArrayList<>();
-       // this.shipmentLogs = new ArrayList<>(); // remove these, these are now in ShipmentLogHandler, that is accessed through DataManager
+        this.currentWarehouse = null;
+        this.totalNumberOfWarehouses = 0;
     }
 
     public String generateShipmentId() {
-        String generatedId = idCounter;
-        idCounter = String.format("%03d", Integer.parseInt(idCounter) + 1);
-        return "S" + generatedId;
+        String generatedId = "S" + idCounter;
+        int counter = Integer.parseInt(idCounter);
+        counter++;
+        idCounter = String.format("%03d", counter);
+        return generatedId;
     }
 
     public String getShipmentId() {
@@ -57,7 +59,25 @@ public class Shipment {
         generatedIds.clear();
     }
 
-    // för att kunna använda i combobox
+    public Warehouse getCurrentWarehouse() {
+        return currentWarehouse;
+    }
+
+    public void setCurrentWarehouse(Warehouse currentWarehouse) {
+        this.currentWarehouse = currentWarehouse;
+    }
+
+    public double getTotalNumberOfWarehouses() {
+        return totalNumberOfWarehouses;
+    }
+
+    public void setTotalNumberOfWarehouses(double totalNumberOfWarehouses) {
+        this.totalNumberOfWarehouses = totalNumberOfWarehouses;
+    }
+
+
+
+    // för att kunna använda i combobox - t.ex i combobox i tablecolumn för inspectiones för shipment
     @Override
      public String toString() {
          return shipmentId;

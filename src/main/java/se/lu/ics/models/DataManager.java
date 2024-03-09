@@ -1,6 +1,7 @@
 package se.lu.ics.models;
 import java.time.LocalDate;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart.Data;
 
 
 public class DataManager {
@@ -115,7 +116,10 @@ public class DataManager {
     }
 
     public ShipmentLog createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) throws Exception{
-        return shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+        ShipmentLog shipmentLog = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+        DataService.updateWarehouseInformation(shipmentLog.getWarehouse());
+        return shipmentLog;
+
     }
 
     public ObservableList<ShipmentLog> readShipmentLogs() {
@@ -123,11 +127,20 @@ public class DataManager {
     }
 
     public void updateShipmentLog(ShipmentLog shipmentLog, UpdateFieldShipmentLog field, Object newValue) throws Exception {
+        Warehouse oldWarehouse = shipmentLog.getWarehouse();
         shipmentLogHandler.updateShipmentLog(shipmentLog, field, newValue);
+        Warehouse newWarehouse = shipmentLog.getWarehouse();
+        
+        DataService.updateWarehouseInformation(oldWarehouse);
+        if (!oldWarehouse.equals(newWarehouse)) {
+            DataService.updateWarehouseInformation(newWarehouse);
+        }
+        // shipmentlog for shipment will be gotten through shipmentloghandler, so no need to update that here
     }
 
     public void deleteShipmentLog(ShipmentLog shipmentLog) {
         shipmentLogHandler.deleteShipmentLog(shipmentLog);
+        // DataService.updateWarehouseInformation(shipmentLog.getWarehouse());
     }
 
     // InspectionLogHandler

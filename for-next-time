@@ -1,36 +1,19 @@
-hur snygga till formattering?
 
-HUR:
-if the inspectionentry is the only inspection, set inspected to false
-public void removeInspection(InspectionLog inspection) {
-    if (inspection.getShipment().getInspected()) {
-        inspectionsMade.remove(inspection);
-        System.out.println("Inspection removed from shipment " + inspection.getShipment().getShipmentId());
-    }
-    System.out.println("Shipment has not been inspected yet");
-
-}
-
-if i try to add a shipmentlog to a warehouse that doesnt exist?
 
 glöm inte att make sure alla fält nollställs vid buttonclick!!
-
-if warehouse name matches list of warehouses existing in the system, add shipmentlog to warehouse
-else, print error message
-
 
 ---------------HAM------------------
 överblicka kod, få grepp
 strunta i GUI nu
-skapa handler för inspectionLog (varje klass har en lista,
+<!-- skapa handler för inspectionLog (varje klass har en lista,
     WarehouseHandler har en lista av warehouses, osv.) 
     GÖR TESETER (ny testklass för varje handler, med beforeeach, glöm ej att kasta exeptions)
     skapa instancer av dessa i DataManager 
     skapa ALLA CRUD-funktioner för dessa i DataManager (samt först respektive Handler-klass) (för att centralisera alla UI-funktioner som behövs för att hantera dessa)
-        vilket fel kan hända i en CRUD-funktion= lägg till error handling.
+        vilket fel kan hända i en CRUD-funktion= lägg till error handling. -->
             (när en CRUD-funktion sker i en klass, hur kan detta påverka andra??*)
         se till att forceUpdateOfObservableList() finns i varje handler, i update-funktionerna!
-        ändra endast värden genom DataManager, inte på handlers (DataManager.updateShipmentId, inte shipmentHandler.updateShipmentId)
+        <!-- ändra endast värden genom DataManager, inte på handlers (DataManager.updateShipmentId, inte shipmentHandler.updateShipmentId) -->
 skapa en DataService-klass, inga attributes, bara funktioner som använder DataManager-funktioner
     kommer vilja använda funktioner som t.ex DataManager.getInstance().getShipmentHandler().getShipments()
         (eller i konstruktorn, ha en instans av DataManager (för att kunna använda dess funktioner) ??)
@@ -40,6 +23,8 @@ skapa en DataService-klass, inga attributes, bara funktioner som använder DataM
     - getCurrentShipmentsInWareHouse
 
     - getAllShipmentLogsForShipment
+
+    <!-- MAKE SURE TO UPDATE WAREHOUSES ANS SHIPMENTS IN DATAMANAGER FOR CRUD_FUNCTIONS THAT NEED IT -->
 
     glöm ej 14 dagar => setLabel
 

@@ -1,14 +1,19 @@
 package se.lu.ics.models;
 import java.time.LocalDate;
+import java.time.Period;
 
 
 public class Warehouse {
+
     private String name;
     private Location location;
     private String address;
     private double capacity;
-    private double currentStockLevel; // Get/set ????
-    private LocalDate mostRecentInspectionDate; // get/set ????
+    private double currentStockLevel; 
+    private LocalDate mostRecentInspectionDate; 
+    private double currentAvailableCapacity;
+    private double remainingCapacityInPercent;
+    private Period avarageTimeShipmentSpendsAtWarehouse;
 
     public Warehouse(String name, Location location, String address, double capacity) throws Exception {
         if (capacity < 0) {
@@ -20,6 +25,10 @@ public class Warehouse {
         this.capacity = capacity;
         this.currentStockLevel = 0;
         this.mostRecentInspectionDate = null; // is this needed?
+        this.currentAvailableCapacity = capacity;
+        this.remainingCapacityInPercent = 100;
+        this.avarageTimeShipmentSpendsAtWarehouse = Period.ZERO;
+
     }
 
     public String getName() {
@@ -56,6 +65,47 @@ public class Warehouse {
             this.capacity = capacity;
         }
     }
+
+    public double getCurrentStockLevel() {
+        return currentStockLevel;
+    }
+
+    public void setCurrentStockLevel(double currentStockLevel) {
+        this.currentStockLevel = currentStockLevel;
+    }
+
+    public LocalDate getMostRecentInspectionDate() {
+        return mostRecentInspectionDate;
+    }
+
+    public void setMostRecentInspectionDate(LocalDate mostRecentInspectionDate) {
+        this.mostRecentInspectionDate = mostRecentInspectionDate;
+    }
+
+    public String getRemainingCapacityInPercent() {
+        return remainingCapacityInPercent + "%";
+    }
+
+    public void setRemainingCapacityInPercent(double remainingCapacity) {
+        this.remainingCapacityInPercent = remainingCapacity;
+    }
+
+    public double getCurrentAvailableCapacity() {
+        return currentAvailableCapacity;
+    }
+
+    public void setCurrentAvailableCapacity(double currentAvailableCapacity) {
+        this.currentAvailableCapacity = currentAvailableCapacity;
+    }
+
+    public Period getAvarageTimeShipmentSpendsAtWarehouse() {
+        return avarageTimeShipmentSpendsAtWarehouse;
+    }
+
+    public void setAvarageTimeShipmentSpendsAtWarehouse(Period avarageTimeShipmentSpendsAtWarehouse) {
+        this.avarageTimeShipmentSpendsAtWarehouse = avarageTimeShipmentSpendsAtWarehouse;
+    }
+
 
 
 }

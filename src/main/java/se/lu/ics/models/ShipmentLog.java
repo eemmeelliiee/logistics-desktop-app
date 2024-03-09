@@ -2,6 +2,8 @@ package se.lu.ics.models;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import javafx.collections.ObservableList;
+
 public class ShipmentLog {
 
     private LocalDate date;
@@ -50,6 +52,18 @@ public class ShipmentLog {
     public void setShipment(Shipment shipment) {
         this.shipment = shipment;
     }
+
+    // vad händer här egentligen?
+    public boolean isInspected(ObservableList<InspectionLog> inspectionLogs) {
+        for (InspectionLog inspectionLog : inspectionLogs) {
+            if (inspectionLog.isInspectionOfShipmentLog(this)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
 // used in shipmentloghandler. the ShipmentLog class is responsible for 
 // determining if a ShipmentLog is similar to another and if it needs attention. 

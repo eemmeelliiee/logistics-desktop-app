@@ -62,7 +62,7 @@ public class MainViewController {
         // Code to execute when the button is pressed
         System.out.println("create button was pressed!");
         DataManager.getInstance().createShipment();
-        errorLabel.setText("Warehouse created!  ");
+        errorLabel.setText("shipment was created!  ");
     }   
 
     @FXML
@@ -122,19 +122,23 @@ private void handleButtonUpdateId(ActionEvent event) {
         // hide error messages
         errorLabel.setText("");
 
+        
+
         myComboBox.setItems(DataManager.getInstance().getShipmentHandler().getShipments());
         myComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         
             myLabel.setText(newValue.toString());
 
         });
-
-
+        
             // Make the TableView editable
         myTableView.setEditable(true);
 
+        // sets title of column
+        shipmentIdColumn.setText("Shipment ID");
+
         // Initialize the shipmentId column
-        //shipmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("shipmentId")); // VIKTIGT: KRÄVER EN GETTER I SHIPMENT, FRÅGA COPILOT
+        // shipmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("shipmentId")); // VIKTIGT: KRÄVER EN GETTER I SHIPMENT, FRÅGA COPILOT
         shipmentIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentId()));
 
         // Make the shipmentId column editable
