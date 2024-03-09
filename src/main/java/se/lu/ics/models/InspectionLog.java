@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class InspectionLog {
 
     private Shipment shipment;
-    private Warehouse warehouse; // add set/get
+    private Warehouse warehouse;
     private LocalDate date;
     private String inspector;
     private String result;
@@ -19,8 +19,6 @@ public class InspectionLog {
         this.date = date;
         this.inspector = inspector;
         this.result = result;
-        // shipment.addInspection(this);
-        // warehouse.addInspection(this);
 
     }
 
@@ -30,6 +28,14 @@ public class InspectionLog {
 
     public void setShipment(Shipment shipment) {
         this.shipment = shipment;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 
     public LocalDate getDate() {
@@ -55,27 +61,5 @@ public class InspectionLog {
     public void setResult(String result) {
         this.result = result;
     }
-
-    // public static String inspectionHistory(Shipment shipment){
-    //     return "Inspection history for shipment with ID: " + shipment.getShipmentId() + shipment.getInspectionsMade();
-    // }
-
-    
-    // public String toStringForShipment() {
-    //     return  "\nWarehouse: " + warehouse.getName() +
-    //             "\nDate: " + date +
-    //             "\nInspector: '" + inspector +
-    //             "\nResult: " + result +
-    //             "\n";
-    // }
-    
-    // public String toStringForWarehouse() {
-    //     return  "\nShipmentID: " + shipment.getShipmentId() +
-    //             "\nDate: " + date +
-    //             "\nInspector: '" + inspector +
-    //             "\nResult: " + result +
-    //             "\n";
-    // }
-
 
 }

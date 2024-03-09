@@ -62,8 +62,9 @@ public class WarehouseHandler {
             case CAPACITY:
                 updateWarehouseCapacity(warehouse, (Double) newValue);
                 break;
-            default:
-                throw new IllegalArgumentException("Invalid field: " + field);
+            //     break;
+            // default:
+            //     throw new Exception(Constants.INVALID_FIELD);
         }
     }
 
@@ -78,28 +79,28 @@ public class WarehouseHandler {
         }
 
         public void updateWarehouseLocation(Warehouse warehouse, Location newLocation) {
-            if (warehouse != null){
+            // if (warehouse != null){
                 warehouse.setLocation(newLocation);
                 forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
                 return;
-            }
+            // }
         }
 
         public void updateWarehouseAddress(Warehouse warehouse, String newAddress){
-            if (warehouse != null){
+            // if (warehouse != null){
                 warehouse.setAddress(newAddress);
                 forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
                 return;
-            }
+            // }
 
         }
     
         public void updateWarehouseCapacity(Warehouse warehouse, double newCapacity) throws Exception {
-            if (warehouse != null){
+            // if (warehouse != null){
                 warehouse.setCapacity(newCapacity);
                 forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
                 return;
-            }
+            // }
 
         }
 

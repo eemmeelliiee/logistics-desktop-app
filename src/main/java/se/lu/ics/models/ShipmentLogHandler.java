@@ -17,16 +17,17 @@ public class ShipmentLogHandler {
         return shipmentLogs;
     }
 
-    public ShipmentLog createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment)
-            throws Exception {
+    public ShipmentLog createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) throws Exception {
         validateShipmentLog(shipment, warehouse, direction);
         ShipmentLog newShipmentLog = new ShipmentLog(date, direction, warehouse, shipment);
         shipmentLogs.add(newShipmentLog);
         return newShipmentLog;
     }
 
-    public void updateShipmentLog(ShipmentLog shipmentLog, UpdateFieldShipmentLog field, Object newValue)
-            throws Exception {
+    public void updateShipmentLog(ShipmentLog shipmentLog, UpdateFieldShipmentLog field, Object newValue) throws Exception {
+        if (newValue == null || newValue.equals("")) {
+            throw new Exception(Constants.CANNOT_BE_EMPTY);
+        }
         switch (field) {
             case SHIPMENT:
                 Shipment newShipment = (Shipment) newValue;
@@ -49,6 +50,8 @@ public class ShipmentLogHandler {
                         shipmentLog.getWarehouse());
                 shipmentLog.setDate(newDate);
                 break;
+            // default:
+            //     throw new Exception(Constants.INVALID_FIELD);
         }
         updateAttentionStatus();
     }
@@ -57,23 +60,21 @@ public class ShipmentLogHandler {
         shipmentLogs.remove(shipmentLog);
     }
 
-    // private void updateLog(ShipmentLog shipmentLog, LocalDate newDate, Direction
-    // newDirection, Warehouse newWarehouse,
-    // Shipment newShipment) throws Exception {
-    // validateDate(newDate, newDirection, newShipment, newWarehouse);
-    // shipmentLog.setShipment(newShipment);
-    // shipmentLog.setWarehouse(newWarehouse);
-    // shipmentLog.setDirection(newDirection);
-    // shipmentLog.setDate(newDate);
-    // updateAttentionStatus();
+    // private void updateLog(ShipmentLog shipmentLog, LocalDate newDate, Direction newDirection, Warehouse newWarehouse,
+    //         Shipment newShipment) throws Exception {
+    //     validateDate(newDate, newDirection, newShipment, newWarehouse);
+    //     shipmentLog.setShipment(newShipment);
+    //     shipmentLog.setWarehouse(newWarehouse);
+    //     shipmentLog.setDirection(newDirection);
+    //     shipmentLog.setDate(newDate);
+    //     updateAttentionStatus();
     // }
 
-    public void validateDate(LocalDate date, Direction direction, Shipment shipment, Warehouse warehouse)
-        throws Exception {
-    ShipmentLog existingLog = findShipmentLog(shipment, warehouse, direction);
-    if (existingLog != null) {
-        ShipmentLog incomingLog = findShipmentLog(shipment, warehouse, Direction.INCOMING);
-        ShipmentLog outgoingLog = findShipmentLog(shipment, warehouse, Direction.OUTGOING);
+    private void validateDate(LocalDate date, Direction direction, Shipment shipment, Warehouse warehouse) throws Exception {
+        ShipmentLog existingLog = findShipmentLog(shipment, warehouse, direction);
+        if (existingLog != null) {
+            ShipmentLog incomingLog = findShipmentLog(shipment, warehouse, Direction.INCOMING);
+            ShipmentLog outgoingLog = findShipmentLog(shipment, warehouse, Direction.OUTGOING);
 
         if (direction == Direction.OUTGOING && incomingLog != null && date.isBefore(incomingLog.getDate())) {
             throw new Exception("Outgoing date " + date + " cannot be before incoming date");
@@ -110,13 +111,12 @@ public class ShipmentLogHandler {
         int oppositeDirectionCount = countLogs(shipment, warehouse, direction.opposite());
     
         if (sameDirectionCount > oppositeDirectionCount) {
-            throw new Exception(
-                    "Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
+            throw new Exception("Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
         }
     
         if (sameDirectionCount == oppositeDirectionCount && sameDirectionCount > 0) {
-            System.err.println(
-                    "Warning: A shipment log with the same shipment, warehouse and direction already exists with an equal amount of corresponding logs with the opposite direction.");
+            // make sure error is printed in the console and in GUI
+            System.err.println("Warning: Transportation loop detected");
         }
     }
 

@@ -1,9 +1,5 @@
 package se.lu.ics.models;
-
-import java.io.*;
 import java.time.LocalDate;
-import java.util.*;
-
 import javafx.collections.ObservableList;
 
 
@@ -12,8 +8,7 @@ public class DataManager {
     private ShipmentHandler shipmentHandler;
     private WarehouseHandler warehouseHandler;
     private ShipmentLogHandler shipmentLogHandler;
-    // samma för dessa v, det är dessa som har själva listorna av sig sjäva
-    private ArrayList<InspectionLog> inspectionLogs;
+    private InspectionLogHandler inspectionLogHandler;
     
    // private Stack<Shipment> deletedShipments;
 
@@ -33,9 +28,7 @@ public class DataManager {
         shipmentHandler = new ShipmentHandler();
         warehouseHandler = new WarehouseHandler();
         shipmentLogHandler = new ShipmentLogHandler();
-
-        // se till att denna v blir handlers!
-        inspectionLogs = new ArrayList<>();
+        inspectionLogHandler = new InspectionLogHandler();
 
         // kanske skapa stack för att undo removements
         //deletedShipments = new Stack<>();
@@ -58,10 +51,24 @@ public class DataManager {
 
     public void updateShipmentId(Shipment shipment, String newId) throws Exception {
         shipmentHandler.updateShipmentId(shipment, newId);
+
+        // is this the way to go?
+        // for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+        //     if (log.getShipment().equals(shipment)) {
+        //         shipmentLogHandler.updateShipmentLog(log, UpdateFieldShipmentLog.SHIPMENT, shipment);
+        //     }
+        // }
     }
 
     public void deleteShipment(Shipment shipment){
         shipmentHandler.deleteShipment(shipment);
+
+        // is this the way to go?
+        // for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+        //     if (log.getShipment().equals(shipment)) {
+        //         shipmentLogHandler.deleteShipmentLog(log);
+        //     }
+        // }
     }
 
 
@@ -81,10 +88,23 @@ public class DataManager {
 
     public void updateWarehouse(Warehouse warehouse, UpdateFieldWarehouse field, Object newValue) throws Exception {
         warehouseHandler.updateWarehouse(warehouse, field, newValue);
+        // is this the way to go?
+        // for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+        //     if (log.getWarehouse().equals(warehouse)) {
+        //         shipmentLogHandler.updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
+        //     }
+        // }
     }
 
     public void deleteWarehouse(Warehouse warehouse){
         warehouseHandler.deleteWarehouse(warehouse);
+
+        // // samma för alla CRUD-metoder som kan påverka andra
+        // for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+        //     if (log.getWarehouse().equals(warehouse)) {
+        //         shipmentLogHandler.deleteShipmentLog(log);
+        //     }
+        // }    
     }
 
 
@@ -109,6 +129,29 @@ public class DataManager {
     public void deleteShipmentLog(ShipmentLog shipmentLog) {
         shipmentLogHandler.deleteShipmentLog(shipmentLog);
     }
+
+    // InspectionLogHandler
+
+    public InspectionLogHandler getInspectionLogHandler() {
+        return inspectionLogHandler;
+    }
+
+    public InspectionLog createInspectionLog(Shipment shipment, Warehouse warehouse, LocalDate date, String inspector, String result) {
+        return inspectionLogHandler.createInspectionLog(shipment, warehouse, date, inspector, result);
+    }
+
+    public ObservableList<InspectionLog> readInspectionLogs() {
+        return inspectionLogHandler.getInspectionLogs();
+    }
+
+    public void updateInspectionLog(InspectionLog inspectionLog, UpdateFieldInspectionLog field, Object newValue) throws Exception {
+        inspectionLogHandler.updateInspectionLog(inspectionLog, field, newValue);
+    }
+
+    public void deleteInspectionLog(InspectionLog inspectionLog) {
+        inspectionLogHandler.deleteInspectionLog(inspectionLog);
+    }
+
 
 
 

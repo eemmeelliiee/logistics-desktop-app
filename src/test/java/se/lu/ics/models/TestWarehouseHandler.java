@@ -131,8 +131,6 @@ public class TestWarehouseHandler {
         Warehouse warehouse = dataManager.createWarehouse("TestWarehouse", Location.NORTH, "TestAddress", 100.0);
         assertThrows(Exception.class, () -> warehouseHandler.doesAWarehouseExistWithName(null));
     }
-
-
     
 }
 

@@ -22,7 +22,7 @@ else, print error message
 ---------------HAM------------------
 överblicka kod, få grepp
 strunta i GUI nu
-skapa handlers för inspectionLog och shipmentlog (shipmentlog innehåller ju shipment och warehouse)(varje klass har en lista,
+skapa handler för inspectionLog (varje klass har en lista,
     WarehouseHandler har en lista av warehouses, osv.) 
     GÖR TESETER (ny testklass för varje handler, med beforeeach, glöm ej att kasta exeptions)
     skapa instancer av dessa i DataManager 
