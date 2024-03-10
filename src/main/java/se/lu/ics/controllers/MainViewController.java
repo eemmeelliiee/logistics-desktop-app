@@ -28,6 +28,8 @@ public class MainViewController {
 
     //private Stack<Shipment> deletedShipments;
 
+    private DataManager dataManager = DataManager.getInstance();
+
     @FXML
     private ComboBox<Shipment> myComboBox;
 
@@ -61,7 +63,7 @@ public class MainViewController {
     private void handleButtonCreateButton(ActionEvent event) {
         // Code to execute when the button is pressed
         System.out.println("create button was pressed!");
-        DataManager.getInstance().createShipment();
+        dataManager.createShipment();
         errorLabel.setText("shipment was created!  ");
     }   
 
@@ -70,7 +72,7 @@ public class MainViewController {
         Shipment selectedShipment = myTableView.getSelectionModel().getSelectedItem();
         if (selectedShipment != null) {
             // Remove the selected shipment from the data source
-            DataManager.getInstance().deleteShipment(selectedShipment);
+            dataManager.deleteShipment(selectedShipment);
             // Refresh the table view
             myTableView.getItems().remove(selectedShipment);
         } else {
@@ -107,7 +109,7 @@ private void handleButtonUpdateId(ActionEvent event) {
     myTableView.refresh();
 
     try {
-        DataManager.getInstance().getShipmentHandler().updateShipmentId(selectedShipment, newId);
+        dataManager.updateShipmentId(selectedShipment, newId);
         errorLabel.setText("");
         newIdTextField.setText("");
     } catch (Exception e) {
@@ -124,7 +126,7 @@ private void handleButtonUpdateId(ActionEvent event) {
 
         
 
-        myComboBox.setItems(DataManager.getInstance().getShipmentHandler().getShipments());
+        myComboBox.setItems(dataManager.readShipments());
         myComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         
             myLabel.setText(newValue.toString());
@@ -153,7 +155,7 @@ private void handleButtonUpdateId(ActionEvent event) {
             try 
             {
                 // maybe change updatedShipmentId to take a reference to Shipment instead of having to write shipment.getShipmentId()
-                DataManager.getInstance().getShipmentHandler().updateShipmentId(shipment, newValueAsStringProperty);
+                dataManager.updateShipmentId(shipment, newValueAsStringProperty);
                 errorLabel.setText("Shipment ID updated!");
             } 
             catch (Exception e) 
@@ -167,7 +169,7 @@ private void handleButtonUpdateId(ActionEvent event) {
         });
 
         // Set the items of the table view
-        myTableView.setItems(DataManager.getInstance().getShipmentHandler().getShipments());
+        myTableView.setItems(dataManager.readShipments());
 
 
     

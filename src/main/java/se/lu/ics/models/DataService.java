@@ -13,6 +13,10 @@ import javafx.collections.FXCollections;
 public class DataService {
 
     private static DataService instance;
+    private WarehouseHandler warehouseHandler;
+    private InspectionLogHandler inspectionLogHandler;
+    private ShipmentLogHandler shipmentLogHandler;
+
 
     public static DataService getInstance() {
         if (instance == null) {
@@ -22,13 +26,16 @@ public class DataService {
     }
 
     private DataService() {
+        warehouseHandler = WarehouseHandler.getInstance();
+        inspectionLogHandler = InspectionLogHandler.getInstance();
+        shipmentLogHandler = ShipmentLogHandler.getInstance();
     }
 
     // Get ShipmentLogs for Warehouse and Shipment
 
     public ObservableList<ShipmentLog> getShipmentLogsForWarehouse(Warehouse warehouse) {
         ObservableList<ShipmentLog> shipmentLogsForWarehouse = FXCollections.observableArrayList();
-        for (ShipmentLog shipmentLog : ShipmentLogHandler.getInstance().getShipmentLogs()) {
+        for (ShipmentLog shipmentLog : shipmentLogHandler.getShipmentLogs()) {
             if (shipmentLog.getWarehouse().equals(warehouse)) {
                 shipmentLogsForWarehouse.add(shipmentLog);
             }
@@ -38,7 +45,7 @@ public class DataService {
 
     public ObservableList<ShipmentLog> getShipmentLogsForShipment(Shipment shipment) {
         ObservableList<ShipmentLog> shipmentLogsForShipment = FXCollections.observableArrayList();
-        for (ShipmentLog shipmentLog : ShipmentLogHandler.getInstance().getShipmentLogs()) {
+        for (ShipmentLog shipmentLog : shipmentLogHandler.getShipmentLogs()) {
             if (shipmentLog.getShipment().equals(shipment)) {
                 shipmentLogsForShipment.add(shipmentLog);
             }
@@ -50,7 +57,7 @@ public class DataService {
 
     public ObservableList<InspectionLog> getInspectionsLogsForShipment(Shipment shipment) {
         ObservableList<InspectionLog> inspectionLogsForShipment = FXCollections.observableArrayList();
-        for (InspectionLog inspectionLog : InspectionLogHandler.getInstance().getInspectionLogs()) {
+        for (InspectionLog inspectionLog : inspectionLogHandler.getInspectionLogs()) {
             if (inspectionLog.getShipment().equals(shipment)) {
                 inspectionLogsForShipment.add(inspectionLog);
             }
@@ -60,7 +67,7 @@ public class DataService {
 
     public ObservableList<InspectionLog> getInspectionLogsForWarehouse(Warehouse warehouse) {
         ObservableList<InspectionLog> inspectionLogsForWarehouse = FXCollections.observableArrayList();
-        for (InspectionLog inspectionLog : InspectionLogHandler.getInstance().getInspectionLogs()) {
+        for (InspectionLog inspectionLog : inspectionLogHandler.getInspectionLogs()) {
             if (inspectionLog.getWarehouse().equals(warehouse)) {
                 inspectionLogsForWarehouse.add(inspectionLog);
             }
@@ -270,7 +277,7 @@ public class DataService {
     public String findBusiestWarehouse() {
         List<Warehouse> busiestWarehouses = new ArrayList<>();
         double highestStockLevelRatio = 0;
-        ObservableList<Warehouse> warehouses = WarehouseHandler.getInstance().getWarehouses();
+        ObservableList<Warehouse> warehouses = warehouseHandler.getWarehouses();
     
         for (Warehouse warehouse : warehouses) {
             double currentStockLevel = warehouse.getCurrentStockLevel();
@@ -310,7 +317,7 @@ public class DataService {
 
         for (Location location : Location.values()) {
             double currentAvailableCapacity = 0;
-            for (Warehouse warehouse : WarehouseHandler.getInstance().getWarehouses()) {
+            for (Warehouse warehouse : warehouseHandler.getWarehouses()) {
                 if (warehouse.getLocation().equals(location)) {
                     currentAvailableCapacity += warehouse.getCurrentAvailableCapacity();
                 }

@@ -14,6 +14,12 @@ public class DataManager {
    // private Stack<Shipment> deletedShipments;
 
     private static DataManager instance;
+    private DataService dataService;
+    private ShipmentHandler shipmentHandler;
+    private WarehouseHandler warehouseHandler;
+    private ShipmentLogHandler shipmentLogHandler;
+    private InspectionLogHandler inspectionLogHandler;
+
 
     // Method that make the DataManager "static"
     public static DataManager getInstance() {
@@ -25,6 +31,11 @@ public class DataManager {
 
 
     private DataManager() {
+        this.dataService = DataService.getInstance();
+        this.shipmentHandler = ShipmentHandler.getInstance();
+        this.warehouseHandler = WarehouseHandler.getInstance();
+        this.shipmentLogHandler = ShipmentLogHandler.getInstance();
+        this.inspectionLogHandler = InspectionLogHandler.getInstance();
 
         // shipmentHandler = new ShipmentHandler();
         // warehouseHandler = new WarehouseHandler();
@@ -44,24 +55,24 @@ public class DataManager {
     // }
 
     public Shipment createShipment() {
-        return ShipmentHandler.getInstance().createShipment();
+        return shipmentHandler.createShipment();
     }
 
     public ObservableList<Shipment> readShipments() {
-        return ShipmentHandler.getInstance().getShipments();
+        return shipmentHandler.getShipments();
     }
 
     public void updateShipmentId(Shipment shipment, String newId) throws Exception {
-        ShipmentHandler.getInstance().updateShipmentId(shipment, newId);
+        shipmentHandler.updateShipmentId(shipment, newId);
     
         // Updates the shipmentId for all shipmentlogs that has the shipment
-        for (ShipmentLog log : ShipmentLogHandler.getInstance().getShipmentLogs()) {
+        for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
             if (log.getShipment().equals(shipment)) {
                 updateShipmentLog(log, UpdateFieldShipmentLog.SHIPMENT, shipment);
             }
         }
         // Updates the shipmentId for all inspectionlogs that has the shipment
-        for (InspectionLog log : InspectionLogHandler.getInstance().getInspectionLogs()) {
+        for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
             if (log.getShipment().equals(shipment)) {
                 updateInspectionLog(log, UpdateFieldInspectionLog.SHIPMENT, shipment);
             }
@@ -69,16 +80,16 @@ public class DataManager {
     }
 
     public void deleteShipment(Shipment shipment){
-        ShipmentHandler.getInstance().deleteShipment(shipment);
+        shipmentHandler.deleteShipment(shipment);
 
         // is this the way to go?
-        for (ShipmentLog log : ShipmentLogHandler.getInstance().getShipmentLogs()) {
+        for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
             if (log.getShipment().equals(shipment)) {
                 deleteShipmentLog(log);
             }
         }
         //Deletes all inspectionlogs for the shipment
-        for (InspectionLog log : InspectionLogHandler.getInstance().getInspectionLogs()) {
+        for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
             if (log.getShipment().equals(shipment)) {
                 deleteInspectionLog(log);
             } 
@@ -93,43 +104,43 @@ public class DataManager {
     // }
 
     public Warehouse createWarehouse(String name, Location location, String address, double capacity) throws Exception {
-        return WarehouseHandler.getInstance().createWarehouse(name, location, address, capacity);
+        return warehouseHandler.createWarehouse(name, location, address, capacity);
     }
 
     public ObservableList<Warehouse> readWarehouses() {
-        return WarehouseHandler.getInstance().getWarehouses();
+        return warehouseHandler.getWarehouses();
     }
 
     public void updateWarehouse(Warehouse warehouse, UpdateFieldWarehouse field, Object newValue) throws Exception {
-        WarehouseHandler.getInstance().updateWarehouse(warehouse, field, newValue);
+        warehouseHandler.updateWarehouse(warehouse, field, newValue);
      
         // Updates the warehouse for all shipmentlogs that has the warehouse
-        for (ShipmentLog log : ShipmentLogHandler.getInstance().getShipmentLogs()) {
+        for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
             if (log.getWarehouse().equals(warehouse)) {
                 updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
-            } DataService.getInstance().updateWarehouseShipmentInformation(warehouse);
-              DataService.getInstance().updateShipmentInformation(log.getShipment());
+            } dataService.updateWarehouseShipmentInformation(warehouse);
+              dataService.updateShipmentInformation(log.getShipment());
         }
 
         // Updates the warehouse for all inspectionlogs that has the warehouse
-        for (InspectionLog log : InspectionLogHandler.getInstance().getInspectionLogs()) {
+        for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
             if (log.getWarehouse().equals(warehouse)) {
                 updateInspectionLog(log, UpdateFieldInspectionLog.WAREHOUSE, warehouse);
-            } DataService.getInstance().updateMostRecentInspectionDateForWarehouse(warehouse);
+            } dataService.updateMostRecentInspectionDateForWarehouse(warehouse);
         }
     }
 
     public void deleteWarehouse(Warehouse warehouse){
-        WarehouseHandler.getInstance().deleteWarehouse(warehouse);
+        warehouseHandler.deleteWarehouse(warehouse);
 
         // Deletes all shipmentlogs for the warehouse
-        for (ShipmentLog log : ShipmentLogHandler.getInstance().getShipmentLogs()) {
+        for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
             if (log.getWarehouse().equals(warehouse)) {
                 deleteShipmentLog(log);
-            } DataService.getInstance().updateShipmentInformation(log.getShipment());
+            } dataService.updateShipmentInformation(log.getShipment());
         }    
         //Deletes all inspectionlogs for the warehouse
-        for (InspectionLog log : InspectionLogHandler.getInstance().getInspectionLogs()) {
+        for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
             if (log.getWarehouse().equals(warehouse)) {
                 deleteInspectionLog(log);
             }
@@ -144,32 +155,32 @@ public class DataManager {
     // }
 
     public ShipmentLog createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) throws Exception{
-        ShipmentLog shipmentLog = ShipmentLogHandler.getInstance().createShipmentLog(date, direction, warehouse, shipment);
-        DataService.getInstance().updateWarehouseShipmentInformation(warehouse);
-        DataService.getInstance().updateShipmentInformation(shipment);
+        ShipmentLog shipmentLog = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
+        dataService.updateWarehouseShipmentInformation(warehouse);
+        dataService.updateShipmentInformation(shipment);
         return shipmentLog;
 
     }
 
     public ObservableList<ShipmentLog> readShipmentLogs() {
-        return ShipmentLogHandler.getInstance().getShipmentLogs();
+        return shipmentLogHandler.getShipmentLogs();
     }
 
     public void updateShipmentLog(ShipmentLog shipmentLog, UpdateFieldShipmentLog field, Object newValue) throws Exception {
         Warehouse oldWarehouse = shipmentLog.getWarehouse();
-        ShipmentLogHandler.getInstance().updateShipmentLog(shipmentLog, field, newValue);
+        shipmentLogHandler.updateShipmentLog(shipmentLog, field, newValue);
         Warehouse newWarehouse = shipmentLog.getWarehouse();
         
-        DataService.getInstance().updateWarehouseShipmentInformation(oldWarehouse);
+        dataService.updateWarehouseShipmentInformation(oldWarehouse);
         if (!oldWarehouse.equals(newWarehouse)) {
-            DataService.getInstance().updateWarehouseShipmentInformation(newWarehouse);
+            dataService.updateWarehouseShipmentInformation(newWarehouse);
         } 
-        DataService.getInstance().updateShipmentInformation(shipmentLog.getShipment());
+        dataService.updateShipmentInformation(shipmentLog.getShipment());
     }
 
     public void deleteShipmentLog(ShipmentLog shipmentLog) {
-        ShipmentLogHandler.getInstance().deleteShipmentLog(shipmentLog);
-        DataService.getInstance().updateWarehouseShipmentInformation(shipmentLog.getWarehouse());
+        shipmentLogHandler.deleteShipmentLog(shipmentLog);
+        dataService.updateWarehouseShipmentInformation(shipmentLog.getWarehouse());
     }
 
     // InspectionLogHandler
@@ -179,23 +190,23 @@ public class DataManager {
     // }
 
     public InspectionLog createInspectionLog(Shipment shipment, Warehouse warehouse, LocalDate date, String inspector, String result) {
-        InspectionLog newLog = InspectionLogHandler.getInstance().createInspectionLog(shipment, warehouse, date, inspector, result);
-        DataService.getInstance().updateMostRecentInspectionDateForWarehouse(warehouse);
+        InspectionLog newLog = inspectionLogHandler.createInspectionLog(shipment, warehouse, date, inspector, result);
+        dataService.updateMostRecentInspectionDateForWarehouse(warehouse);
         return newLog;
     }
 
     public ObservableList<InspectionLog> readInspectionLogs() {
-        return InspectionLogHandler.getInstance().getInspectionLogs();
+        return inspectionLogHandler.getInspectionLogs();
     }
 
     public void updateInspectionLog(InspectionLog inspectionLog, UpdateFieldInspectionLog field, Object newValue) throws Exception {
-        InspectionLogHandler.getInstance().updateInspectionLog(inspectionLog, field, newValue);
-        DataService.getInstance().updateMostRecentInspectionDateForWarehouse(inspectionLog.getWarehouse());
+        inspectionLogHandler.updateInspectionLog(inspectionLog, field, newValue);
+        dataService.updateMostRecentInspectionDateForWarehouse(inspectionLog.getWarehouse());
     }
 
     public void deleteInspectionLog(InspectionLog inspectionLog) {
-        InspectionLogHandler.getInstance().deleteInspectionLog(inspectionLog);
-        DataService.getInstance().updateMostRecentInspectionDateForWarehouse(inspectionLog.getWarehouse());
+        inspectionLogHandler.deleteInspectionLog(inspectionLog);
+        dataService.updateMostRecentInspectionDateForWarehouse(inspectionLog.getWarehouse());
     }
 
 
@@ -263,10 +274,10 @@ public class DataManager {
 // behövs bara för tester
     public void clearData() {
 
-        ShipmentHandler.getInstance().clearData();
-        WarehouseHandler.getInstance().clearData();
-        InspectionLogHandler.getInstance().clearData();
-        ShipmentLogHandler.getInstance().clearData();
+        shipmentHandler.clearData();
+        warehouseHandler.clearData();
+        inspectionLogHandler.clearData();
+        shipmentLogHandler.clearData();
         // saem for dataService???
 
 
