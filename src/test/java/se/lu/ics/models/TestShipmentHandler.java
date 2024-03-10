@@ -19,17 +19,15 @@ import static org.junit.jupiter.api.DynamicTest.stream;
 public class TestShipmentHandler {
 
     DataManager dataManager;
-    ShipmentHandler shipmentHandler;
 
     @BeforeEach
     public void setUp() {
         dataManager = DataManager.getInstance();
-        shipmentHandler = ShipmentHandler.getInstance();
     }
 
      @AfterEach
     public void tearDown() {
-        shipmentHandler.getShipments().clear();
+        DataManager.getInstance().clearData();
     }
 
     @Test
