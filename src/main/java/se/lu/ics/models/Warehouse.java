@@ -106,6 +106,8 @@ public class Warehouse {
         this.averageTimeShipmentSpendsAtWarehouse = averageTimeShipmentSpendsAtWarehouse;
     }
 
+    
+
 
 
 }

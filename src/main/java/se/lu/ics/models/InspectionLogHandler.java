@@ -11,10 +11,18 @@ import javafx.collections.ObservableList;
 public class InspectionLogHandler {
 
     private ObservableList<InspectionLog> inspectionLogs;
+    private static InspectionLogHandler instance;
 
-    public InspectionLogHandler() {
+    private InspectionLogHandler() {
         inspectionLogs = FXCollections.observableList(new ArrayList<>());
 
+    }
+
+    public static InspectionLogHandler getInstance() {
+        if (instance == null) {
+            instance = new InspectionLogHandler();
+        }
+        return instance;
     }
 
     public ObservableList<InspectionLog> getInspectionLogs() {

@@ -10,9 +10,17 @@ import javafx.collections.ObservableList;
 public class ShipmentHandler {
 
     private ObservableList<Shipment> shipments;
+    private static ShipmentHandler instance;
 
-    public ShipmentHandler() {
+    private ShipmentHandler() {
         shipments = FXCollections.observableList(new ArrayList<>());
+    }
+
+    public static ShipmentHandler getInstance() {
+        if (instance == null) {
+            instance = new ShipmentHandler();
+        }
+        return instance;
     }
 
     public ObservableList<Shipment> getShipments() {

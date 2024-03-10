@@ -5,22 +5,30 @@ import javafx.util.Pair;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.collections.FXCollections;
 
 public class DataService {
 
-    private static DataManager dataManager;
+    private static DataService instance;
 
-    public DataService() {
-        dataManager = DataManager.getInstance();
+    public static DataService getInstance() {
+        if (instance == null) {
+            instance = new DataService();
+        }
+        return instance;
+    }
+
+    private DataService() {
     }
 
     // Get ShipmentLogs for Warehouse and Shipment
 
-    public static ObservableList<ShipmentLog> getShipmentLogsForWarehouse(Warehouse warehouse) {
+    public ObservableList<ShipmentLog> getShipmentLogsForWarehouse(Warehouse warehouse) {
         ObservableList<ShipmentLog> shipmentLogsForWarehouse = FXCollections.observableArrayList();
-        for (ShipmentLog shipmentLog : dataManager.getShipmentLogHandler().getShipmentLogs()) {
+        for (ShipmentLog shipmentLog : ShipmentLogHandler.getInstance().getShipmentLogs()) {
             if (shipmentLog.getWarehouse().equals(warehouse)) {
                 shipmentLogsForWarehouse.add(shipmentLog);
             }
@@ -28,9 +36,9 @@ public class DataService {
         return shipmentLogsForWarehouse;
     }
 
-    public static ObservableList<ShipmentLog> getShipmentLogsForShipment(Shipment shipment) {
+    public ObservableList<ShipmentLog> getShipmentLogsForShipment(Shipment shipment) {
         ObservableList<ShipmentLog> shipmentLogsForShipment = FXCollections.observableArrayList();
-        for (ShipmentLog shipmentLog : dataManager.getShipmentLogHandler().getShipmentLogs()) {
+        for (ShipmentLog shipmentLog : ShipmentLogHandler.getInstance().getShipmentLogs()) {
             if (shipmentLog.getShipment().equals(shipment)) {
                 shipmentLogsForShipment.add(shipmentLog);
             }
@@ -40,9 +48,9 @@ public class DataService {
 
     // Get InspectionLogs for Warehouse and Shipment
 
-    public static ObservableList<InspectionLog> getInspectionsLogsForShipment(Shipment shipment) {
+    public ObservableList<InspectionLog> getInspectionsLogsForShipment(Shipment shipment) {
         ObservableList<InspectionLog> inspectionLogsForShipment = FXCollections.observableArrayList();
-        for (InspectionLog inspectionLog : dataManager.getInspectionLogHandler().getInspectionLogs()) {
+        for (InspectionLog inspectionLog : InspectionLogHandler.getInstance().getInspectionLogs()) {
             if (inspectionLog.getShipment().equals(shipment)) {
                 inspectionLogsForShipment.add(inspectionLog);
             }
@@ -50,9 +58,9 @@ public class DataService {
         return inspectionLogsForShipment;
     }
 
-    public static ObservableList<InspectionLog> getInspectionLogsForWarehouse(Warehouse warehouse) {
+    public ObservableList<InspectionLog> getInspectionLogsForWarehouse(Warehouse warehouse) {
         ObservableList<InspectionLog> inspectionLogsForWarehouse = FXCollections.observableArrayList();
-        for (InspectionLog inspectionLog : dataManager.getInspectionLogHandler().getInspectionLogs()) {
+        for (InspectionLog inspectionLog : InspectionLogHandler.getInstance().getInspectionLogs()) {
             if (inspectionLog.getWarehouse().equals(warehouse)) {
                 inspectionLogsForWarehouse.add(inspectionLog);
             }
@@ -107,7 +115,7 @@ public class DataService {
         }
     }
 
-    public static void updateAverageTimeShipmentSpendsAtWarehouse(Warehouse warehouse) {
+    public void updateAverageTimeShipmentSpendsAtWarehouse(Warehouse warehouse) {
         int totalDays = 0;
         int numberOfShipments = 0;
         for (ShipmentLog shipmentLog : getShipmentLogsForWarehouse(warehouse)) {
@@ -163,10 +171,106 @@ public class DataService {
         shipment.setTotalNumberOfWarehouses(totalNumberOfWarehouses);
     }
 
+    // public String findBusiestWarehouses() {
+    // List<Warehouse> busiestWarehouses = new ArrayList<>();
+    // double highestStockLevelRatio = 0;
+    // ObservableList<Warehouse> warehouses = WarehouseHandler.getInstance().getWarehouses();
+
+    // for (Warehouse warehouse : warehouses) {
+    //     double currentStockLevel = warehouse.getCurrentStockLevel();
+    //     double totalCapacity = warehouse.getCapacity();
+    //     double stockLevelRatio = currentStockLevel / totalCapacity;
+    //     if (stockLevelRatio > highestStockLevelRatio) {
+    //         highestStockLevelRatio = stockLevelRatio;
+    //         busiestWarehouses.clear();
+    //         busiestWarehouses.add(warehouse);
+    //     } else if (stockLevelRatio == highestStockLevelRatio) {
+    //         busiestWarehouses.add(warehouse);
+    //     }
+    // }
+
+    // if (busiestWarehouses.isEmpty()) {
+    //     return Constants.NO_WAREHOUSES_EXIST;
+    // } else {
+    //     StringBuilder busiestWarehousesNames = new StringBuilder();
+    //     for (Warehouse warehouse : busiestWarehouses) {
+    //         if (busiestWarehousesNames.length() > 0) {
+    //             busiestWarehousesNames.append(", ");
+    //         }
+    //         busiestWarehousesNames.append(warehouse.getName());
+    //     }
+    //     String isOrAre = busiestWarehouses.size() > 1 ? "are" : "is";
+    //     return "Busiest warehouse(s) " + isOrAre + ": " + busiestWarehousesNames.toString() + ", using " + (highestStockLevelRatio * 100)
+    //             + "% of capacity";
+    // }
+    // }
+
+    // public String findBusiestWarehouse() {
+    //     Warehouse busiestWarehouse = null;
+    //     double highestStockLevelRatio = 0;
+    //     ObservableList<Warehouse> warehouses = WarehouseHandler.getInstance().getWarehouses();
+    
+    //     for (Warehouse warehouse : warehouses) {
+    //         double currentStockLevel = warehouse.getCurrentStockLevel();
+    //         double totalCapacity = warehouse.getCapacity();
+    //         double stockLevelRatio = currentStockLevel / totalCapacity;
+    //         if (stockLevelRatio > highestStockLevelRatio) {
+    //             highestStockLevelRatio = stockLevelRatio;
+    //             busiestWarehouse = warehouse;
+    //         }
+    //         if (getShipmentLogsForWarehouse(busiestWarehouse).isEmpty()) {
+    //             return Constants.NO_SHIPMENT_LOGS_EXIST;
+    //         }
+    //     }
+    //     if (busiestWarehouse == null) {
+    //         return Constants.NO_WAREHOUSES_EXIST;
+    //     } else {
+    //         String busiestWarehouseName = busiestWarehouse.getName();
+    //         return "Busiest warehouse is: " + busiestWarehouseName + ", using " + (highestStockLevelRatio * 100)
+    //                 + "% of capacity";
+    //     }
+    // }
+
+    // public String findBusiestWarehouse() {
+    //     List<Warehouse> busiestWarehouses = new ArrayList<>();
+    //     double highestStockLevelRatio = 0;
+    //     ObservableList<Warehouse> warehouses = WarehouseHandler.getInstance().getWarehouses();
+    
+    //     for (Warehouse warehouse : warehouses) {
+    //         double currentStockLevel = warehouse.getCurrentStockLevel();
+    //         double totalCapacity = warehouse.getCapacity();
+    //         double stockLevelRatio = currentStockLevel / totalCapacity;
+    //         if (stockLevelRatio > highestStockLevelRatio) {
+    //             highestStockLevelRatio = stockLevelRatio;
+    //             busiestWarehouses.clear();
+    //             busiestWarehouses.add(warehouse);
+    //         } else if (stockLevelRatio == highestStockLevelRatio) {
+    //             busiestWarehouses.add(warehouse);
+    //         }
+    //     }
+    
+    //     if (busiestWarehouses.isEmpty()) {
+    //         return Constants.NO_WAREHOUSES_EXIST;
+    //     } else {
+    //         StringBuilder busiestWarehousesNames = new StringBuilder();
+    //         for (Warehouse warehouse : busiestWarehouses) {
+    //             if (getShipmentLogsForWarehouse(warehouse).isEmpty()) {
+    //                 return Constants.NO_SHIPMENT_LOGS_EXIST;
+    //             }
+    //             if (busiestWarehousesNames.length() > 0) {
+    //                 busiestWarehousesNames.append(", ");
+    //             }
+    //             busiestWarehousesNames.append(warehouse.getName());
+    //         }
+    //         String isOrAre = busiestWarehouses.size() > 1 ? "s are" : " is";
+    //         return "Busiest warehouse" + isOrAre + ": " + busiestWarehousesNames.toString() + ", using " + (highestStockLevelRatio * 100)
+    //                 + "% of capacity";
+    //     }
+    // }
     public String findBusiestWarehouse() {
-        Warehouse busiestWarehouse = null;
+        List<Warehouse> busiestWarehouses = new ArrayList<>();
         double highestStockLevelRatio = 0;
-        ObservableList<Warehouse> warehouses = dataManager.getWarehouseHandler().getWarehouses();
+        ObservableList<Warehouse> warehouses = WarehouseHandler.getInstance().getWarehouses();
     
         for (Warehouse warehouse : warehouses) {
             double currentStockLevel = warehouse.getCurrentStockLevel();
@@ -174,15 +278,29 @@ public class DataService {
             double stockLevelRatio = currentStockLevel / totalCapacity;
             if (stockLevelRatio > highestStockLevelRatio) {
                 highestStockLevelRatio = stockLevelRatio;
-                busiestWarehouse = warehouse;
+                busiestWarehouses.clear();
+                busiestWarehouses.add(warehouse);
+            } else if (stockLevelRatio == highestStockLevelRatio) {
+                busiestWarehouses.add(warehouse);
             }
         }
     
-        if (busiestWarehouse == null) {
+        if (highestStockLevelRatio == 0) {
+            return Constants.NO_SHIPMENT_LOGS_EXIST;
+        }
+    
+        if (busiestWarehouses.isEmpty()) {
             return Constants.NO_WAREHOUSES_EXIST;
         } else {
-            String busiestWarehouseName = busiestWarehouse.getName();
-            return "Busiest warehouse is: " + busiestWarehouseName + ", using " + (highestStockLevelRatio * 100)
+            StringBuilder busiestWarehousesNames = new StringBuilder();
+            for (Warehouse warehouse : busiestWarehouses) {
+                if (busiestWarehousesNames.length() > 0) {
+                    busiestWarehousesNames.append(", ");
+                }
+                busiestWarehousesNames.append(warehouse.getName());
+            }
+            String isOrAre = busiestWarehouses.size() > 1 ? "s are" : " is";
+            return "Busiest warehouse" + isOrAre + ": " + busiestWarehousesNames.toString() + ", using " + (highestStockLevelRatio * 100)
                     + "% of capacity";
         }
     }
@@ -192,7 +310,7 @@ public class DataService {
 
         for (Location location : Location.values()) {
             double currentAvailableCapacity = 0;
-            for (Warehouse warehouse : dataManager.getWarehouseHandler().getWarehouses()) {
+            for (Warehouse warehouse : WarehouseHandler.getInstance().getWarehouses()) {
                 if (warehouse.getLocation().equals(location)) {
                     currentAvailableCapacity += warehouse.getCurrentAvailableCapacity();
                 }

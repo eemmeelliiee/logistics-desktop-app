@@ -33,3 +33,54 @@ skapa en DataService-klass, inga attributes, bara funktioner som använder DataM
 sen kolla på GUI !!!
 hur göra för att byta tabs?
 
+ behöver inte ha datamaneger static i dataservice - egentiligen inget object överhuvudtaget pga den är statisk
+
+1. handlers statiska så alla refernenser till datamangee försvinner i dataservice
+2. få kod funka
+2. sen resten mer refreshvalues i warehuse och datamanager
+
+skulle  göra alla handler klasser statiska 
+och dataservice klassen statisk
+
+byta namn på datamanager till crud-service
+
+byta namn på dataservice till analyticsservice
+så att man går från att tänka på att båda 
+
+sen se till alla anrop i fd datascervice går genom de statiska hanlderna istället
+
+alla updatemetoderna som finns i dataservice - byt namn till get (getMostRecentDate)
+en metod i warehouse refreshvalues som anropar alla update metoder i dataservice
+hämtar värdet och själv sätter sitt värde till det
+
+analyticsservice ska inte påverka tillstånd på nåt sätt
+utan warehouse t.ex setter sina egna värden till de värdena som hämtas från analyticsservice
+
+varje gång nåt har skapats/tagits bort/ där jag nu anropar updatewarehouseshipmentinformation
+istället för warehouse.refreshvalues (refreshshipmentwalues och refresh inspectionvalues) (två refresh bättre än 1 refreshvalues)
+refreshvalues i warehouse
+kommer get alla värden get current stockleve
+och sätta sit egget stocklevel attribut till getstocklevel
+
+om jag vill få det att funka !!!!!!!!!
+- gör hannlder statiska så alla refernenser till datamangee försvinner i dataservice
+
+hur testa? använda datamagener för stt skapa massa wareohse, shipments osv
+du får ju ut de objektenm datamanager returnerar ju objekt
+
+datamanger deletwarehosuse
+
+istället för att sätta i dataervice så return objekt i updateblablabla
+
+
+för då kommer man inte behöva gå genom datamanager i dataservice
+
+updatewarehouseinformation ersätts av refreshvaluesför warehouse
+
+extra, ej ndövändigt:
+servie´ce och hanlders i eget paket
+service klasser som public (public class service)
+handlersklasser inte public (class hanlder)
+kommer bara kunna anropa serviceklasser utanför paketet
+
+alla handlers ska ha en cleardata ()-metod 

@@ -16,7 +16,7 @@ public class TestInspectionLogHandler {
     @BeforeEach
     public void setUp() {
         dataManager = DataManager.getInstance();
-        inspectionLogHandler = dataManager.getInspectionLogHandler();
+        inspectionLogHandler = InspectionLogHandler.getInstance();
     }
 
     @AfterEach

@@ -8,11 +8,20 @@ import javafx.collections.ObservableList;
 public class WarehouseHandler {
 
     private ObservableList<Warehouse> warehouses;
+    private static WarehouseHandler instance;
 
-    public WarehouseHandler() {
+
+    private WarehouseHandler() {
         warehouses = FXCollections.observableList(new ArrayList<>());
         //addTestData(); <--- metoden ska deklareras i Warehouse
         // bör finnas en i varje konstruktor för handlers
+    }
+
+    public static WarehouseHandler getInstance() {
+        if (instance == null) {
+            instance = new WarehouseHandler();
+        }
+        return instance;
     }
 // 
     public ObservableList<Warehouse> getWarehouses() {
@@ -86,7 +95,7 @@ public class WarehouseHandler {
             // }
         }
 
-        public void updateWarehouseAddress(Warehouse warehouse, String newAddress){
+        public  void updateWarehouseAddress(Warehouse warehouse, String newAddress){
             // if (warehouse != null){
                 warehouse.setAddress(newAddress);
                 forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
@@ -117,7 +126,7 @@ public class WarehouseHandler {
     }
 
 
-    boolean doesAWarehouseExistWithName(String warehouseName) throws Exception{
+     boolean doesAWarehouseExistWithName(String warehouseName) throws Exception{
         if (warehouseName == null) {
             throw new Exception(Constants.CANNOT_BE_EMPTY);
         }

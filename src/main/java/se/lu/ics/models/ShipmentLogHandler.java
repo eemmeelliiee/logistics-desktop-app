@@ -8,8 +8,16 @@ import javafx.collections.ObservableList;
 public class ShipmentLogHandler {
     private static final String NEEDS_ATTENTION = "Needs attention";
     private ObservableList<ShipmentLog> shipmentLogs;
+    private static ShipmentLogHandler instance;
 
-    public ShipmentLogHandler() {
+    public static ShipmentLogHandler getInstance() {
+        if (instance == null) {
+            instance = new ShipmentLogHandler();
+        }
+        return instance;
+    }
+
+    private ShipmentLogHandler() {
         shipmentLogs = FXCollections.observableArrayList();
     }
 

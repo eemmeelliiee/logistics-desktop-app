@@ -13,7 +13,7 @@ public class TestWarehouseHandler {
     @BeforeEach
     public void setUp() {
         dataManager = DataManager.getInstance();
-        warehouseHandler = dataManager.getWarehouseHandler();
+        warehouseHandler = WarehouseHandler.getInstance();
     }
 
     @AfterEach
@@ -86,7 +86,7 @@ public class TestWarehouseHandler {
 
         assertEquals(3, dataManager.readWarehouses().size());
 
-        dataManager.getWarehouseHandler().forceUpdateOfObservableList();
+        WarehouseHandler.getInstance().forceUpdateOfObservableList();
         assertEquals(3, dataManager.readWarehouses().size());
     }
 

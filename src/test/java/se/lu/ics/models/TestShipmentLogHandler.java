@@ -17,7 +17,7 @@ public class TestShipmentLogHandler {
     @BeforeEach
     public void setUp() {
         dataManager = DataManager.getInstance();
-        shipmentLogHandler = dataManager.getShipmentLogHandler();
+        shipmentLogHandler = ShipmentLogHandler.getInstance();
     }
 
     @AfterEach
@@ -67,37 +67,35 @@ public class TestShipmentLogHandler {
 
     @Test
     public void testDeleteShipmentLog() throws Exception {
-        ShipmentLogHandler handler = new ShipmentLogHandler();
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 1000);
         Shipment shipment = new Shipment();
         LocalDate date = LocalDate.now();
         Direction direction = Direction.INCOMING;
 
-        ShipmentLog log = handler.createShipmentLog(date, direction, warehouse, shipment);
+        ShipmentLog log = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
 
-        handler.deleteShipmentLog(log);
+        shipmentLogHandler.deleteShipmentLog(log);
 
-        assertFalse(handler.getShipmentLogs().contains(log));
+        assertFalse(shipmentLogHandler.getShipmentLogs().contains(log));
     }
     @Test
     public void testNeedsAttention() throws Exception{
-        ShipmentLogHandler handler = new ShipmentLogHandler();
         Warehouse warehouse = new Warehouse("Test Warehouse", Location.MIDDLE, "Test Address", 1000);
         Shipment shipment = new Shipment();
         LocalDate date = LocalDate.now();
         Direction direction = Direction.INCOMING;
     
-        ShipmentLog log = handler.createShipmentLog(date, direction, warehouse, shipment);
+        ShipmentLog log = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
     
         LocalDate newDate = LocalDate.now().plusDays(15);
         Direction newDirection = Direction.OUTGOING;
         Warehouse newWarehouse = new Warehouse("New Test Warehouse", Location.SOUTH, "New Test Address", 3000);
         Shipment newShipment = new Shipment();
     
-        ShipmentLog other = handler.createShipmentLog(newDate, newDirection, newWarehouse, newShipment);
+        ShipmentLog other = shipmentLogHandler.createShipmentLog(newDate, newDirection, newWarehouse, newShipment);
     
         // Create a corresponding log with the opposite direction
-        handler.createShipmentLog(newDate, newDirection.opposite(), newWarehouse, newShipment);
+        shipmentLogHandler.createShipmentLog(newDate, newDirection.opposite(), newWarehouse, newShipment);
     }
 
     @Test

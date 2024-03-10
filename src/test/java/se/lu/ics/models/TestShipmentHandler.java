@@ -24,7 +24,7 @@ public class TestShipmentHandler {
     @BeforeEach
     public void setUp() {
         dataManager = DataManager.getInstance();
-        shipmentHandler = dataManager.getShipmentHandler();
+        shipmentHandler = ShipmentHandler.getInstance();
     }
 
      @AfterEach
