@@ -231,6 +231,35 @@ public class DataManager {
     }
 
 
+private void addTestData() throws Exception{
+    Warehouse warehouse1 = createWarehouse("Odins Nest", Location.MIDDLE, "Storgatan 1", 100);
+    Warehouse warehouse2 = createWarehouse("Thors House",Location.NORTH, "Storgatan 2", 200);
+    Warehouse warehouse3 = createWarehouse("Adams Warehouse",Location.SOUTH, "Storgatan 3", 300);
+    Warehouse warehouse4 = createWarehouse("Eves Warehouse",Location.MIDDLE, "Storgatan 4", 400);
+    Warehouse warehouse5 = createWarehouse("Liliths Warehouse",Location.SOUTH, "Storgatan 5", 500);
+    Warehouse warehouse6 = createWarehouse("Lucifers Warehouse",Location.NORTH, "Storgatan 6", 600);
+    Warehouse warehouse7 = createWarehouse("Gabriels Warehouse",Location.MIDDLE, "Storgatan 7", 700);
+    Warehouse warehouse8 = createWarehouse("Raphaels Warehouse",Location.SOUTH, "Storgatan 8", 800);
+    Warehouse warehouse9 = createWarehouse("Uriels Warehouse",Location.NORTH, "Storgatan 9", 900);
+    Warehouse warehouse10 = createWarehouse("Azraels Warehouse",Location.MIDDLE, "Storgatan 10", 1000);
+
+    Shipment shipment1 = createShipment();
+    Shipment shipment2 = createShipment();
+    Shipment shipment3 = createShipment();
+    Shipment shipment4 = createShipment();
+    Shipment shipment5 =  createShipment();
+    Shipment shipment6 =  createShipment();
+    Shipment shipment7 = createShipment();
+    Shipment shipment8 = createShipment();
+
+    ShipmentLog shipmentLog = createShipmentLog(LocalDate.of(2020,8,9), Direction.INCOMING, warehouse1, shipment1);
+    ShipmentLog shipmentLog2 = createShipmentLog(LocalDate.of(2020,8,10), Direction.OUTGOING, warehouse1, shipment1);
+    ShipmentLog shipmentLog3 = createShipmentLog(LocalDate.of(2020,8,11), Direction.INCOMING, warehouse2, shipment2);
+    ShipmentLog shipmentLog4 = createShipmentLog(LocalDate.of(2020,8,12), Direction.OUTGOING, warehouse2, shipment2);
+    ShipmentLog shipmentLog5 = createShipmentLog(LocalDate.of(2020,8,10), Direction.INCOMING, warehouse3, shipment3);
+    ShipmentLog shipmentLog6 = createShipmentLog(LocalDate.of(2020,8,15), Direction.OUTGOING, warehouse3, shipment3);
+
+}
 
 
     

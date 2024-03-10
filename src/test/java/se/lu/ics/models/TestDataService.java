@@ -4,6 +4,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javafx.collections.ObservableList;
+import javafx.util.Pair;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
@@ -12,11 +15,13 @@ import java.time.Period;
 
 public class TestDataService {
             DataManager dataManager;
+            DataService dataService;
     
 
     @BeforeEach
     public void setUp() {
         dataManager = DataManager.getInstance();
+        dataService = DataService.getInstance();    
     }
 
     @AfterEach
@@ -733,4 +738,30 @@ public void testGetTotalNumberOfWarehousesWhenNoShipments() throws Exception{
         // Check that the shipment log is no longer in the dataManager
         assertFalse(dataManager.readShipmentLogs().contains(log));
     }
+
+    @Test
+public void testGetCurrentAvailableCapacityForLocations() throws Exception {
+    // Set up some warehouses
+    Warehouse warehouse1 = dataManager.createWarehouse("Test Warehouse 1", Location.NORTH, "Test Address", 1000);
+    Warehouse warehouse2 = dataManager.createWarehouse("Test Warehouse 2", Location.NORTH, "Test Address", 500);
+    Warehouse warehouse3 = dataManager.createWarehouse("Test Warehouse 3", Location.SOUTH, "Test Address", 2000);
+
+
+    // Set up some shipments
+    Shipment shipment1 = dataManager.createShipment();
+    Shipment shipment2 = dataManager.createShipment();
+    Shipment shipment3 = dataManager.createShipment();
+
+    // Set up some shipment logs
+    ShipmentLog log1 = dataManager.createShipmentLog(LocalDate.now(), Direction.INCOMING, warehouse1, shipment1);
+    ShipmentLog log2 = dataManager.createShipmentLog(LocalDate.now(), Direction.INCOMING, warehouse2, shipment2);
+    ShipmentLog log3 = dataManager.createShipmentLog(LocalDate.now(), Direction.INCOMING, warehouse3, shipment3);
+
+    // Call the method
+    ObservableList<Pair<Location, Double>> capacityForLocations = dataService.getCurrentAvailableCapacityForLocations();
+
+    // Check that the list contains the correct pairs
+    assertTrue(capacityForLocations.contains(new Pair<>(Location.NORTH, 1498.0)));
+    assertTrue(capacityForLocations.contains(new Pair<>(Location.SOUTH, 1999.0)));
+}
 }
