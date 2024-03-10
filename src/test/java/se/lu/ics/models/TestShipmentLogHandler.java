@@ -1,7 +1,7 @@
 package se.lu.ics.models;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -203,7 +203,7 @@ public void testUpdateShipmentLogWithExistingLog() throws Exception {
 @Test
 public void testUpdateShipmentLogWithInvalidDirection() throws Exception {
     Shipment shipment = dataManager.createShipment();
-        Warehouse warehouse = dataManager.createWarehouse("Test Warehouse", Location.MIDDLE, "Test Address", 1000);
+    Warehouse warehouse = dataManager.createWarehouse("Test Warehouse", Location.MIDDLE, "Test Address", 1000);
     LocalDate date = LocalDate.now();
     Direction direction = Direction.INCOMING;
 
@@ -211,10 +211,13 @@ public void testUpdateShipmentLogWithInvalidDirection() throws Exception {
     ShipmentLog log = dataManager.createShipmentLog(date, direction, warehouse, shipment);
 
     // Try to update the shipment log with a direction that is the same as the existing direction
-    assertThrows(Exception.class, () -> {
-        dataManager.updateShipmentLog(log, UpdateFieldShipmentLog.DIRECTION, direction);
+   assertThrows(Exception.class, () -> {
+    dataManager.updateShipmentLog(log, UpdateFieldShipmentLog.DIRECTION, direction);
     });
+
 }
+
+
 
 @Test
 public void testUpdateShipmentLogWithInvalidWarehouse() throws Exception {
@@ -227,8 +230,8 @@ public void testUpdateShipmentLogWithInvalidWarehouse() throws Exception {
     ShipmentLog log = dataManager.createShipmentLog(date, direction, warehouse, shipment);
 
     // Try to update the shipment log with a warehouse that is the same as the existing warehouse
-    assertThrows(Exception.class, () -> {
-        dataManager.updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
+            assertThrows(Exception.class, () -> {
+dataManager.updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
     });
 }
 
@@ -247,6 +250,24 @@ public void testUpdateShipmentLogWithInvalidShipment() throws Exception {
         dataManager.updateShipmentLog(log, UpdateFieldShipmentLog.SHIPMENT, shipment);
     });
 }
+
+@Test
+public void testUpdateShipmentLogWithInvalidDate() throws Exception {
+    Shipment shipment = dataManager.createShipment();
+    Warehouse warehouse = dataManager.createWarehouse("Test Warehouse", Location.MIDDLE, "Test Address", 1000);
+    LocalDate date = LocalDate.now();
+    Direction direction = Direction.INCOMING;
+
+    // Create a shipment log
+    ShipmentLog log = dataManager.createShipmentLog(date, direction, warehouse, shipment);
+
+    // Try to update the shipment log with a date that is the same as the existing date
+    assertThrows(Exception.class, () -> {
+        dataManager.updateShipmentLog(log, UpdateFieldShipmentLog.DATE, date);
+    });
+}       
+
+
 // not needed since shipmentlog will be selected in tableview
 // @Test
 // public void testDeleteShipmentLogWithExistingLog() throws Exception {
@@ -347,7 +368,27 @@ public void testUpdateShipmentLogWithInvalidShipment() throws Exception {
         }, "Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
     }
 
+    @Test
+    public void test() throws Exception{
+        Shipment shipment = dataManager.createShipment();
+        Warehouse warehouse = dataManager.createWarehouse("Test Warehouse", Location.MIDDLE, "Test Address", 1000);
+        LocalDate date = LocalDate.now();
+        Direction direction = Direction.INCOMING;
+
+        // Create a shipment log
+        ShipmentLog log = dataManager.createShipmentLog(date, direction, warehouse, shipment);
+        ShipmentLog log2 = dataManager.createShipmentLog(date, Direction.OUTGOING, warehouse, shipment);
+        ShipmentLog log3 = dataManager.createShipmentLog(date, Direction.INCOMING, warehouse, shipment);
+        assertThrows(Exception.class, () -> {
+            ShipmentLog log4 = dataManager.createShipmentLog(date, Direction.INCOMING, warehouse, shipment);
+            ;
+        }, "Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
+        assertThrows(Exception.class, () -> {
+            dataManager.updateShipmentLog(log2, UpdateFieldShipmentLog.DATE, LocalDate.of(2020,9,8));
+            ;
+        }, "Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
    
 
 
+}
 }

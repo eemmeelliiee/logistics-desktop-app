@@ -95,7 +95,19 @@ public class InspectionLogHandler {
 
     public void deleteInspectionLog(InspectionLog inspectionLog) {
         inspectionLogs.remove(inspectionLog);
-        
+        Shipment shipment = inspectionLog.getShipment();
+        if (shipment != null) {
+            boolean hasOtherInspectionLogs = false;
+            for (InspectionLog log : inspectionLogs) {
+                if (log.getShipment() == shipment) {
+                    hasOtherInspectionLogs = true;
+                    break;
+                }
+            }
+            if (!hasOtherInspectionLogs) {
+                shipment.setInspected(false);
+            }
+        }
     }
 
     public void clearData() {

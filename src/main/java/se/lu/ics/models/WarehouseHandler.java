@@ -10,6 +10,8 @@ public class WarehouseHandler {
     private ObservableList<Warehouse> warehouses;
     private static WarehouseHandler instance;
 
+    private static final String ALREADY_EXISTS_WAREHOUSE_WITH_NAME = "Error: A warehouse with given name already exists";
+
 
     private WarehouseHandler() {
         warehouses = FXCollections.observableList(new ArrayList<>());
@@ -23,17 +25,8 @@ public class WarehouseHandler {
         }
         return instance;
     }
-// 
-    public ObservableList<Warehouse> getWarehouses() {
-        return warehouses;
-    }
-    
-    // A setter should not be needed for this. Why give other classes access to that?
-    /*
-    public void setWarehouses(ArrayList<Warehouse> warehouses) {
-        this.warehouses = warehouses;
-    }
-    */
+
+   
 
     // CREATE
 
@@ -46,11 +39,10 @@ public class WarehouseHandler {
 
     // READ
 
-// does the same thing as getWarehouses right now, should this return a list of Strings by doing .toString on each warehouse?
-    // or will that kind of thing be handled in the view?
-    // public ObservableList<Warehouse> readWarehouses(){
-    //     return warehouses;
-    // }
+    public ObservableList<Warehouse> getWarehouses() {
+        return warehouses;
+    }
+
 
     // UPDATE
 
@@ -79,7 +71,7 @@ public class WarehouseHandler {
 
    public void updateWarehouseName(Warehouse warehouse, String newWarehouseName) throws Exception {
         if (doesAWarehouseExistWithName(newWarehouseName)){
-            throw new Exception(Constants.ALREADY_EXISTS_WAREHOUSE_WITH_NAME);
+            throw new Exception(ALREADY_EXISTS_WAREHOUSE_WITH_NAME);
         } else {
                 warehouse.setName(newWarehouseName);
                 forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )

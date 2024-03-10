@@ -16,18 +16,15 @@ public class Warehouse {
     private Period averageTimeShipmentSpendsAtWarehouse;
 
     public Warehouse(String name, Location location, String address, double capacity) throws Exception {
-        if (capacity < 0) {
-            throw new Exception(Constants.CAPACITY_MUST_BE_GREATER_THAN_0);
-        }
         this.name = name;
         this.location = location;
         this.address = address;
-        this.capacity = capacity;
+        setCapacity(capacity);
         this.currentStockLevel = 0;
         this.mostRecentInspectionDate = null; // is this needed?
         this.currentAvailableCapacity = capacity;
         this.remainingCapacityInPercent = 100;
-        this.averageTimeShipmentSpendsAtWarehouse = Period.ZERO;
+        this.averageTimeShipmentSpendsAtWarehouse = null;
 
     }
 
@@ -106,7 +103,7 @@ public class Warehouse {
         this.averageTimeShipmentSpendsAtWarehouse = averageTimeShipmentSpendsAtWarehouse;
     }
 
-    
+
 
 
 

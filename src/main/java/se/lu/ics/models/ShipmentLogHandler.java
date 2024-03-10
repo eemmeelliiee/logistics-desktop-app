@@ -7,6 +7,8 @@ import javafx.collections.ObservableList;
 
 public class ShipmentLogHandler {
     private static final String NEEDS_ATTENTION = "Needs attention";
+    
+    
     private ObservableList<ShipmentLog> shipmentLogs;
     private static ShipmentLogHandler instance;
 
@@ -29,7 +31,8 @@ public class ShipmentLogHandler {
         if (warehouse.getCurrentAvailableCapacity() < 1 && direction == Direction.INCOMING) {
             throw new Exception("Warehouse is full");
         }
-        validateShipmentLog(shipment, warehouse, direction);
+        validateDate(date, direction, shipment, warehouse);
+        validateShipmentLog(shipment, warehouse, direction, null);
         ShipmentLog newShipmentLog = new ShipmentLog(date, direction, warehouse, shipment);
         shipmentLogs.add(newShipmentLog);
         return newShipmentLog;
@@ -42,24 +45,43 @@ public class ShipmentLogHandler {
         }
         switch (field) {
             case SHIPMENT:
+                Shipment oldShipment = shipmentLog.getShipment();
                 Shipment newShipment = (Shipment) newValue;
-                validateShipmentLog(newShipment, shipmentLog.getWarehouse(), shipmentLog.getDirection());
+                if (oldShipment.equals(newShipment)) {
+                    throw new Exception(Constants.SAME_SHIPMENT);
+                }
+                validateShipmentLog(newShipment, shipmentLog.getWarehouse(), shipmentLog.getDirection(), shipmentLog);
+                validateDate(shipmentLog.getDate(), shipmentLog.getDirection(), newShipment, shipmentLog.getWarehouse());
                 shipmentLog.setShipment(newShipment);
                 break;
             case WAREHOUSE:
+                Warehouse oldWarehouse = shipmentLog.getWarehouse();
                 Warehouse newWarehouse = (Warehouse) newValue;
-                validateShipmentLog(shipmentLog.getShipment(), newWarehouse, shipmentLog.getDirection());
+                if (oldWarehouse.equals(newWarehouse)) {
+                    throw new Exception(Constants.SAME_WAREHOUSE);
+                }
+                validateShipmentLog(shipmentLog.getShipment(), newWarehouse, shipmentLog.getDirection(), shipmentLog);
+                validateDate(shipmentLog.getDate(), shipmentLog.getDirection(), shipmentLog.getShipment(), newWarehouse);
                 shipmentLog.setWarehouse(newWarehouse);
                 break;
             case DIRECTION:
+                Direction oldDirection = shipmentLog.getDirection();
                 Direction newDirection = (Direction) newValue;
-                validateShipmentLog(shipmentLog.getShipment(), shipmentLog.getWarehouse(), newDirection);
+                if (oldDirection.equals(newDirection)) {
+                    throw new Exception(Constants.SAME_DIRECTION);
+                }
+                validateShipmentLog(shipmentLog.getShipment(), shipmentLog.getWarehouse(), newDirection, shipmentLog);
+                validateDate(shipmentLog.getDate(), newDirection, shipmentLog.getShipment(), shipmentLog.getWarehouse());
                 shipmentLog.setDirection(newDirection);
                 break;
             case DATE:
+                LocalDate oldDate = shipmentLog.getDate();
                 LocalDate newDate = (LocalDate) newValue;
-                validateDate(newDate, shipmentLog.getDirection(), shipmentLog.getShipment(),
-                        shipmentLog.getWarehouse());
+                if (oldDate.equals(newDate)) {
+                    throw new Exception(Constants.SAME_DATE);
+                }
+                validateShipmentLog(shipmentLog.getShipment(), shipmentLog.getWarehouse(), shipmentLog.getDirection(), shipmentLog);
+                validateDate(newDate, shipmentLog.getDirection(), shipmentLog.getShipment(),shipmentLog.getWarehouse());
                 shipmentLog.setDate(newDate);
                 break;
             // default:
@@ -72,31 +94,54 @@ public class ShipmentLogHandler {
         shipmentLogs.remove(shipmentLog);
     }
 
-    // private void updateLog(ShipmentLog shipmentLog, LocalDate newDate, Direction newDirection, Warehouse newWarehouse,
-    //         Shipment newShipment) throws Exception {
-    //     validateDate(newDate, newDirection, newShipment, newWarehouse);
-    //     shipmentLog.setShipment(newShipment);
-    //     shipmentLog.setWarehouse(newWarehouse);
-    //     shipmentLog.setDirection(newDirection);
-    //     shipmentLog.setDate(newDate);
-    //     updateAttentionStatus();
-    // }
 
     private void validateDate(LocalDate date, Direction direction, Shipment shipment, Warehouse warehouse) throws Exception {
-        ShipmentLog existingLog = findShipmentLog(shipment, warehouse, direction);
-        if (existingLog != null) {
+        int incomingCount = countLogs(shipment, warehouse, Direction.INCOMING);
+        int outgoingCount = countLogs(shipment, warehouse, Direction.OUTGOING);
+
+        if (incomingCount == 0 && outgoingCount == 0) {    // If there is no existing log, allow the date to be set without validation
+
+            return;
+        }
+    
+        if (incomingCount != outgoingCount) {
             ShipmentLog incomingLog = findShipmentLog(shipment, warehouse, Direction.INCOMING);
             ShipmentLog outgoingLog = findShipmentLog(shipment, warehouse, Direction.OUTGOING);
-
-        if (direction == Direction.OUTGOING && incomingLog != null && date.isBefore(incomingLog.getDate())) {
-            throw new Exception("Outgoing date " + date + " cannot be before incoming date");
-        }
-        if (direction == Direction.INCOMING && outgoingLog != null && date.isAfter(outgoingLog.getDate())) {
-            throw new Exception("Incoming date " + date + " cannot be after outgoing date");
+    
+            if (direction == Direction.OUTGOING && incomingLog != null && date.isBefore(incomingLog.getDate())) {
+                throw new Exception("Outgoing date " + date + " cannot be before incoming date");
+            }
+            if (direction == Direction.INCOMING && outgoingLog != null && date.isAfter(outgoingLog.getDate())) {
+                throw new Exception("Incoming date " + date + " cannot be after outgoing date");
+            }
         }
     }
-    // If there is no existing log, allow the date to be set without validation
+private ShipmentLog findMostRecentLog(Shipment shipment, Warehouse warehouse) {
+    ShipmentLog mostRecentLog = null;
+    for (ShipmentLog log : shipmentLogs) {
+        if (log.getShipment().equals(shipment) && log.getWarehouse().equals(warehouse)) {
+            if (mostRecentLog == null || log.getDate().isAfter(mostRecentLog.getDate())) {
+                mostRecentLog = log;
+            }
+        }
+    }
+    return mostRecentLog;
 }
+
+private Direction getCurrentDirection(Shipment shipment, Warehouse warehouse) {
+    // Get the most recent log for the given shipment at the given warehouse
+    ShipmentLog mostRecentLog = findMostRecentLog(shipment, warehouse);
+
+    // If there's no log, return null
+    if (mostRecentLog == null) {
+        return null;
+    }
+
+    // Return the direction of the most recent log
+    return mostRecentLog.getDirection();
+}
+
+
 
     private void updateAttentionStatus() {
         for (ShipmentLog shipmentLog : shipmentLogs) {
@@ -118,12 +163,50 @@ public class ShipmentLogHandler {
         return null;
     }
 
-    private void validateShipmentLog(Shipment shipment, Warehouse warehouse, Direction direction) throws Exception {
+    // private void validateShipmentLog(Shipment shipment, Warehouse warehouse, Direction direction) throws Exception {
+    //     int sameDirectionCount = countLogs(shipment, warehouse, direction);
+    //     int oppositeDirectionCount = countLogs(shipment, warehouse, direction.opposite());
+    
+    //     if (sameDirectionCount > oppositeDirectionCount) {
+    //         throw new Exception("Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
+    //     }
+    
+    //     if (sameDirectionCount == oppositeDirectionCount && sameDirectionCount > 0) {
+    //         // make sure error is printed in the console and in GUI
+    //         System.err.println("Warning: Transportation loop detected");
+    //     }
+    // }
+
+    private void validateShipmentLog(Shipment shipment, Warehouse warehouse, Direction direction, ShipmentLog logToUpdate) throws Exception {;
         int sameDirectionCount = countLogs(shipment, warehouse, direction);
         int oppositeDirectionCount = countLogs(shipment, warehouse, direction.opposite());
+
+        
+        Direction currentDirection = getCurrentDirection(shipment, warehouse);
+
+        // Exempt the log being updated from direction validation
+    if (logToUpdate != null && shipmentLogs.contains(logToUpdate)) {
+        if (logToUpdate.getShipment().equals(shipment) && logToUpdate.getWarehouse().equals(warehouse)) {
+            sameDirectionCount--;
+        }
+    }
+            if (sameDirectionCount > oppositeDirectionCount && direction != currentDirection) {
+            throw new Exception(Constants.SHIPMENT_ALREADY_INCOMING_ON_THIS_WAREHOUSE);
+    }
+
+        if (direction == Direction.INCOMING) {
+            for (ShipmentLog log : shipmentLogs) {
+                if (log.getShipment().equals(shipment) && log.getDirection() == Direction.INCOMING && !log.getWarehouse().equals(warehouse)) {
+                    int outgoingCount = countLogs(shipment, log.getWarehouse(), Direction.OUTGOING);
+                    if (outgoingCount == 0) {
+                        throw new Exception(Constants.SHIPMENT_IS_AT_OTHER_WAREHOUSE);
+                    }
+                }
+            }
+        }
     
         if (sameDirectionCount > oppositeDirectionCount) {
-            throw new Exception("Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
+            throw new Exception(Constants.SHIPMENT_ALREADY_INCOMING_ON_THIS_WAREHOUSE);
         }
     
         if (sameDirectionCount == oppositeDirectionCount && sameDirectionCount > 0) {

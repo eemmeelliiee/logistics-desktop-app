@@ -6,7 +6,11 @@ import javafx.util.Pair;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 
@@ -16,6 +20,9 @@ public class DataService {
     private WarehouseHandler warehouseHandler;
     private InspectionLogHandler inspectionLogHandler;
     private ShipmentLogHandler shipmentLogHandler;
+
+    private static final String NO_SHIPMENT_LOGS_EXIST = "No incoming shipmentlogs exist for any warehouse";
+    private static final String NO_WAREHOUSES_EXIST = "No warehouses exist yet";
 
 
     public static DataService getInstance() {
@@ -78,6 +85,10 @@ public class DataService {
     // Update Warehouse Information
 
     public void updateMostRecentInspectionDateForWarehouse(Warehouse warehouse) {
+        if (getInspectionLogsForWarehouse(warehouse).isEmpty()) {
+            warehouse.setMostRecentInspectionDate(null);
+            return;
+        }
         LocalDate mostRecentInspectionDate = LocalDate.MIN;
         for (InspectionLog inspectionLog : getInspectionLogsForWarehouse(warehouse)) {
             if (inspectionLog.getDate().isAfter(mostRecentInspectionDate)) {
@@ -123,27 +134,31 @@ public class DataService {
     }
 
     public void updateAverageTimeShipmentSpendsAtWarehouse(Warehouse warehouse) {
-        int totalDays = 0;
-        int numberOfShipments = 0;
-        for (ShipmentLog shipmentLog : getShipmentLogsForWarehouse(warehouse)) {
-            if (shipmentLog.getDirection().equals(Direction.INCOMING)) {
-                for (ShipmentLog shipmentLog2 : getShipmentLogsForShipment(shipmentLog.getShipment())) {
-                    if (shipmentLog2.getDirection().equals(Direction.OUTGOING)) {
-                        totalDays += Period.between(shipmentLog.getDate(), shipmentLog2.getDate()).getDays();
-                        numberOfShipments++;
-                    }
+    int totalDays = 0;
+    int numberOfShipments = 0;
+    List<ShipmentLog> sortedLogs = getShipmentLogsForWarehouse(warehouse).stream()
+        .sorted(Comparator.comparing(ShipmentLog::getDate))
+        .collect(Collectors.toList());
+    Map<Shipment, ShipmentLog> incomingShipments = new HashMap<>();
+    for (ShipmentLog log : sortedLogs) {
+        if (log.getDirection().equals(Direction.INCOMING)) {
+            incomingShipments.put(log.getShipment(), log);
+        } else if (log.getDirection().equals(Direction.OUTGOING)) {
+            ShipmentLog incoming = incomingShipments.remove(log.getShipment());
+            if (incoming != null) {
+                int days = Period.between(incoming.getDate(), log.getDate()).getDays();
+                if (days >= 0) {
+                    totalDays += days;
+                    numberOfShipments++;
                 }
             }
         }
-        if (numberOfShipments != 0) {
-            Period averageTimeShipmentSpendsAtWarehouse = Period.ofDays(totalDays / numberOfShipments);
-            warehouse.setAverageTimeShipmentSpendsAtWarehouse(averageTimeShipmentSpendsAtWarehouse);
-        } else {
-            warehouse.setAverageTimeShipmentSpendsAtWarehouse(Period.ofDays(0));
-            // No shipments exist for warehouse
-        }
-
     }
+    int averageDays = numberOfShipments > 0 ? totalDays / numberOfShipments : 0;
+    warehouse.setAverageTimeShipmentSpendsAtWarehouse(Period.ofDays(averageDays));
+}
+
+    
 
     // Update Shipment Information
 
@@ -293,11 +308,11 @@ public class DataService {
         }
     
         if (highestStockLevelRatio == 0) {
-            return Constants.NO_SHIPMENT_LOGS_EXIST;
+            return NO_SHIPMENT_LOGS_EXIST;
         }
     
         if (busiestWarehouses.isEmpty()) {
-            return Constants.NO_WAREHOUSES_EXIST;
+            return NO_WAREHOUSES_EXIST;
         } else {
             StringBuilder busiestWarehousesNames = new StringBuilder();
             for (Warehouse warehouse : busiestWarehouses) {
