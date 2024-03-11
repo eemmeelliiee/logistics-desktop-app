@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
 public class InspectionLogHandler {
 
     private ObservableList<InspectionLog> inspectionLogs;
@@ -29,26 +28,30 @@ public class InspectionLogHandler {
         return inspectionLogs;
     }
 
-    // A setter should not be needed for this. Why give other classes access to that?
+    // A setter should not be needed for this. Why give other classes access to
+    // that?
     /*
-    public void setInspectionLogs()) {
-        this.inspectionLogs = inspectionLogs;
-    }
-    */
+     * public void setInspectionLogs()) {
+     * this.inspectionLogs = inspectionLogs;
+     * }
+     */
 
-    public InspectionLog createInspectionLog(Shipment shipment, Warehouse warehouse, LocalDate date, String inspector, String result) {
-        InspectionLog inspectionLog = new InspectionLog (shipment, warehouse, date, inspector, result);
+    public InspectionLog createInspectionLog(Shipment shipment, Warehouse warehouse, LocalDate date, String inspector,
+            String result) {
+        InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, date, inspector, result);
         inspectionLogs.add(inspectionLog);
         return inspectionLog;
     }
 
-    // does the same thing as getInspectionLogs right now, should this return a list of Strings by doing .toString on each inspectionLog?
+    // does the same thing as getInspectionLogs right now, should this return a list
+    // of Strings by doing .toString on each inspectionLog?
     // or will that kind of thing be handled in the view?
     // public ObservableList<InspectionLog> readInspectionLogs() {
-    //     return inspectionLogs;
+    // return inspectionLogs;
     // }
 
-    public void updateInspectionLog(InspectionLog inspectionLog, UpdateFieldInspectionLog field, Object newValue) throws Exception {
+    public void updateInspectionLog(InspectionLog inspectionLog, UpdateFieldInspectionLog field, Object newValue)
+            throws Exception {
         if (newValue == null || newValue.equals("")) {
             throw new Exception(Constants.CANNOT_BE_EMPTY);
         }
@@ -67,9 +70,9 @@ public class InspectionLogHandler {
                 break;
             case RESULT:
                 updateInspectionLogResult(inspectionLog, (String) newValue);
-            //     break;
-            // default:
-            //     throw new Exception(Constants.INVALID_FIELD);
+                // break;
+                // default:
+                // throw new Exception(Constants.INVALID_FIELD);
         }
     }
 
@@ -113,8 +116,5 @@ public class InspectionLogHandler {
     public void clearData() {
         inspectionLogs.clear();
     }
-
-
-
 
 }

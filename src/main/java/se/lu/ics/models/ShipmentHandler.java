@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
-
 public class ShipmentHandler {
 
     private ObservableList<Shipment> shipments;
@@ -27,13 +25,13 @@ public class ShipmentHandler {
         return shipments;
     }
 
-    // A setter should not be needed for this. Why give other classes access to that?
+    // A setter should not be needed for this. Why give other classes access to
+    // that?
     /*
-    public void setShipments(ArrayList<Shipment> shipments) {
-        this.shipments = shipments;
-    }
-    */
-
+     * public void setShipments(ArrayList<Shipment> shipments) {
+     * this.shipments = shipments;
+     * }
+     */
 
     public Shipment createShipment() {
         Shipment shipment = new Shipment();
@@ -41,22 +39,23 @@ public class ShipmentHandler {
         return shipment;
     }
 
-    // does the same thing as getShipments right now, should this return a list of Strings by doing .toString on each shipment?
+    // does the same thing as getShipments right now, should this return a list of
+    // Strings by doing .toString on each shipment?
     // or will that kind of thing be handled in the view?
     // public ObservableList<Shipment> readShipments() {
-    //     return shipments;
+    // return shipments;
     // }
 
     public void updateShipmentId(Shipment shipment, String newShipmentId) throws Exception {
 
-    // inte nödvändigt om vi inte ska skriva in något i textfältet ?
-      //  if (!doesAShipmentExistWithId(shipmentIdToBeUpdated)) {
-      //      throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
-      //  }
+        // inte nödvändigt om vi inte ska skriva in något i textfältet ?
+        // if (!doesAShipmentExistWithId(shipmentIdToBeUpdated)) {
+        // throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
+        // }
 
         if (doesAShipmentExistWithId(newShipmentId)) {
-           throw new Exception(Constants.ALREADY_EXISTS_SHIPMENT_WITH_ID);
-        } 
+            throw new Exception(Constants.ALREADY_EXISTS_SHIPMENT_WITH_ID);
+        }
 
         if (newShipmentId == null || newShipmentId.equals("")) {
             throw new Exception(Constants.CANNOT_BE_EMPTY);
@@ -67,43 +66,43 @@ public class ShipmentHandler {
             forceUpdateOfObservableList(); // please manually update the observable list in the controller instead
         }
 
-
         // for (Shipment shipment : shipments) {
-        //     if (shipment.getShipmentId().equals(shipmentIdToBeUpdated)) {
-        //         shipment.setShipmentId(newShipmentId);
-        //         forceUpdateOfObservableList();
-        //         return;
-        //         //forceUpdateOfObservableList(); //because we changed something to a shipment object
-        //         // maybe this should be a part of all public methods in Shipment that can change its state )
-        //     }
+        // if (shipment.getShipmentId().equals(shipmentIdToBeUpdated)) {
+        // shipment.setShipmentId(newShipmentId);
+        // forceUpdateOfObservableList();
+        // return;
+        // //forceUpdateOfObservableList(); //because we changed something to a shipment
+        // object
+        // // maybe this should be a part of all public methods in Shipment that can
+        // change its state )
+        // }
         // }
     }
 
-
-    public void deleteShipment(Shipment shipment){
+    public void deleteShipment(Shipment shipment) {
         // if (!doesAShipmentExistWithId(shipmentId)) {
-        //     throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
+        // throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
         // }
-        //     for (Shipment shipment : shipments){
-        //         if (shipment.getShipmentId().get().equals(shipmentId.get())) {
-        //             shipments.remove(shipment);
-        //             return;
-        //         }
-        //     }
+        // for (Shipment shipment : shipments){
+        // if (shipment.getShipmentId().get().equals(shipmentId.get())) {
+        // shipments.remove(shipment);
+        // return;
+        // }
+        // }
         // if (shipment != null) {
-            shipments.remove(shipment);
+        shipments.remove(shipment);
         // }
     }
 
-    // INTE REKOMMENDERAT, manually edit the observable list in the controller instead !!!
+    // INTE REKOMMENDERAT, manually edit the observable list in the controller
+    // instead !!!
     // only needed to updated ComboBoxes!
     public void forceUpdateOfObservableList() {
-        //shipments = FXCollections.observableList(shipments);
-        
+        // shipments = FXCollections.observableList(shipments);
+
         shipments.add(0, null);
         shipments.remove(0);
     }
-
 
     private boolean doesAShipmentExistWithId(String shipmentId) {
         for (Shipment shipment : shipments) {
@@ -114,15 +113,10 @@ public class ShipmentHandler {
         return false;
     }
 
-
     // these are only for tests, move to a test class !? how?
     public void clearData() {
         shipments.clear();
     }
-
-
-
-
 
     /*
      * 
@@ -141,6 +135,5 @@ public class ShipmentHandler {
      * }
      * 
      */
-
 
 }

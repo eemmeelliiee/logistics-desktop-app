@@ -1,4 +1,5 @@
 package se.lu.ics.models;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -24,7 +25,7 @@ public class ShipmentLog {
     public LocalDate getDate() {
         return date;
     }
-    
+
     public void setDate(LocalDate date) {
         this.date = date;
     }
@@ -63,40 +64,34 @@ public class ShipmentLog {
         return false;
     }
 
+    // used in shipmentloghandler. the ShipmentLog class is responsible for
+    // determining if a ShipmentLog is similar to another and if it needs attention.
+    // This follows the Single Responsibility Principle,
+    // making my code cleaner and easier to maintain.
+    public boolean needsAttention(ShipmentLog other) {
+        boolean isPairAndNeedsAttention = this.getShipment().equals(other.getShipment()) &&
+                this.getWarehouse().equals(other.getWarehouse()) &&
+                this.getDirection() == Direction.INCOMING &&
+                other.getDirection() == Direction.OUTGOING;
 
+        boolean needsAttention = isPairAndNeedsAttention
+                && ChronoUnit.DAYS.between(this.getDate(), other.getDate()) > 14;
 
-// used in shipmentloghandler. the ShipmentLog class is responsible for 
-// determining if a ShipmentLog is similar to another and if it needs attention. 
-//This follows the Single Responsibility Principle, 
-//making my code cleaner and easier to maintain.
-public boolean needsAttention(ShipmentLog other) {
-    boolean isPairAndNeedsAttention = this.getShipment().equals(other.getShipment()) &&
-                        this.getWarehouse().equals(other.getWarehouse()) &&
-                        this.getDirection() == Direction.INCOMING &&
-                        other.getDirection() == Direction.OUTGOING;
-
-    boolean needsAttention = isPairAndNeedsAttention && ChronoUnit.DAYS.between(this.getDate(), other.getDate()) > 14;
-
-    return needsAttention; 
+        return needsAttention;
     }
 
-    
-
-
-
- 
     // public String toStringForShipment() {
-    //     return  "\nWarehouse: " + warehouse.getName() +
-    //              "\nDate: " + date +
-    //             "\nDirection: " + direction +
-    //             "\n";
+    // return "\nWarehouse: " + warehouse.getName() +
+    // "\nDate: " + date +
+    // "\nDirection: " + direction +
+    // "\n";
     // }
-    
+
     // public String toStringForWarehouse() {
-    //     return  "\n\nShipmentID: " + shipment.getShipmentId() +
-    //             "\nDate: " + date +
-    //             "\nDirection: " + direction +
-    //             "\n";
+    // return "\n\nShipmentID: " + shipment.getShipmentId() +
+    // "\nDate: " + date +
+    // "\nDirection: " + direction +
+    // "\n";
     // }
 
 }

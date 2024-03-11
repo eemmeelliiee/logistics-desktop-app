@@ -12,10 +12,8 @@ public class WarehouseHandler {
 
     private static final String ALREADY_EXISTS_WAREHOUSE_WITH_NAME = "Error: A warehouse with given name already exists";
 
-
     private WarehouseHandler() {
         warehouses = FXCollections.observableList(new ArrayList<>());
-        //addTestData(); <--- metoden ska deklareras i Warehouse
         // bör finnas en i varje konstruktor för handlers
     }
 
@@ -25,8 +23,6 @@ public class WarehouseHandler {
         }
         return instance;
     }
-
-   
 
     // CREATE
 
@@ -42,7 +38,6 @@ public class WarehouseHandler {
     public ObservableList<Warehouse> getWarehouses() {
         return warehouses;
     }
-
 
     // UPDATE
 
@@ -63,67 +58,67 @@ public class WarehouseHandler {
             case CAPACITY:
                 updateWarehouseCapacity(warehouse, (Double) newValue);
                 break;
-            //     break;
+            // break;
             // default:
-            //     throw new Exception(Constants.INVALID_FIELD);
+            // throw new Exception(Constants.INVALID_FIELD);
         }
     }
 
-   public void updateWarehouseName(Warehouse warehouse, String newWarehouseName) throws Exception {
-        if (doesAWarehouseExistWithName(newWarehouseName)){
+    public void updateWarehouseName(Warehouse warehouse, String newWarehouseName) throws Exception {
+        if (doesAWarehouseExistWithName(newWarehouseName)) {
             throw new Exception(ALREADY_EXISTS_WAREHOUSE_WITH_NAME);
         } else {
-                warehouse.setName(newWarehouseName);
-                forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
-                return;
-            }
+            warehouse.setName(newWarehouseName);
+            forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its
+                                           // state )
+            return;
         }
+    }
 
-        public void updateWarehouseLocation(Warehouse warehouse, Location newLocation) {
-            // if (warehouse != null){
-                warehouse.setLocation(newLocation);
-                forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
-                return;
-            // }
-        }
+    public void updateWarehouseLocation(Warehouse warehouse, Location newLocation) {
+        // if (warehouse != null){
+        warehouse.setLocation(newLocation);
+        forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
+        return;
+        // }
+    }
 
-        public  void updateWarehouseAddress(Warehouse warehouse, String newAddress){
-            // if (warehouse != null){
-                warehouse.setAddress(newAddress);
-                forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
-                return;
-            // }
+    public void updateWarehouseAddress(Warehouse warehouse, String newAddress) {
+        // if (warehouse != null){
+        warehouse.setAddress(newAddress);
+        forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
+        return;
+        // }
 
-        }
-    
-        public void updateWarehouseCapacity(Warehouse warehouse, double newCapacity) throws Exception {
-            // if (warehouse != null){
-                warehouse.setCapacity(newCapacity);
-                forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
-                return;
-            // }
+    }
 
-        }
+    public void updateWarehouseCapacity(Warehouse warehouse, double newCapacity) throws Exception {
+        // if (warehouse != null){
+        warehouse.setCapacity(newCapacity);
+        forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
+        return;
+        // }
+
+    }
 
     // DELETE
 
     public void deleteWarehouse(Warehouse warehouse) {
-                 warehouses.remove(warehouse);
+        warehouses.remove(warehouse);
     }
 
-     // only needed to updated ComboBoxes!
-     public void forceUpdateOfObservableList() {
+    // only needed to updated ComboBoxes!
+    public void forceUpdateOfObservableList() {
         warehouses.add(0, null);
         warehouses.remove(0);
     }
 
-
-     boolean doesAWarehouseExistWithName(String warehouseName) throws Exception{
+    boolean doesAWarehouseExistWithName(String warehouseName) throws Exception {
         if (warehouseName == null) {
             throw new Exception(Constants.CANNOT_BE_EMPTY);
         }
-        for (Warehouse warehouse : warehouses){
-            if (warehouse.getName().equals(warehouseName)){
+        for (Warehouse warehouse : warehouses) {
+            if (warehouse.getName().equals(warehouseName)) {
                 return true;
             }
         }

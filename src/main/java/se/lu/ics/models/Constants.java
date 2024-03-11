@@ -18,9 +18,6 @@ public class Constants {
     public static final String SAME_WAREHOUSE = "Error: ShipmentLog already has this warehouse";
     public static final String SAME_DIRECTION = "Error: ShipmentLog already has this direction";
     public static final String SAME_DATE = "Error: ShipmentLog already has this date";
-
-
-    // Shipment
     public static final String ALREADY_EXISTS_SHIPMENT_WITH_ID = "Error: A shipment with given ID already exists";
     
 

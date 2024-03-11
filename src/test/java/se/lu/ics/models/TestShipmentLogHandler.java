@@ -20,7 +20,7 @@ public class TestShipmentLogHandler {
 
     @AfterEach
     public void tearDown() {
-        dataManager.clearData(); // Assuming WarehouseHandler has a clearData method
+        dataManager.clearData(); 
     }
 
     @Test
@@ -389,6 +389,57 @@ public void testUpdateShipmentLogWithInvalidDate() throws Exception {
         }, "Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
    
 
+
+}
+
+    @Test
+    public void testUpdateShipmentLogWithExistingLog2() throws Exception {
+        Shipment shipment = dataManager.createShipment();
+        Warehouse warehouse = dataManager.createWarehouse("Test Warehouse", Location.MIDDLE, "Test Address", 1000);
+        LocalDate date = LocalDate.now();
+        Direction direction = Direction.INCOMING;
+
+        // Create a shipment log
+        ShipmentLog log = dataManager.createShipmentLog(date, direction, warehouse, shipment);
+
+        // Try to update the shipment log with the same parameters
+        assertThrows(Exception.class, () -> {
+            dataManager.updateShipmentLog(log, UpdateFieldShipmentLog.SHIPMENT, shipment);
+            dataManager.updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
+            dataManager.updateShipmentLog(log, UpdateFieldShipmentLog.DIRECTION, direction);
+        }, "Warning: A shipment log with the same shipment, warehouse and direction already exists without a corresponding log with the opposite direction.");
+    }
+
+    @Test
+    public void testUpdateShipmentLogWithInvalidDirection2() throws Exception {
+        Shipment shipment = dataManager.createShipment();
+        Warehouse warehouse = dataManager.createWarehouse("Test Warehouse", Location.MIDDLE, "Test Address", 1000);
+        LocalDate date = LocalDate.now();
+        Direction direction = Direction.INCOMING;
+
+        // Create a shipment log
+        ShipmentLog log = dataManager.createShipmentLog(date, direction, warehouse, shipment);
+
+        // Try to update the shipment log with a direction that is the same as the existing direction
+        assertThrows(Exception.class, () -> {
+            dataManager.updateShipmentLog(log, UpdateFieldShipmentLog.DIRECTION, direction);
+        });
+    }
+
+    @Test
+    public void testUpdateShipmentLogWithInvalidWarehouse2() throws Exception {
+        Shipment shipment = dataManager.createShipment();
+        Warehouse warehouse = dataManager.createWarehouse("Test Warehouse", Location.MIDDLE, "Test Address", 1000);
+        LocalDate date = LocalDate.now();
+        Direction direction = Direction.INCOMING;
+
+        // Create a shipment log
+        ShipmentLog log = dataManager.createShipmentLog(date, direction, warehouse, shipment);
+
+        // Try to update the shipment log with a warehouse that is the same as the existing warehouse
+        assertThrows(Exception.class, () -> {
+            dataManager.updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
+        });
 
 }
 }

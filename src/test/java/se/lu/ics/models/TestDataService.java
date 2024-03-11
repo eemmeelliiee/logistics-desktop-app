@@ -87,7 +87,7 @@ public void testFindBusiestWarehouse() throws Exception {
     ShipmentLog log2 = dataManager.createShipmentLog(LocalDate.now(), Direction.INCOMING, warehouse2, shipment2);
     // Assuming DataManager and DataService are properly set up
 
-    String busiestWarehouse = DataService.getInstance().findBusiestWarehouse();
+    String busiestWarehouse = dataService.getBusiestWarehouse();
 
     assertEquals("Busiest warehouses are: Test Warehouse 1, Test Warehouse 2, using 0.1% of capacity", busiestWarehouse);
     // Add assertions based on specific scenarios and data
@@ -101,7 +101,7 @@ public void testFindBusiestWarehouseWhenNoShipments() throws Exception {
     Warehouse warehouse2 = dataManager.createWarehouse("Test Warehouse 2", Location.NORTH, "Test Address", 1000);
     // Assuming DataManager and DataService are properly set up
 
-    String busiestWarehouse = DataService.getInstance().findBusiestWarehouse();
+    String busiestWarehouse = dataService.getBusiestWarehouse();
 
     assertEquals("No incoming shipmentlogs exist for any warehouse", busiestWarehouse);
     // Add assertions based on specific scenarios and data
@@ -118,7 +118,7 @@ public void testFindBusiestWarehouseWhenNoIncomingShipments() throws Exception {
     ShipmentLog log2 = dataManager.createShipmentLog(LocalDate.now(), Direction.OUTGOING, warehouse2, shipment2);
     // Assuming DataManager and DataService are properly set up
 
-    String busiestWarehouse = DataService.getInstance().findBusiestWarehouse();
+    String busiestWarehouse = dataService.getBusiestWarehouse();
 
     assertEquals("No incoming shipmentlogs exist for any warehouse", busiestWarehouse);
     // Add assertions based on specific scenarios and data
@@ -135,7 +135,7 @@ public void testFindBusiestWarehouseWhenNoOutgoingShipments() throws Exception {
     ShipmentLog log2 = dataManager.createShipmentLog(LocalDate.now(), Direction.INCOMING, warehouse2, shipment2);
     // Assuming DataManager and DataService are properly set up
 
-    String busiestWarehouse = DataService.getInstance().findBusiestWarehouse();
+    String busiestWarehouse = dataService.getBusiestWarehouse();
 
     assertEquals("Busiest warehouses are: Test Warehouse 1, Test Warehouse 2, using 0.1% of capacity", busiestWarehouse);
     // Add assertions based on specific scenarios and data
@@ -152,7 +152,7 @@ public void testFindBusiestWarehouseWhenMultipleWarehouses() throws Exception {
     ShipmentLog log2 = dataManager.createShipmentLog(LocalDate.now(), Direction.INCOMING, warehouse1, shipment2);
     // Assuming DataManager and DataService are properly set up
 
-    String busiestWarehouse = DataService.getInstance().findBusiestWarehouse();
+    String busiestWarehouse = dataService.getBusiestWarehouse();
 
     assertEquals("Busiest warehouse is: Test Warehouse 1, using 0.2% of capacity", busiestWarehouse);
     // Add assertions based on specific scenarios and data
@@ -171,7 +171,7 @@ public void testFindBusiestWarehouseWhenMultipleWarehousesAndMultipleShipments()
     ShipmentLog log4 = dataManager.createShipmentLog(LocalDate.now(), Direction.OUTGOING, warehouse2, shipment2);
     // Assuming DataManager and DataService are properly set up
 
-    String busiestWarehouse = DataService.getInstance().findBusiestWarehouse();
+    String busiestWarehouse = dataService.getBusiestWarehouse();
 
     assertEquals("No incoming shipmentlogs exist for any warehouse", busiestWarehouse);
     // Add assertions based on specific scenarios and data
@@ -195,7 +195,7 @@ public void testFindBusiestWarehouseWhenMultipleWarehousesAndMultipleShipmentsAn
     ShipmentLog log9 = dataManager.createShipmentLog(LocalDate.now(), Direction.INCOMING, warehouse1, shipment1);
     // Assuming DataManager and DataService are properly set up
 
-    String busiestWarehouse = DataService.getInstance().findBusiestWarehouse();
+    String busiestWarehouse = dataService.getBusiestWarehouse();
 
     assertEquals("Busiest warehouse is: Test Warehouse 1, using 0.1% of capacity", busiestWarehouse);
     // Add assertions based on specific scenarios and data
@@ -223,7 +223,7 @@ public void testFindBusiestWarehouseWhenMultipleWarehousesAndMultipleShipmentsAn
     ShipmentLog log12 = dataManager.createShipmentLog(LocalDate.now(), Direction.OUTGOING, warehouse2, shipment2);
     // Assuming DataManager and DataService are properly set up
 
-    String busiestWarehouse = DataService.getInstance().findBusiestWarehouse();
+    String busiestWarehouse = dataService.getBusiestWarehouse();
 
     assertEquals("No incoming shipmentlogs exist for any warehouse", busiestWarehouse);
     // Add assertions based on specific scenarios and data
@@ -252,7 +252,7 @@ public void testFindBusiestWarehouseWhenMultipleWarehousesAndMultipleShipmentsAn
 
     // Assuming DataManager and DataService are properly set up
 
-    String busiestWarehouse = DataService.getInstance().findBusiestWarehouse();
+    String busiestWarehouse = dataService.getBusiestWarehouse();
 
     assertEquals("Busiest warehouses are: Test Warehouse 1, Test Warehouse 2, using 0.1% of capacity", busiestWarehouse);
 }
@@ -763,5 +763,20 @@ public void testGetCurrentAvailableCapacityForLocations() throws Exception {
     // Check that the list contains the correct pairs
     assertTrue(capacityForLocations.contains(new Pair<>(Location.NORTH, 1498.0)));
     assertTrue(capacityForLocations.contains(new Pair<>(Location.SOUTH, 1999.0)));
+}
+
+@Test
+public void testGetInspectorsForWarehouse() throws Exception {
+    Warehouse warehouse = dataManager.createWarehouse("Test Warehouse", Location.NORTH, "Test Address", 1000);
+    Shipment shipment = dataManager.createShipment();
+    InspectionLog log1 = dataManager.createInspectionLog(shipment, warehouse, LocalDate.of(2021,9,8), "Test Inspector", "Test Result");
+
+    Shipment shipment2 = dataManager.createShipment();
+    InspectionLog log2 = dataManager.createInspectionLog(shipment2, warehouse, LocalDate.of(2021,9,8), "Test Inspector 2", "Test Result");
+
+    ObservableList<String> inspectors = dataService.getInspectorsForWarehouse(warehouse);
+
+    assertEquals(2, inspectors.size());
+
 }
 }
