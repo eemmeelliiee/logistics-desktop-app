@@ -3,7 +3,6 @@ package se.lu.ics.models;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-import javafx.collections.ObservableList;
 
 public class ShipmentLog {
 

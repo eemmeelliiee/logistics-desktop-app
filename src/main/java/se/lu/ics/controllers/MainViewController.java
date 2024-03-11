@@ -1,286 +1,418 @@
 package se.lu.ics.controllers;
 
+import java.time.LocalDate;
+import java.util.Arrays;
+
+import javafx.util.Callback;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.chart.PieChart.Data;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-import java.util.stream.Collectors;
-
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-
-import se.lu.ics.models.Constants;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.util.Pair;
+import javafx.util.converter.DoubleStringConverter;
 import se.lu.ics.models.DataManager;
+import se.lu.ics.models.DataService;
+import se.lu.ics.models.Location;
+import se.lu.ics.models.LocationStringConverter;
 import se.lu.ics.models.Shipment;
+import se.lu.ics.models.UpdateFieldWarehouse;
+import se.lu.ics.models.Warehouse;
+import se.lu.ics.models.Constants;
 
 public class MainViewController {
 
-    //private Stack<Shipment> deletedShipments;
-
-    private DataManager dataManager = DataManager.getInstance();
-
-    @FXML
-    private ComboBox<Shipment> myComboBox;
+    private DataManager dataManager;
+    private DataService dataService;
 
     @FXML
-    private Button createButton;
+    private Button buttonAddShipment;
 
     @FXML
-    private Button deleteButton;
+    private Button buttonAddWarehouse;
 
     @FXML
-    private Label myLabel;
+    private Button buttonDeleteShipment;
 
     @FXML
-    private TextField newIdTextField;
+    private Button buttonDeleteWarehouse;
 
     @FXML
-    private Button updateIdButton;
+    private ComboBox<Location> comboBoxAddWarehouseLocation;
 
     @FXML
-    private Label errorLabel;
-    
-    @FXML
-    private TableView<Shipment> myTableView;
+    private AnchorPane mainViewAnchorPane;
 
     @FXML
-    private TableColumn<Shipment, String> shipmentIdColumn;
-
-
+    private Label labelSystemStatus;
 
     @FXML
-    private void handleButtonCreateButton(ActionEvent event) {
-        // Code to execute when the button is pressed
-        System.out.println("create button was pressed!");
+    private Tab mainViewTab;
+
+    @FXML
+    private Tab shipmentTab;
+
+    @FXML
+    private TableColumn <Pair<Location, Double>, Double> tableColumnRegionsCurrentCapacity;
+
+    @FXML
+    private TableColumn<Pair<Location, Double>, Location>  tableColumnRegionsLocation;
+
+    @FXML
+    private TableColumn<Shipment, String> tableColumnShipmentsCurrentWarehouse;
+
+    @FXML
+    private TableColumn<Shipment, String> tableColumnShipmentsID;
+
+    @FXML
+    private TableColumn<Shipment, String> tableColumnShipmentsStatus;
+
+    @FXML
+    private TableColumn<Warehouse, String> tableColumnWarehousesAddress;
+
+    @FXML
+    private TableColumn<Warehouse, Double> tableColumnWarehousesCapacity;
+
+    @FXML
+    private TableColumn<Warehouse, Double> tableColumnWarehousesCurrentCapacity;
+
+    @FXML
+    private TableColumn<Warehouse, LocalDate> tableColumnWarehousesInspec;
+
+    @FXML
+    private TableColumn<Warehouse, Location> tableColumnWarehousesLocation;
+
+    @FXML
+    private TableColumn<Warehouse, String> tableColumnWarehousesName;
+
+    @FXML
+    private TableView<Pair<Location, Double>> tableViewRegions;
+
+    @FXML
+    private TableView<Shipment> tableViewShipments;
+
+    @FXML
+    private TableView<Warehouse> tableViewWarehouses;
+
+    @FXML
+    private Text textAddShipment;
+
+    @FXML
+    private Text textAddWarehouse;
+
+    @FXML
+    private Text textAllRegions;
+
+    @FXML
+    private Text textAllShipments;
+
+    @FXML
+    private Text textAllWarehouses;
+
+    @FXML
+    private Text textBusiestWarehouse;
+
+    @FXML
+    private TextField textFieldAddWarehouseAddress;
+
+    @FXML
+    private TextField textFieldAddWarehouseCapacity;
+
+    @FXML
+    private TextField textFieldAddWarehouseName;
+
+    @FXML
+    private Text textIDAddShipment;
+
+    @FXML
+    private Text textInfoEdit;
+
+    @FXML
+    private Text textMainVIew;
+
+    @FXML
+    private Tab warehouseTab;
+
+    @FXML
+    void handleButtonAddShipment(ActionEvent event) {
+         //Code to execute when the button is pressed
         dataManager.createShipment();
-        errorLabel.setText("shipment was created!  ");
+        labelSystemStatus.setText("Shipment created");
     }   
 
+    
+
     @FXML
-    private void handleButtonDeleteButton(ActionEvent event) throws Exception {
-        Shipment selectedShipment = myTableView.getSelectionModel().getSelectedItem();
+    void handleButtonAddWarehouse(ActionEvent event) {
+
+        String name = textFieldAddWarehouseName.getText();
+        String address = textFieldAddWarehouseAddress.getText();
+        String capacity = textFieldAddWarehouseCapacity.getText();
+        Location location = (Location) comboBoxAddWarehouseLocation.getValue();
+
+        try {
+            dataManager.createWarehouse(name, location,  address, Double.parseDouble(capacity));
+            labelSystemStatus.setText("Warehouse created");
+            textFieldAddWarehouseAddress.clear();
+            textFieldAddWarehouseCapacity.clear();
+            textFieldAddWarehouseName.clear();
+            comboBoxAddWarehouseLocation.setValue(null);
+        } catch (Exception e) {
+            labelSystemStatus.setText(e.getMessage());
+        }
+
+    }
+
+    @FXML
+    void handleButtonDeleteShipment(ActionEvent event) {
+        Shipment selectedShipment = tableViewShipments.getSelectionModel().getSelectedItem();
         if (selectedShipment != null) {
             // Remove the selected shipment from the data source
             dataManager.deleteShipment(selectedShipment);
             // Refresh the table view
-            myTableView.getItems().remove(selectedShipment);
-            errorLabel.setText("shipment was deleted!  ");
+            tableViewShipments.getItems().remove(selectedShipment);
+            labelSystemStatus.setText("Shipment deleted");
         } else {
             // Display an error message
-            errorLabel.setText(Constants.NO_ROW_SELECTED);
-            System.out.println("No row selected");
+            labelSystemStatus.setText(Constants.NO_ROW_SELECTED);
         }
     }
 
-//  @FXML
-// private void handleButtonUndoButton(ActionEvent event) throws Exception {
-//     if (!deletedShipments.isEmpty()) {
-//         // Get the last deleted shipment
-//         Shipment lastDeletedShipment = deletedShipments.pop();
-//         // Add the shipment back to the data source
-//         DataManager.getInstance().addDeletedShipment(lastDeletedShipment);
-//         // Refresh the table view
-//         myTableView.getItems().add(lastDeletedShipment);
-//     } else {
-//         // Display an error message
-//         System.out.println("No shipment to undo delete");
-//     }
-// }
-    
-@FXML
-private void handleButtonUpdateId(ActionEvent event) {
-    // Code to execute when the button is pressed
-    System.out.println("update button was pressed!");
-
-    Shipment selectedShipment = myComboBox.getValue(); 
-    String newId = newIdTextField.getText();
-    ObservableValue<String> newIdObservable = new SimpleStringProperty(newId);
-
-    myTableView.refresh();
-
-    try {
-        dataManager.updateShipmentId(selectedShipment, newId);
-        errorLabel.setText("");
-        newIdTextField.setText("");
-    } catch (Exception e) {
-        errorLabel.setText(e.getMessage());
-    }
-}
-
 
     @FXML
-    public void initialize() {
+    void handleButtonDeleteWarehouse(ActionEvent event) {
 
-        // hide error messages
-        errorLabel.setText("");
+    }
 
+    public void initialize() throws Exception {
+
+        dataManager = DataManager.getInstance();
+        dataService = DataService.getInstance();
+        dataService.updateAll();
+
+
+        ComboBox<Location> comboBox = (ComboBox<Location>) comboBoxAddWarehouseLocation;
+            for (Location location : Location.values()) {
+            comboBox.getItems().add(location);
+        }
+
+tableColumnRegionsLocation.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getKey()));
+    // Set value factory for the capacity column
+    tableColumnRegionsCurrentCapacity.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getValue()).asObject());
+
+    // Bind the TableView's items property to the ObservableList returned by getCurrentAvailableCapacityForLocations
+    tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
+
+       tableViewShipments.setEditable(true);
+        tableViewWarehouses.setEditable(true);
+
+       // Warehouse
+        tableColumnWarehousesName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tableColumnWarehousesName.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        // Location
+        tableColumnWarehousesLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+        tableColumnWarehousesLocation.setCellFactory(new Callback<TableColumn<Warehouse, Location>, TableCell<Warehouse, Location>>() {
+            @Override
+            public TableCell<Warehouse, Location> call(TableColumn<Warehouse, Location> param) {
+                return new TableCell<Warehouse, Location>() {
+                    @Override
+                    protected void updateItem(Location item, boolean empty) {
+                        super.updateItem(item, empty);
         
-
-        myComboBox.setItems(dataManager.readShipments());
-        myComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-        
-            myLabel.setText(newValue.toString());
-
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.toString());
+                        }
+                    }
+                };
+            }
         });
         
-            // Make the TableView editable
-        myTableView.setEditable(true);
+        // Address
+        tableColumnWarehousesAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        tableColumnWarehousesAddress.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        // sets title of column
-        shipmentIdColumn.setText("Shipment ID");
+        // Capacity
+        tableColumnWarehousesCapacity.setCellValueFactory(new PropertyValueFactory<>("capacity"));
+        tableColumnWarehousesCapacity.setCellFactory(new Callback<TableColumn<Warehouse, Double>, TableCell<Warehouse, Double>>() {
+            @Override
+            public TableCell<Warehouse, Double> call(TableColumn<Warehouse, Double> param) {
+                return new TableCell<Warehouse, Double>() {
+                    @Override
+                    protected void updateItem(Double item, boolean empty) {
+                        super.updateItem(item, empty);
+        
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.toString());
+                        }
+                    }
+                };
+            }
+        });
 
-        // Initialize the shipmentId column
-        // shipmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("shipmentId")); // VIKTIGT: KRÄVER EN GETTER I SHIPMENT, FRÅGA COPILOT
-        shipmentIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentId()));
+        // Current Capacity
+        tableColumnWarehousesCurrentCapacity.setCellValueFactory(new PropertyValueFactory<>("currentAvailableCapacity"));
+        tableColumnWarehousesCurrentCapacity.setCellFactory(new Callback<TableColumn<Warehouse, Double>, TableCell<Warehouse, Double>>() {
+            @Override
+            public TableCell<Warehouse, Double> call(TableColumn<Warehouse, Double> param) {
+                return new TableCell<Warehouse, Double>() {
+                    @Override
+                    protected void updateItem(Double item, boolean empty) {
+                        super.updateItem(item, empty);
+        
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.toString());
+                        }
+                    }
+                };
+            }
+        });
 
-        // Make the shipmentId column editable
-        shipmentIdColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        // Inspection Date
+        tableColumnWarehousesInspec.setCellValueFactory(new PropertyValueFactory<>("mostRecentInspectionDate"));
+        tableColumnWarehousesInspec.setCellFactory(new Callback<TableColumn<Warehouse, LocalDate>, TableCell<Warehouse, LocalDate>>() {
+            @Override
+            public TableCell<Warehouse, LocalDate> call(TableColumn<Warehouse, LocalDate> param) {
+                return new TableCell<Warehouse, LocalDate>() {
+                    @Override
+                    protected void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+        
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.toString());
+                        }
+                    }
+                };
+            }
+        });
 
-        shipmentIdColumn.setOnEditCommit(event -> {
+       // ShipmentID
+        tableColumnShipmentsID.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentId()));
+        tableColumnShipmentsID.setCellFactory(TextFieldTableCell.forTableColumn());
+        // tableColumnShipmentsID.setCellValueFactory(new PropertyValueFactory<>("shipmentId"));
+
+        // Status
+        tableColumnShipmentsStatus.setCellValueFactory(new PropertyValueFactory<>("label"));
+        tableColumnShipmentsStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        // Current Warehouse
+        tableColumnShipmentsCurrentWarehouse.setCellValueFactory(new PropertyValueFactory<>("currentWarehouse"));
+        tableColumnWarehousesLocation.setCellFactory(TextFieldTableCell.forTableColumn(new LocationStringConverter()));
+
+
+        textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
+
+
+        
+        tableColumnWarehousesName.setOnEditCommit(event -> {
+            Warehouse warehouse = event.getRowValue();
+            String newValue = event.getNewValue();
+            UpdateFieldWarehouse field = UpdateFieldWarehouse.NAME; // Replace with the actual field you want to update
+            try {
+                dataManager.updateWarehouse(warehouse, field, newValue);
+                labelSystemStatus.setText("Warehouse name updated!");
+            } catch (Exception e) {
+                event.getOldValue(); // VIKTIGT reset to this value in table!!!
+                labelSystemStatus.setText(e.getMessage());
+            }
+        });
+
+        tableColumnWarehousesLocation.setOnEditCommit(event -> {
+            Warehouse warehouse = event.getRowValue();
+            Location newValue = event.getNewValue();
+            UpdateFieldWarehouse field = UpdateFieldWarehouse.LOCATION; // Replace with the actual field you want to update
+            try {
+                dataManager.updateWarehouse(warehouse, field, newValue);
+                labelSystemStatus.setText("Warehouse location updated!");
+            } catch (Exception e) {
+                event.getOldValue(); // VIKTIGT reset to this value in table!!!
+                labelSystemStatus.setText(e.getMessage());
+            }
+        });
+
+        tableColumnWarehousesAddress.setOnEditCommit(event -> {
+            Warehouse warehouse = event.getRowValue();
+            String newValue = event.getNewValue();
+            UpdateFieldWarehouse field = UpdateFieldWarehouse.ADDRESS; // Replace with the actual field you want to update
+            try {
+                dataManager.updateWarehouse(warehouse, field, newValue);
+                labelSystemStatus.setText("Warehouse address updated!");
+            } catch (Exception e) {
+                event.getOldValue(); // VIKTIGT reset to this value in table!!!
+                labelSystemStatus.setText(e.getMessage());
+            }
+        });
+
+        tableColumnWarehousesCapacity.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        tableColumnWarehousesCapacity.setOnEditCommit(event -> {
+            Warehouse warehouse = event.getRowValue();
+            Double newValue = event.getNewValue();
+            UpdateFieldWarehouse field = UpdateFieldWarehouse.CAPACITY; // Replace with the actual field you want to
+                                                                        // update
+            try {
+                dataManager.updateWarehouse(warehouse, field, newValue);
+                labelSystemStatus.setText("Warehouse capacity updated!");
+            } catch (Exception e) {
+                try {
+                    event.getTableView().getItems().get(event.getTablePosition().getRow()).setCapacity(event.getOldValue());
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                labelSystemStatus.setText(e.getMessage());
+            }
+        });
+
+
+
+
+        tableColumnShipmentsID.setOnEditCommit(event -> {
             Shipment shipment = event.getRowValue();
 
             String newValue = event.getNewValue();
             String newValueAsStringProperty = newValue;
 
-            try 
-            {
-                // maybe change updatedShipmentId to take a reference to Shipment instead of having to write shipment.getShipmentId()
+            try {
                 dataManager.updateShipmentId(shipment, newValueAsStringProperty);
-                errorLabel.setText("Shipment ID updated!");
-            } 
-            catch (Exception e) 
-            {
-                errorLabel.setText(e.getMessage());
+                labelSystemStatus.setText("Shipment ID updated!");
+            } catch (Exception e) {
                 event.getOldValue(); // VIKTIGT reset to this value in table!!!
-                System.out.println("error: " + e.getMessage());
+                labelSystemStatus.setText(e.getMessage());
             }
-
-            //needs to check if valid here
         });
-
-        // Set the items of the table view
-        myTableView.setItems(dataManager.readShipments());
-
-
-    
-        // myComboBox.getItems().addAll("Option 1", "Option 2", "Option 3");
-
-        // ArrayList<String> arrayList = new ArrayList<String>();
-        // arrayList.add("Option 1");
-        // arrayList.add("Option 2");
-        // arrayList.add("Option 3");
-
-
-        // // items är en "wrapper" för vår arraylist
-        // ObservableList<String> items = FXCollections.observableList(arrayList);
-
-        // myComboBox.setItems(items);
-
-        
-
-        // myComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            
-            
-        //     myLabel.setText(newValue);
-
-        //     arrayList.add("Option 4");
-        //     System.out.println(items.size());
-
-        //     items.add("Option 5");
-
-
-        // }
-
-        // (ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-        //     myLabel.setText(newValue);
-        //     arrayList.add("Option 4");
-        //     System.out.println(items.size());
-        // }
-
-
-        
-
-        // //här skapas en instans av en anonym klass (som också skapas här) som implementerar ChangeListener
-        // new ChangeListener<String>() {
-        //     @Override
-        //     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-        //         myLabel.setText(newValue);
-        //         arrayList.add("Option 4");
-        //         System.out.println(items.size());
-        //     }
-        // }
-        
-        
-
     }
 
+        public void populateTableView() {
+                tableViewShipments.getItems().clear();
+                tableViewShipments.setItems(dataManager.readShipments());
+
+                tableViewWarehouses.getItems().clear();
+                tableViewWarehouses.setItems(dataManager.readWarehouses());
+
+        
+
+        
 }
-    
-    // @FXML
-    // private TabPane tabPane;
-    // @FXML
-    // private ComboBox<String> comboBox;
-    // @FXML
-    // private TextField textField;
-    // @FXML
-    // private Button saveButton;
-    // @FXML
-    // private Button deleteButton;
+}
 
-    // @FXML
-    // public void initialize() {
-       
-
-
-        // comboBox.getItems().addAll("Option 1", "Option 2", "Option 3");
-
-        // saveButton.setOnAction(e -> {
-        //     String comboBoxInput = comboBox.getValue();
-        //     String userInput = textField.getText();
-
-        //     /*
-        //     DataManager.getInstance().setData("comboBoxKey", comboBoxInput);
-        //     DataManager.getInstance().setData("shipment", userInput);
-        //     DataManager.getInstance().saveData();
-        //     */
-
-        //     String oldId = "100";
-        //     String newId = "101";
-
-        //     try {
-        //         DataManager.getInstance().updateShipmentId(oldId, newId);
-
-        //     } catch (Exception ex) {
-
-        //         //errorMesssageRuta.setString(ex.getMessage());
-        //         System.out.println(ex.getMessage());
-        //     }
-        // });
-
-        // deleteButton.setOnAction(e -> {
-        //     //DataManager.getInstance().removeData("comboBoxKey");
-        //     //DataManager.getInstance().removeData("shipment");
-        //     //DataManager.getInstance().saveData();
-        // });
-
-        // tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
-        //     @Override
-        //     public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
-        //         String key = newTab.getId();
-        //         String newData = newTab.getText();
-        //         //DataManager.getInstance().setData(key, newData);
-        //         //DataManager.getInstance().saveData();
-        //     }
-        // });
-    //}

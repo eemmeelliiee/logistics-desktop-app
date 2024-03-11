@@ -10,7 +10,7 @@ public class TestWarehouseHandler {
     private DataManager dataManager;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception{
         dataManager = DataManager.getInstance();
     }
 

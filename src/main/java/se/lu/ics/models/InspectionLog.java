@@ -63,7 +63,7 @@ public class InspectionLog {
     }
 
 
-    // för tester bara tror jag
+    // för tester bara (tror jag)
     @Override
     public String toString() {
         return "\n\nShipmentID: " + shipment +

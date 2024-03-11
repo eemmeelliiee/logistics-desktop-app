@@ -29,9 +29,7 @@ public class ShipmentLogHandler {
         shipmentLogs = FXCollections.observableArrayList();
     }
 
-    public ObservableList<ShipmentLog> getShipmentLogs() {
-        return shipmentLogs;
-    }
+   
 
     // <<------Create------>>
 
@@ -48,7 +46,19 @@ public class ShipmentLogHandler {
 
     }
 
+
+    // <<------Read------>>
+
+    public ObservableList<ShipmentLog> getShipmentLogs() {
+        return shipmentLogs;
+    }
+
+
     // <<------Update------>>
+    
+    public void warehouseUpdate(){
+        
+    }
 
     public void updateShipmentLog(ShipmentLog shipmentLog, UpdateFieldShipmentLog field, Object newValue)
             throws Exception {
@@ -106,7 +116,7 @@ public class ShipmentLogHandler {
         updateAttentionStatus();
     }
 
-    //<<------Update------>>
+    //<<------Delete------>>
 
     public void deleteShipmentLog(ShipmentLog shipmentLog) {
         shipmentLogs.remove(shipmentLog);
@@ -225,7 +235,7 @@ public class ShipmentLogHandler {
         return count;
     }
 
-    // Only needed for testing
+    // For testing purposes only
     public void clearData() {
         shipmentLogs.clear();
     }

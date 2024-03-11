@@ -24,9 +24,7 @@ public class InspectionLogHandler {
         return instance;
     }
 
-    public ObservableList<InspectionLog> getInspectionLogs() {
-        return inspectionLogs;
-    }
+    // <<------Create------>>
 
     public InspectionLog createInspectionLog(Shipment shipment, Warehouse warehouse, LocalDate date, String inspector,
             String result) {
@@ -34,6 +32,16 @@ public class InspectionLogHandler {
         inspectionLogs.add(inspectionLog);
         return inspectionLog;
     }
+
+
+    // <<------Read------>>
+
+    public ObservableList<InspectionLog> getInspectionLogs() {
+        return inspectionLogs;
+    }
+
+
+    // <<------Update------>>
 
     public void updateInspectionLog(InspectionLog inspectionLog, UpdateFieldInspectionLog field, Object newValue)
             throws Exception {
@@ -81,23 +89,14 @@ public class InspectionLogHandler {
         inspectionLog.setResult(newResult);
     }
 
+
+    // <<------Delete------>>
     public void deleteInspectionLog(InspectionLog inspectionLog) {
         inspectionLogs.remove(inspectionLog);
-        // Shipment shipment = inspectionLog.getShipment();
-        // if (shipment != null) {
-        //     boolean hasOtherInspectionLogs = false;
-        //     for (InspectionLog log : inspectionLogs) {
-        //         if (log.getShipment() == shipment) {
-        //             hasOtherInspectionLogs = true;
-        //             break;
-        //         }
-        //     }
-        //     if (!hasOtherInspectionLogs) {
-        //         shipment.setInspected(false);
-        //     }
-        
     }
 
+
+    // For testing purposes only
     public void clearData() {
         inspectionLogs.clear();
     }

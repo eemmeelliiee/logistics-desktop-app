@@ -23,15 +23,24 @@ public class ShipmentHandler {
         return instance;
     }
 
-    public ObservableList<Shipment> getShipments() {
-        return shipments;
-    }
+
+    // <<------Create------>>
 
     public Shipment createShipment() {
         Shipment shipment = new Shipment();
         shipments.add(shipment);
         return shipment;
     }
+
+
+    // <<------Read------>>
+
+    public ObservableList<Shipment> getShipments() {
+        return shipments;
+    }
+
+
+    // <<-----Update----->>
 
     public void updateShipmentId(Shipment shipment, String newShipmentId) throws Exception {
 
@@ -50,6 +59,8 @@ public class ShipmentHandler {
 
     }
 
+    // <<------Delete------>>
+
     public void deleteShipment(Shipment shipment) {
         shipments.remove(shipment);
     }
@@ -64,6 +75,7 @@ public class ShipmentHandler {
         shipments.remove(0);
     }
 
+    // <<---- Used in updateShipmentId to validate uniqueness of ID ---->>
     private boolean doesAShipmentExistWithId(String shipmentId) {
         for (Shipment shipment : shipments) {
             if (shipment.getShipmentId().equals(shipmentId)) {
@@ -73,7 +85,7 @@ public class ShipmentHandler {
         return false;
     }
 
-    // these are only for tests, move to a test class !? how?
+    // For testing purposes only
     public void clearData() {
         shipments.clear();
     }

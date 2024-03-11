@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="shipmentTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="737.0" prefWidth="879.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.lu.ics.controllers.ShipmentTabController">
+             <children>
+                  <Button fx:id="buttonCreateShipmentLog" layoutX="378.0" layoutY="322.0" mnemonicParsing="false" onAction="#handleButtonCreateShipmentLog" text="Create" />
+                  <Button fx:id="buttonCreateInspectionLog" layoutX="378.0" layoutY="611.0" mnemonicParsing="false" onAction="#handleButtonCreateInspectionLog" text="Create" />
+                  <TableView fx:id="tableViewShipmentLogs" layoutX="450.0" layoutY="102.0" prefHeight="213.0" prefWidth="398.0">
+                    <columns>
+                      <TableColumn fx:id="tableColumnShipmentLogsShipmentID" prefWidth="89.0" text="Shipment ID:" />
+                        <TableColumn fx:id="tableColumnShipmentLogsDate" prefWidth="97.0" text="Date:" />
+                        <TableColumn fx:id="tableColumnShipmentLogsDirection" prefWidth="88.0" text="Direction:" />
+                      <TableColumn fx:id="tableColumnShipmentLogsWarehouse" prefWidth="122.0" text="Warehouse:" />
+                    </columns>
+                  </TableView>
+                  <TableView fx:id="tableViewInspectionLogs" layoutX="450.0" layoutY="390.0" prefHeight="213.0" prefWidth="398.0">
+                    <columns>
+                      <TableColumn fx:id="tableColumnInspectionLogsShipmentID" prefWidth="96.0" text="Shipment ID:" />
+                      <TableColumn fx:id="tableColumnInspectionLogsWarehouse" prefWidth="108.0" text="Warehouse:" />
+                        <TableColumn fx:id="tableColumnInspectionLogsInspector" prefWidth="59.0" text="Inspector:" />
+            <TableColumn fx:id="tableColumnInspectionLogsResult" prefWidth="134.0" text="Result:" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="buttonDeleteShipmentLog" layoutX="795.0" layoutY="322.0" mnemonicParsing="false" onAction="#handleButtonDeleteShipmentLog" text="Delete" />
+                  <Button fx:id="buttonDeleteInspectionLog" layoutX="795.0" layoutY="611.0" mnemonicParsing="false" onAction="#handleButtonDeleteInspectionLog" text="Delete" />
+                  <Text fx:id="textCreateShipmentLog" layoutX="18.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new shipment log:" underline="true" />
+                  <ComboBox fx:id="comboBoxSelectShipment" layoutX="20.0" layoutY="42.0" prefHeight="26.0" prefWidth="191.0" promptText="Select a shipment" />
+                  <Text fx:id="textAllShipmentLogs" layoutX="453.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All shipment logs for shipment:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="textAllInspectionLogs" layoutX="450.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All inspection logs for shipment:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Text>
+      <DatePicker fx:id="datePickerCreateShipmentLog" layoutX="17.0" layoutY="322.0" prefHeight="26.0" prefWidth="71.0" promptText="Date" />
+      <ComboBox fx:id="comboBoxCreateShipmentLogDirection" layoutX="99.0" layoutY="322.0" prefHeight="26.0" prefWidth="100.0" promptText="Direction" />
+      <ComboBox fx:id="comboBoxCreateShipmentLogWarehouse" layoutX="210.0" layoutY="322.0" prefHeight="26.0" prefWidth="112.0" promptText="Warehouse" />
+      <ComboBox fx:id="comboBoxCreateInspectionLogWarehouse" layoutX="101.0" layoutY="611.0" prefHeight="26.0" prefWidth="112.0" promptText="Warehouse" />
+      <Text fx:id="textCreateInspectionLog" layoutX="23.0" layoutY="599.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new inspection log:" underline="true" />
+      <DatePicker fx:id="datePickerCreateInspectionLog" layoutX="20.0" layoutY="611.0" prefHeight="26.0" prefWidth="71.0" promptText="Date" />
+      <TextField layoutX="224.0" layoutY="611.0" prefHeight="26.0" prefWidth="71.0" promptText="Inspector" />
+      <TextField layoutX="301.0" layoutY="611.0" prefHeight="26.0" prefWidth="71.0" promptText="Result" />
+      <Text fx:id="textEditInfo" layoutX="393.0" layoutY="698.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Double click a cell to edit. Enter to save. " />
+      <Text fx:id="textShipmentManager" layoutX="326.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SHIPMENT MANAGER">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Text>
+               </children>
+        </AnchorPane>

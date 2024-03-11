@@ -14,7 +14,6 @@ public class WarehouseHandler {
 
     private WarehouseHandler() {
         warehouses = FXCollections.observableList(new ArrayList<>());
-        // bör finnas en i varje konstruktor för handlers
     }
 
     public static WarehouseHandler getInstance() {
@@ -24,7 +23,7 @@ public class WarehouseHandler {
         return instance;
     }
 
-    // CREATE
+    // <<-----Create----->>
 
     public Warehouse createWarehouse(String name, Location location, String address, double capacity) throws Exception {
         Warehouse warehouse = new Warehouse(name, location, address, capacity);
@@ -33,13 +32,15 @@ public class WarehouseHandler {
 
     }
 
-    // READ
+
+    // <<-----Read----->>
 
     public ObservableList<Warehouse> getWarehouses() {
         return warehouses;
     }
 
-    // UPDATE
+
+    // <<-----Update----->>
 
     public void updateWarehouse(Warehouse warehouse, UpdateFieldWarehouse field, Object newValue) throws Exception {
         if (newValue == null || newValue.equals("")) {
@@ -69,7 +70,14 @@ public class WarehouseHandler {
             throw new Exception(ALREADY_EXISTS_WAREHOUSE_WITH_NAME);
         } else {
             warehouse.setName(newWarehouseName);
-            forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its
+            forceUpdateOfObservableList();
+            for (ShipmentLog log : ShipmentLogHandler.getInstance().getShipmentLogs()) {
+                if (log.getWarehouse().equals(warehouse)) {
+                    ShipmentLogHandler.getInstance().updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
+                }
+                DataService.getInstance().updateWarehouseShipmentInformation(warehouse);
+                DataService.getInstance().updateShipmentInformation(log.getShipment());
+            } // maybe this should be a part of all public methods that can change its
                                            // state )
             return;
         }
@@ -101,11 +109,13 @@ public class WarehouseHandler {
 
     }
 
-    // DELETE
+    // <<-----Delete----->>
 
     public void deleteWarehouse(Warehouse warehouse) {
         warehouses.remove(warehouse);
     }
+
+
 
     // only needed to updated ComboBoxes!
     public void forceUpdateOfObservableList() {
@@ -113,6 +123,7 @@ public class WarehouseHandler {
         warehouses.remove(0);
     }
 
+    // <<----- Used in updateWarehouseName to validate uniqueness of name ----->>
     boolean doesAWarehouseExistWithName(String warehouseName) throws Exception {
         if (warehouseName == null) {
             throw new Exception(Constants.CANNOT_BE_EMPTY);
@@ -126,7 +137,7 @@ public class WarehouseHandler {
 
     }
 
-    // these are only for tests
+    // For testing purposes only
     public void clearData() {
         warehouses.clear();
     }

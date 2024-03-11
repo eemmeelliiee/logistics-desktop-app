@@ -152,6 +152,20 @@ public class DataService {
 
     // <<----------------- Update Information ----------------->>
 
+
+    // For filling with test data
+    public void updateAll() throws Exception {
+        List<Warehouse> warehouses = warehouseHandler.getWarehouses();
+        for (Warehouse warehouse : warehouses) {
+            updateWarehouseShipmentInformation(warehouse);
+            updateMostRecentInspectionDateForWarehouse(warehouse);
+        }
+        List<Shipment> shipments = DataManager.getInstance().readShipments();
+        for (Shipment shipment : shipments) {
+            updateShipmentInformation(shipment);
+        }
+    }
+
     // Update Warehouse Information
 
     public void updateMostRecentInspectionDateForWarehouse(Warehouse warehouse) {
@@ -234,7 +248,7 @@ public class DataService {
         }
         warehouse.setAverageTimeShipmentSpendsAtWarehouse("Shipments spend " + averageTime.toString() + " here on average");
     }
-    
+
 
     // Update Shipment Information
 
@@ -246,13 +260,25 @@ public class DataService {
     private void updateCurrentWarehouseForShipment(Shipment shipment) {
         Warehouse currentWarehouse = null;
         ObservableList<ShipmentLog> shipmentLogs = getShipmentLogsForShipment(shipment);
+        int incomingCount = 0;
+        int outgoingCount = 0;
+    
         if (!shipmentLogs.isEmpty()) {
             for (ShipmentLog shipmentLog : shipmentLogs) {
                 if (shipmentLog.getDirection().equals(Direction.INCOMING)) {
+                    incomingCount++;
                     currentWarehouse = shipmentLog.getWarehouse();
+                } else {
+                    outgoingCount++;
+                }
+    
+                // If there's an outgoing shipment for every incoming one, set currentWarehouse to null
+                if (incomingCount == outgoingCount) {
+                    currentWarehouse = null;
                 }
             }
         }
+    
         shipment.setCurrentWarehouse(currentWarehouse);
     }
 

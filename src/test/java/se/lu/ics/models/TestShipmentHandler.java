@@ -15,12 +15,12 @@ public class TestShipmentHandler {
      
 
     @BeforeEach
-    public void setUp() {
+    public void setUp()throws Exception{
         dataManager = DataManager.getInstance();
     }
 
      @AfterEach
-    public void tearDown() {
+    public void tearDown() throws Exception{
         DataManager.getInstance().clearData();
     }
 
