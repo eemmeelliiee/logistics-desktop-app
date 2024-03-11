@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class TestShipmentHandler {
 
     DataManager dataManager;
+     
 
     @BeforeEach
     public void setUp() {
@@ -61,7 +62,7 @@ public class TestShipmentHandler {
         try {
             dataManager.updateShipmentId(shipment, oldId);
         } catch (Exception e) {
-            assertEquals(Constants.ALREADY_EXISTS_SHIPMENT_WITH_ID, e.getMessage());
+            assertEquals(ShipmentHandler.ALREADY_EXISTS_SHIPMENT_WITH_ID, e.getMessage());
         }
     }
 
@@ -76,7 +77,7 @@ public class TestShipmentHandler {
         try {
             dataManager.updateShipmentId(shipment1, newId);
         } catch (Exception e) {
-            assertEquals(Constants.ALREADY_EXISTS_SHIPMENT_WITH_ID, e.getMessage());
+            assertEquals(ShipmentHandler.ALREADY_EXISTS_SHIPMENT_WITH_ID, e.getMessage());
         }
     }
 

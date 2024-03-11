@@ -13,7 +13,9 @@ public class Warehouse {
     private LocalDate mostRecentInspectionDate; 
     private double currentAvailableCapacity;
     private double remainingCapacityInPercent;
-    private Period averageTimeShipmentSpendsAtWarehouse;
+    private String averageTimeShipmentSpendsAtWarehouse;
+
+    public static final String CAPACITY_MUST_BE_GREATER_THAN_0 = "Error: Capacity must be greater than 0!";
 
     public Warehouse(String name, Location location, String address, double capacity) throws Exception {
         this.name = name;
@@ -57,7 +59,7 @@ public class Warehouse {
     
     public void setCapacity(double capacity) throws Exception {
         if (capacity < 1) {
-            throw new Exception(Constants.CAPACITY_MUST_BE_GREATER_THAN_0);
+            throw new Exception(CAPACITY_MUST_BE_GREATER_THAN_0);
         } else {
             this.capacity = capacity;
         }
@@ -95,14 +97,18 @@ public class Warehouse {
         this.currentAvailableCapacity = currentAvailableCapacity;
     }
 
-    public Period getAverageTimeShipmentSpendsAtWarehouse() {
+    public String getAverageTimeShipmentSpendsAtWarehouse() {
         return averageTimeShipmentSpendsAtWarehouse;
     }
 
-    public void setAverageTimeShipmentSpendsAtWarehouse(Period averageTimeShipmentSpendsAtWarehouse) {
+    public void setAverageTimeShipmentSpendsAtWarehouse(String averageTimeShipmentSpendsAtWarehouse) {
         this.averageTimeShipmentSpendsAtWarehouse = averageTimeShipmentSpendsAtWarehouse;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 
 
 

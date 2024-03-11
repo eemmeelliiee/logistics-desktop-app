@@ -144,9 +144,9 @@ public class DataService {
                 busiestWarehousesNames.append(warehouse.getName());
             }
             String isOrAre = busiestWarehouses.size() > 1 ? "s are" : " is";
-            return "Busiest warehouse" + isOrAre + ": " + busiestWarehousesNames.toString() + ", using "
-                    + (highestStockLevelRatio * 100)
-                    + "% of capacity";
+            String formattedPercentage = String.format("%.2f", highestStockLevelRatio * 100);
+                return "Busiest warehouse" + isOrAre + ": " + busiestWarehousesNames.toString() + ", using "
+                        + formattedPercentage + "% of capacity";
         }
     }
 
@@ -225,7 +225,14 @@ public class DataService {
             }
         }
         int averageDays = numberOfShipments > 0 ? totalDays / numberOfShipments : 0;
-        warehouse.setAverageTimeShipmentSpendsAtWarehouse(Period.ofDays(averageDays));
+        StringBuilder averageTime = new StringBuilder();
+        if (averageDays > 0) {
+            averageTime.append(averageDays).append(" day");
+            if (averageDays > 1) {
+                averageTime.append("s");
+            }
+        }
+        warehouse.setAverageTimeShipmentSpendsAtWarehouse("Shipments spend " + averageTime.toString() + " here on average");
     }
 
     // Update Shipment Information

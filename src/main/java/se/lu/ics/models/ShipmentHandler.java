@@ -10,6 +10,9 @@ public class ShipmentHandler {
     private ObservableList<Shipment> shipments;
     private static ShipmentHandler instance;
 
+    public static final String ALREADY_EXISTS_SHIPMENT_WITH_ID = "Error: A shipment with given ID already exists";
+
+
     private ShipmentHandler() {
         shipments = FXCollections.observableList(new ArrayList<>());
     }
@@ -54,7 +57,7 @@ public class ShipmentHandler {
         // }
 
         if (doesAShipmentExistWithId(newShipmentId)) {
-            throw new Exception(Constants.ALREADY_EXISTS_SHIPMENT_WITH_ID);
+            throw new Exception(ALREADY_EXISTS_SHIPMENT_WITH_ID);
         }
 
         if (newShipmentId == null || newShipmentId.equals("")) {

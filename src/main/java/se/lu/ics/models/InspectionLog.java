@@ -67,4 +67,14 @@ public class InspectionLog {
         return this.shipment.equals(shipmentLog.getShipment()) && this.warehouse.equals(shipmentLog.getWarehouse());
     }
 
+    // för tester bara tror jag
+    @Override
+    public String toString() {
+        return "\n\nShipmentID: " + shipment +
+                "\n Warehouse: " + warehouse +
+                "\n Date: " + date +
+                "\n Inspector: " + inspector + 
+                "\n Result: " + result ;
+    }
+
 }
