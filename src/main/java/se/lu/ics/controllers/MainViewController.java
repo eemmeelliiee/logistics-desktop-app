@@ -75,6 +75,7 @@ public class MainViewController {
             dataManager.deleteShipment(selectedShipment);
             // Refresh the table view
             myTableView.getItems().remove(selectedShipment);
+            errorLabel.setText("shipment was deleted!  ");
         } else {
             // Display an error message
             errorLabel.setText(Constants.NO_ROW_SELECTED);

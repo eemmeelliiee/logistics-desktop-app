@@ -105,22 +105,21 @@ public class ShipmentLogHandler {
         int incomingCount = countLogs(shipment, warehouse, Direction.INCOMING);
         int outgoingCount = countLogs(shipment, warehouse, Direction.OUTGOING);
 
-        if (incomingCount == 0 && outgoingCount == 0) { // If there is no existing log, allow the date to be set without
-                                                        // validation
+        if (incomingCount == 0 && outgoingCount == 0) { // If there is no existing log, allow the date to be set without validation
             return;
         }
 
         if (incomingCount != outgoingCount) {
-            ShipmentLog incomingLog = findShipmentLog(shipment, warehouse, Direction.INCOMING);
-            ShipmentLog outgoingLog = findShipmentLog(shipment, warehouse, Direction.OUTGOING);
+            ShipmentLog mostRecentLog = findMostRecentLog(shipment, warehouse);
 
-            if (direction == Direction.OUTGOING && incomingLog != null && date.isBefore(incomingLog.getDate())) {
-                throw new Exception("Outgoing date " + date + " cannot be before incoming date");
-            }
-            if (direction == Direction.INCOMING && outgoingLog != null && date.isAfter(outgoingLog.getDate())) {
-                throw new Exception("Incoming date " + date + " cannot be after outgoing date");
-            }
+        if (direction == Direction.OUTGOING && mostRecentLog != null && mostRecentLog.getDirection() == Direction.INCOMING && date.isBefore(mostRecentLog.getDate())) {
+            throw new Exception("Outgoing date " + date + " cannot be before incoming date " + mostRecentLog.getDate());
         }
+
+        if (direction == Direction.INCOMING && mostRecentLog != null && mostRecentLog.getDirection() == Direction.OUTGOING && date.isAfter(mostRecentLog.getDate())) {
+            throw new Exception("Incoming date " + date + " cannot be after outgoing date " + mostRecentLog.getDate());
+        }
+    }
     }
 
     private ShipmentLog findMostRecentLog(Shipment shipment, Warehouse warehouse) {
@@ -188,7 +187,7 @@ public class ShipmentLogHandler {
 
     private void validateShipmentLog(Shipment shipment, Warehouse warehouse, Direction direction,
             ShipmentLog logToUpdate) throws Exception {
-        ;
+        
         int sameDirectionCount = countLogs(shipment, warehouse, direction);
         int oppositeDirectionCount = countLogs(shipment, warehouse, direction.opposite());
 
@@ -209,7 +208,8 @@ public class ShipmentLogHandler {
                 if (log.getShipment().equals(shipment) && log.getDirection() == Direction.INCOMING
                         && !log.getWarehouse().equals(warehouse)) {
                     int outgoingCount = countLogs(shipment, log.getWarehouse(), Direction.OUTGOING);
-                    if (outgoingCount == 0) {
+                    int incomingCount = countLogs(shipment, log.getWarehouse(), Direction.INCOMING);// em ändrat
+                    if (outgoingCount < incomingCount) { // em ändrat
                         throw new Exception(Constants.SHIPMENT_IS_AT_OTHER_WAREHOUSE);
                     }
                 }

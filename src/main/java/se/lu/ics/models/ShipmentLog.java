@@ -80,6 +80,15 @@ public class ShipmentLog {
         return needsAttention;
     }
 
+    @Override
+    public String toString(){
+        return "\n\nShipmentID: " + shipment.getShipmentId()
+        +       "\nWarehouse: " + warehouse.getName()
+        +       "\nDate: " + date
+        +       "\nDirection: " + direction;
+        
+    }
+
     // public String toStringForShipment() {
     // return "\nWarehouse: " + warehouse.getName() +
     // "\nDate: " + date +
