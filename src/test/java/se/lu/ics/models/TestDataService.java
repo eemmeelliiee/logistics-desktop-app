@@ -846,17 +846,82 @@ public void test() throws Exception{
 
 
 
-
-
-
-
-
-
-
-
     
 
 
+
+}
+@Test
+public void test2() throws Exception{
+Warehouse warehouse1 = dataManager.createWarehouse("Odins Nest", Location.MIDDLE, "Storgatan 1", 100);
+Warehouse warehouse2 = dataManager.createWarehouse("Thors House",Location.NORTH, "Storgatan 2", 200);
+Warehouse warehouse3 = dataManager.createWarehouse("Adams Warehouse",Location.SOUTH, "Storgatan 3", 300);
+Warehouse warehouse4 = dataManager.createWarehouse("Eves Warehouse",Location.MIDDLE, "Storgatan 4", 400);
+Warehouse warehouse5 = dataManager.createWarehouse("Liliths Warehouse",Location.SOUTH, "Storgatan 5", 500);
+Warehouse warehouse6 = dataManager.createWarehouse("Lucifers Warehouse",Location.NORTH, "Storgatan 6", 600);
+Warehouse warehouse7 = dataManager.createWarehouse("Gabriels Warehouse",Location.MIDDLE, "Storgatan 7", 700);
+Warehouse warehouse8 = dataManager.createWarehouse("Raphaels Warehouse",Location.SOUTH, "Storgatan 8", 800);
+Warehouse warehouse9 = dataManager.createWarehouse("Uriels Warehouse",Location.NORTH, "Storgatan 9", 900);
+Warehouse warehouse10 = dataManager.createWarehouse("Azraels Warehouse",Location.MIDDLE, "Storgatan 10", 1000);
+
+Shipment shipment1 = dataManager.createShipment();
+Shipment shipment2 = dataManager.createShipment();
+Shipment shipment3 = dataManager.createShipment();
+Shipment shipment4 = dataManager.createShipment();
+Shipment shipment5 = dataManager.createShipment();
+Shipment shipment6 = dataManager.createShipment();
+Shipment shipment7 = dataManager.createShipment();
+Shipment shipment8 = dataManager.createShipment();
+
+ShipmentLog shipmentLog =  dataManager.createShipmentLog(LocalDate.of(2020,8,9), Direction.INCOMING, warehouse1, shipment1);
+ShipmentLog shipmentLog2 = dataManager.createShipmentLog(LocalDate.of(2020,8,10), Direction.OUTGOING, warehouse1, shipment1);
+ShipmentLog shipmentLog3 = dataManager.createShipmentLog(LocalDate.of(2020,8,8), Direction.INCOMING, warehouse2, shipment1);
+ShipmentLog shipmentLog12 = dataManager.createShipmentLog(LocalDate.of(2020,8,11), Direction.INCOMING, warehouse2, shipment2);
+ShipmentLog shipmentLog4 = dataManager.createShipmentLog(LocalDate.of(2020,8,12), Direction.OUTGOING, warehouse2, shipment2);
+ShipmentLog shipmentLog5 = dataManager.createShipmentLog(LocalDate.of(2020,8,10), Direction.INCOMING, warehouse3, shipment3);
+ShipmentLog shipmentLog6 = dataManager.createShipmentLog(LocalDate.of(2020,8,15), Direction.OUTGOING, warehouse3, shipment3);
+ShipmentLog shipmentLog7 = dataManager.createShipmentLog(LocalDate.of(2020,8,16), Direction.INCOMING, warehouse4, shipment4);
+ShipmentLog shipmentLog8 = dataManager.createShipmentLog(LocalDate.of(2020,8,17), Direction.OUTGOING, warehouse4, shipment4);
+ShipmentLog shipmentLog9 = dataManager.createShipmentLog(LocalDate.of(2020,8,18), Direction.INCOMING, warehouse5, shipment5);
+ShipmentLog shipmentLog10= dataManager.createShipmentLog(LocalDate.of(2020,8,19), Direction.OUTGOING, warehouse5, shipment5);
+ShipmentLog shipmentLog11= dataManager.createShipmentLog(LocalDate.of(2020,8,20), Direction.INCOMING, warehouse6, shipment6);
+
+
+InspectionLog inspectionLog =  dataManager.createInspectionLog(shipment1, warehouse1, LocalDate.of(2020,8,9), "Thor", "Good");
+InspectionLog inspectionLog2 = dataManager.createInspectionLog(shipment1, warehouse1, LocalDate.of(2020,8,10), "Odin", "Good");
+InspectionLog inspectionLog9 = dataManager.createInspectionLog(shipment2, warehouse2, LocalDate.of(2020,8,10), "Odin", "Good");
+InspectionLog inspectionLog3 = dataManager.createInspectionLog(shipment3, warehouse3, LocalDate.of(2020,8,11), "Loki", "Good");
+InspectionLog inspectionLog4 = dataManager.createInspectionLog(shipment1, warehouse1, LocalDate.of(2020,8,12), "Frigg", "Good");
+InspectionLog inspectionLog5 = dataManager.createInspectionLog(shipment5, warehouse5, LocalDate.of(2020,8,13), "Balder", "Good");
+InspectionLog inspectionLog6 = dataManager.createInspectionLog(shipment1, warehouse1, LocalDate.of(2020,8,14), "Njord", "Good");
+InspectionLog inspectionLog7 = dataManager.createInspectionLog(shipment7, warehouse7, LocalDate.of(2020,8,15), "Frej", "Good");
+
+System.out.println(warehouse1.getAddress());
+    System.out.println(warehouse1.getName());
+    System.out.println(warehouse1.getCapacity());
+    System.out.println(warehouse3.getCurrentAvailableCapacity());
+    System.out.println(warehouse1.getCurrentStockLevel());
+    System.out.println(warehouse1.getRemainingCapacityInPercent());
+    System.out.println(warehouse1.getAverageTimeShipmentSpendsAtWarehouse());
+    System.out.println(warehouse1.getLocation());
+    System.out.println(warehouse1.getMostRecentInspectionDate());
+
+    System.out.println("\n\n"+shipment1.getCurrentWarehouse());
+    System.out.println("\n\n"+shipment1.getLabel());
+    System.out.println("\n\n"+shipment1.getTotalNumberOfWarehouses());
+    // System.out.println("\n\n"+shipment1.getInspected());
+
+
+
+
+    System.out.println(dataService.getBusiestWarehouse());
+    System.out.println(dataService.getCurrentAvailableCapacityForLocations());
+    System.out.println(dataService.getInspectionLogsForWarehouse(warehouse1));
+    System.out.println(dataService.getShipmentLogsForWarehouse(warehouse1));
+    System.out.println(dataService.getInspectorsForWarehouse(warehouse1));
+
+    System.out.println(dataService.getInspectionsLogsForShipment(shipment1));
+    System.out.println(dataService.getShipmentLogsForShipment(shipment3));
 
 }
 }

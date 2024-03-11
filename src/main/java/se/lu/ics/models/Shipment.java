@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Shipment {
 
     private String shipmentId;
-    private boolean inspected;
     private String label; // sets a label if the shipment is at warehouse > 14 days
     private Warehouse currentWarehouse;
     private int totalNumberOfWarehouses;
@@ -14,7 +13,6 @@ public class Shipment {
 
     public Shipment() {
         this.shipmentId = generateShipmentId();
-        this.inspected = false;
         this.label = null;
         this.currentWarehouse = null;
         this.totalNumberOfWarehouses = 0;
@@ -39,13 +37,6 @@ public class Shipment {
         generatedIds.add(newShipmentId);
     }
 
-    public boolean getInspected() {
-        return inspected;
-    }
-
-    public void setInspected(boolean inspected) {
-        this.inspected = inspected;
-    }
 
     public String getLabel() {
         return label;

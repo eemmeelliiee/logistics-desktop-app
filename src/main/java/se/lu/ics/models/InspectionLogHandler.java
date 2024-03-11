@@ -28,27 +28,12 @@ public class InspectionLogHandler {
         return inspectionLogs;
     }
 
-    // A setter should not be needed for this. Why give other classes access to
-    // that?
-    /*
-     * public void setInspectionLogs()) {
-     * this.inspectionLogs = inspectionLogs;
-     * }
-     */
-
     public InspectionLog createInspectionLog(Shipment shipment, Warehouse warehouse, LocalDate date, String inspector,
             String result) {
         InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, date, inspector, result);
         inspectionLogs.add(inspectionLog);
         return inspectionLog;
     }
-
-    // does the same thing as getInspectionLogs right now, should this return a list
-    // of Strings by doing .toString on each inspectionLog?
-    // or will that kind of thing be handled in the view?
-    // public ObservableList<InspectionLog> readInspectionLogs() {
-    // return inspectionLogs;
-    // }
 
     public void updateInspectionLog(InspectionLog inspectionLog, UpdateFieldInspectionLog field, Object newValue)
             throws Exception {
@@ -98,19 +83,19 @@ public class InspectionLogHandler {
 
     public void deleteInspectionLog(InspectionLog inspectionLog) {
         inspectionLogs.remove(inspectionLog);
-        Shipment shipment = inspectionLog.getShipment();
-        if (shipment != null) {
-            boolean hasOtherInspectionLogs = false;
-            for (InspectionLog log : inspectionLogs) {
-                if (log.getShipment() == shipment) {
-                    hasOtherInspectionLogs = true;
-                    break;
-                }
-            }
-            if (!hasOtherInspectionLogs) {
-                shipment.setInspected(false);
-            }
-        }
+        // Shipment shipment = inspectionLog.getShipment();
+        // if (shipment != null) {
+        //     boolean hasOtherInspectionLogs = false;
+        //     for (InspectionLog log : inspectionLogs) {
+        //         if (log.getShipment() == shipment) {
+        //             hasOtherInspectionLogs = true;
+        //             break;
+        //         }
+        //     }
+        //     if (!hasOtherInspectionLogs) {
+        //         shipment.setInspected(false);
+        //     }
+        
     }
 
     public void clearData() {

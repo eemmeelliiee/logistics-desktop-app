@@ -234,6 +234,7 @@ public class DataService {
         }
         warehouse.setAverageTimeShipmentSpendsAtWarehouse("Shipments spend " + averageTime.toString() + " here on average");
     }
+    
 
     // Update Shipment Information
 
@@ -268,110 +269,6 @@ public class DataService {
         shipment.setTotalNumberOfWarehouses(totalNumberOfWarehouses);
     }
 
-    // public String findBusiestWarehouses() {
-    // List<Warehouse> busiestWarehouses = new ArrayList<>();
-    // double highestStockLevelRatio = 0;
-    // ObservableList<Warehouse> warehouses =
-    // WarehouseHandler.getInstance().getWarehouses();
-
-    // for (Warehouse warehouse : warehouses) {
-    // double currentStockLevel = warehouse.getCurrentStockLevel();
-    // double totalCapacity = warehouse.getCapacity();
-    // double stockLevelRatio = currentStockLevel / totalCapacity;
-    // if (stockLevelRatio > highestStockLevelRatio) {
-    // highestStockLevelRatio = stockLevelRatio;
-    // busiestWarehouses.clear();
-    // busiestWarehouses.add(warehouse);
-    // } else if (stockLevelRatio == highestStockLevelRatio) {
-    // busiestWarehouses.add(warehouse);
-    // }
-    // }
-
-    // if (busiestWarehouses.isEmpty()) {
-    // return Constants.NO_WAREHOUSES_EXIST;
-    // } else {
-    // StringBuilder busiestWarehousesNames = new StringBuilder();
-    // for (Warehouse warehouse : busiestWarehouses) {
-    // if (busiestWarehousesNames.length() > 0) {
-    // busiestWarehousesNames.append(", ");
-    // }
-    // busiestWarehousesNames.append(warehouse.getName());
-    // }
-    // String isOrAre = busiestWarehouses.size() > 1 ? "are" : "is";
-    // return "Busiest warehouse(s) " + isOrAre + ": " +
-    // busiestWarehousesNames.toString() + ", using " + (highestStockLevelRatio *
-    // 100)
-    // + "% of capacity";
-    // }
-    // }
-
-    // public String findBusiestWarehouse() {
-    // Warehouse busiestWarehouse = null;
-    // double highestStockLevelRatio = 0;
-    // ObservableList<Warehouse> warehouses =
-    // WarehouseHandler.getInstance().getWarehouses();
-
-    // for (Warehouse warehouse : warehouses) {
-    // double currentStockLevel = warehouse.getCurrentStockLevel();
-    // double totalCapacity = warehouse.getCapacity();
-    // double stockLevelRatio = currentStockLevel / totalCapacity;
-    // if (stockLevelRatio > highestStockLevelRatio) {
-    // highestStockLevelRatio = stockLevelRatio;
-    // busiestWarehouse = warehouse;
-    // }
-    // if (getShipmentLogsForWarehouse(busiestWarehouse).isEmpty()) {
-    // return Constants.NO_SHIPMENT_LOGS_EXIST;
-    // }
-    // }
-    // if (busiestWarehouse == null) {
-    // return Constants.NO_WAREHOUSES_EXIST;
-    // } else {
-    // String busiestWarehouseName = busiestWarehouse.getName();
-    // return "Busiest warehouse is: " + busiestWarehouseName + ", using " +
-    // (highestStockLevelRatio * 100)
-    // + "% of capacity";
-    // }
-    // }
-
-    // public String findBusiestWarehouse() {
-    // List<Warehouse> busiestWarehouses = new ArrayList<>();
-    // double highestStockLevelRatio = 0;
-    // ObservableList<Warehouse> warehouses =
-    // WarehouseHandler.getInstance().getWarehouses();
-
-    // for (Warehouse warehouse : warehouses) {
-    // double currentStockLevel = warehouse.getCurrentStockLevel();
-    // double totalCapacity = warehouse.getCapacity();
-    // double stockLevelRatio = currentStockLevel / totalCapacity;
-    // if (stockLevelRatio > highestStockLevelRatio) {
-    // highestStockLevelRatio = stockLevelRatio;
-    // busiestWarehouses.clear();
-    // busiestWarehouses.add(warehouse);
-    // } else if (stockLevelRatio == highestStockLevelRatio) {
-    // busiestWarehouses.add(warehouse);
-    // }
-    // }
-
-    // if (busiestWarehouses.isEmpty()) {
-    // return Constants.NO_WAREHOUSES_EXIST;
-    // } else {
-    // StringBuilder busiestWarehousesNames = new StringBuilder();
-    // for (Warehouse warehouse : busiestWarehouses) {
-    // if (getShipmentLogsForWarehouse(warehouse).isEmpty()) {
-    // return Constants.NO_SHIPMENT_LOGS_EXIST;
-    // }
-    // if (busiestWarehousesNames.length() > 0) {
-    // busiestWarehousesNames.append(", ");
-    // }
-    // busiestWarehousesNames.append(warehouse.getName());
-    // }
-    // String isOrAre = busiestWarehouses.size() > 1 ? "s are" : " is";
-    // return "Busiest warehouse" + isOrAre + ": " +
-    // busiestWarehousesNames.toString() + ", using " + (highestStockLevelRatio *
-    // 100)
-    // + "% of capacity";
-    // }
-    // }
     
 
 }

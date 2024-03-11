@@ -12,7 +12,6 @@ public class ShipmentHandler {
 
     public static final String ALREADY_EXISTS_SHIPMENT_WITH_ID = "Error: A shipment with given ID already exists";
 
-
     private ShipmentHandler() {
         shipments = FXCollections.observableList(new ArrayList<>());
     }
@@ -28,33 +27,13 @@ public class ShipmentHandler {
         return shipments;
     }
 
-    // A setter should not be needed for this. Why give other classes access to
-    // that?
-    /*
-     * public void setShipments(ArrayList<Shipment> shipments) {
-     * this.shipments = shipments;
-     * }
-     */
-
     public Shipment createShipment() {
         Shipment shipment = new Shipment();
         shipments.add(shipment);
         return shipment;
     }
 
-    // does the same thing as getShipments right now, should this return a list of
-    // Strings by doing .toString on each shipment?
-    // or will that kind of thing be handled in the view?
-    // public ObservableList<Shipment> readShipments() {
-    // return shipments;
-    // }
-
     public void updateShipmentId(Shipment shipment, String newShipmentId) throws Exception {
-
-        // inte nödvändigt om vi inte ska skriva in något i textfältet ?
-        // if (!doesAShipmentExistWithId(shipmentIdToBeUpdated)) {
-        // throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
-        // }
 
         if (doesAShipmentExistWithId(newShipmentId)) {
             throw new Exception(ALREADY_EXISTS_SHIPMENT_WITH_ID);
@@ -69,32 +48,10 @@ public class ShipmentHandler {
             forceUpdateOfObservableList(); // please manually update the observable list in the controller instead
         }
 
-        // for (Shipment shipment : shipments) {
-        // if (shipment.getShipmentId().equals(shipmentIdToBeUpdated)) {
-        // shipment.setShipmentId(newShipmentId);
-        // forceUpdateOfObservableList();
-        // return;
-        // //forceUpdateOfObservableList(); //because we changed something to a shipment
-        // object
-        // // maybe this should be a part of all public methods in Shipment that can
-        // change its state )
-        // }
-        // }
     }
 
     public void deleteShipment(Shipment shipment) {
-        // if (!doesAShipmentExistWithId(shipmentId)) {
-        // throw new Exception(Constants.NO_SHIPMENT_EXISTS_WITH_THAT_ID);
-        // }
-        // for (Shipment shipment : shipments){
-        // if (shipment.getShipmentId().get().equals(shipmentId.get())) {
-        // shipments.remove(shipment);
-        // return;
-        // }
-        // }
-        // if (shipment != null) {
         shipments.remove(shipment);
-        // }
     }
 
     // INTE REKOMMENDERAT, manually edit the observable list in the controller
@@ -120,23 +77,5 @@ public class ShipmentHandler {
     public void clearData() {
         shipments.clear();
     }
-
-    /*
-     * 
-     * Om jag vill göra så att ShipmentHandler fungerar som DataManager,
-     * dvs. att den är en Singleton, så kan jag göra så här:
-     * 
-     * OBS: konstruktorn måste då sättas private
-     * 
-     * private static ShipmentHandler instance;
-     * 
-     * public static ShipmentHandler getInstance() {
-     * if (instance == null) {
-     * instance = new ShipmentHandler();
-     * }
-     * return instance;
-     * }
-     * 
-     */
 
 }

@@ -54,17 +54,8 @@ public class ShipmentLog {
         this.shipment = shipment;
     }
 
-    // vad händer här egentligen?
-    public boolean isInspected(ObservableList<InspectionLog> inspectionLogs) {
-        for (InspectionLog inspectionLog : inspectionLogs) {
-            if (inspectionLog.isInspectionOfShipmentLog(this)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    // used in shipmentloghandler. the ShipmentLog class is responsible for
+    // Used in shipmentloghandler. The ShipmentLog class is responsible for
     // determining if a ShipmentLog is similar to another and if it needs attention.
     // This follows the Single Responsibility Principle,
     // making my code cleaner and easier to maintain.
@@ -88,19 +79,5 @@ public class ShipmentLog {
         +       "\nDirection: " + direction;
         
     }
-
-    // public String toStringForShipment() {
-    // return "\nWarehouse: " + warehouse.getName() +
-    // "\nDate: " + date +
-    // "\nDirection: " + direction +
-    // "\n";
-    // }
-
-    // public String toStringForWarehouse() {
-    // return "\n\nShipmentID: " + shipment.getShipmentId() +
-    // "\nDate: " + date +
-    // "\nDirection: " + direction +
-    // "\n";
-    // }
 
 }

@@ -5,14 +5,6 @@ import javafx.collections.ObservableList;
 
 public class DataManager {
 
-    // private ShipmentHandler shipmentHandler;
-    // private WarehouseHandler warehouseHandler;
-    // private ShipmentLogHandler shipmentLogHandler;
-    // private InspectionLogHandler inspectionLogHandler;
-    // private static DataService dataService;
-    
-   // private Stack<Shipment> deletedShipments;
-
     private static DataManager instance;
     private DataService dataService;
     private ShipmentHandler shipmentHandler;
@@ -31,28 +23,17 @@ public class DataManager {
 
 
     private DataManager() {
+        // addTestData();
         this.dataService = DataService.getInstance();
         this.shipmentHandler = ShipmentHandler.getInstance();
         this.warehouseHandler = WarehouseHandler.getInstance();
         this.shipmentLogHandler = ShipmentLogHandler.getInstance();
         this.inspectionLogHandler = InspectionLogHandler.getInstance();
 
-        // shipmentHandler = new ShipmentHandler();
-        // warehouseHandler = new WarehouseHandler();
-        // shipmentLogHandler = new ShipmentLogHandler();
-        // inspectionLogHandler = new InspectionLogHandler();
-        // dataService = new DataService();
-
         // kanske skapa stack för att undo removements
         //deletedShipments = new Stack<>();
 
     }
-
-    // ShipmentHandler
-
-    // public ShipmentHandler getShipmentHandler() {
-    //     return shipmentHandler;
-    // }
 
     public Shipment createShipment() {
         return shipmentHandler.createShipment();
@@ -96,12 +77,6 @@ public class DataManager {
         }
     }
 
-
-    // WarehouseHandler
-
-    // public WarehouseHandler getWarehouseHandler() {
-    //     return ;
-    // }
 
     public Warehouse createWarehouse(String name, Location location, String address, double capacity) throws Exception {
         return warehouseHandler.createWarehouse(name, location, address, capacity);
@@ -148,12 +123,6 @@ public class DataManager {
     }
 
 
-    // ShipmentLogHandler
-
-    // public ShipmentLogHandler getShipmentLogHandler() {
-    //     return shipmentLogHandler;
-    // }
-
     public ShipmentLog createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) throws Exception{
         ShipmentLog shipmentLog = shipmentLogHandler.createShipmentLog(date, direction, warehouse, shipment);
         dataService.updateWarehouseShipmentInformation(warehouse);
@@ -191,12 +160,6 @@ public class DataManager {
         dataService.updateWarehouseShipmentInformation(warehouse);
         dataService.updateShipmentInformation(shipment);
     }
-
-    // InspectionLogHandler
-
-    // public InspectionLogHandler getInspectionLogHandler() {
-    //     return inspectionLogHandler;
-    // }
 
     public InspectionLog createInspectionLog(Shipment shipment, Warehouse warehouse, LocalDate date, String inspector, String result) {
         InspectionLog newLog = inspectionLogHandler.createInspectionLog(shipment, warehouse, date, inspector, result);
@@ -258,65 +221,27 @@ private void addTestData() throws Exception{
     ShipmentLog shipmentLog4 = createShipmentLog(LocalDate.of(2020,8,12), Direction.OUTGOING, warehouse2, shipment2);
     ShipmentLog shipmentLog5 = createShipmentLog(LocalDate.of(2020,8,10), Direction.INCOMING, warehouse3, shipment3);
     ShipmentLog shipmentLog6 = createShipmentLog(LocalDate.of(2020,8,15), Direction.OUTGOING, warehouse3, shipment3);
+    ShipmentLog shipmentLog7 = createShipmentLog(LocalDate.of(2020,8,16), Direction.INCOMING, warehouse4, shipment4);
+    ShipmentLog shipmentLog8 = createShipmentLog(LocalDate.of(2020,8,17), Direction.OUTGOING, warehouse4, shipment4);
+    ShipmentLog shipmentLog9 = createShipmentLog(LocalDate.of(2020,8,18), Direction.INCOMING, warehouse5, shipment5);
+    ShipmentLog shipmentLog10 = createShipmentLog(LocalDate.of(2020,8,19), Direction.OUTGOING, warehouse5, shipment5);
+    ShipmentLog shipmentLog11 = createShipmentLog(LocalDate.of(2020,8,20), Direction.INCOMING, warehouse6, shipment6);
+    
+
+    InspectionLog inspectionLog = createInspectionLog(shipment1, warehouse1, LocalDate.of(2020,8,9), "Thor", "Good");
+    InspectionLog inspectionLog2 = createInspectionLog(shipment2, warehouse2, LocalDate.of(2020,8,10), "Odin", "Good");
+    InspectionLog inspectionLog3 = createInspectionLog(shipment3, warehouse3, LocalDate.of(2020,8,11), "Loki", "Good");
+    InspectionLog inspectionLog4 = createInspectionLog(shipment4, warehouse4, LocalDate.of(2020,8,12), "Frigg", "Good");
+    InspectionLog inspectionLog5 = createInspectionLog(shipment5, warehouse5, LocalDate.of(2020,8,13), "Balder", "Good");
+    InspectionLog inspectionLog6 = createInspectionLog(shipment6, warehouse6, LocalDate.of(2020,8,14), "Njord", "Good");
+    InspectionLog inspectionLog7 = createInspectionLog(shipment7, warehouse7, LocalDate.of(2020,8,15), "Frej", "Good");
+
 
 }
 
 
     
 
-
-
-
-
-
-
-
-    // public ArrayList<Warehouse> getWarehouses() {
-    //     return warehouses;
-    // }
-
-    // public void setWarehouses(ArrayList<Warehouse> warehouses) {
-    //     this.warehouses = warehouses;
-    // }
-
-    // public ArrayList<InspectionLog> getInspectionLogs() {
-    //     return inspectionLogs;
-    // }
-
-    // public void setInspectionLogs(ArrayList<InspectionLog> inspectionLogs) {
-    //     this.inspectionLogs = inspectionLogs;
-    // }
-
-    // public ArrayList<ShipmentLog> getShipmentLogs() {
-    //     return shipmentLogs;
-    // }
-
-    // public void setShipmentLogs(ArrayList<ShipmentLog> shipmentLogs) {
-    //     this.shipmentLogs = shipmentLogs;
-    // }
-
-    // public void createWarehouse(String name, Location location, String address, double capacity) {
-    //     Warehouse warehouse = new Warehouse(name, location, address, capacity);
-    //     warehouses.add(warehouse);
-    // }
-
-    // public void createInspectionLog(Shipment shipment, Warehouse warehouse, LocalDate date, String inspector, String result) {
-    //     InspectionLog inspectionLog = new InspectionLog(shipment, warehouse, date, inspector, result);
-    //     inspectionLogs.add(inspectionLog);
-    // }
-
-    // public void createShipmentLog(LocalDate date, Direction direction, Warehouse warehouse, Shipment shipment) {
-    //     ShipmentLog shipmentLog = new ShipmentLog(date, direction, warehouse, shipment);
-    //     shipmentLogs.add(shipmentLog);
-    // }
-
-   // public Stack<Shipment> getDeletedShipments() {
-    //    return deletedShipments;
-    //}
-
-   // public void addDeletedShipment(Shipment shipment) {
-    //    deletedShipments.push(shipment);
-   // }
 
 
 
@@ -328,13 +253,6 @@ private void addTestData() throws Exception{
         warehouseHandler.clearData();
         inspectionLogHandler.clearData();
         shipmentLogHandler.clearData();
-        // saem for dataService???
-
-
-        // Do this for all the other classes also
-        // shipmentLogs = new ArrayList<>();
-        // warehouses = new ArrayList<>();
-        // inspectionLogs = new ArrayList<>();
 
         Shipment.resetGeneratedIds();
     }
