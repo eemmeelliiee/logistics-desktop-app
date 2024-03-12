@@ -1,6 +1,9 @@
 package se.lu.ics.models;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Observable;
+
+import javafx.collections.ObservableList;
 
 
 public class Warehouse {
@@ -14,6 +17,7 @@ public class Warehouse {
     private double currentAvailableCapacity;
     private double remainingCapacityInPercent;
     private String averageTimeShipmentSpendsAtWarehouse;
+    private ObservableList<String> inspectors;
 
     public static final String CAPACITY_MUST_BE_GREATER_THAN_0 = "Error: Capacity must be greater than 0";
 
@@ -103,6 +107,14 @@ public class Warehouse {
 
     public void setAverageTimeShipmentSpendsAtWarehouse(String averageTimeShipmentSpendsAtWarehouse) {
         this.averageTimeShipmentSpendsAtWarehouse = averageTimeShipmentSpendsAtWarehouse;
+    }
+
+    public ObservableList<String> getInspectors() {
+        return DataService.getInstance().getInspectorsForWarehouse(this);
+    }
+
+    public void setInspectors(ObservableList<String> inspectors) {
+        this.inspectors = inspectors;
     }
 
     @Override

@@ -91,6 +91,7 @@ public class DataService {
                 inspectorsForWarehouse.add(inspectionLog.getInspector());
             }
         }
+        warehouse.setInspectors(inspectorsForWarehouse);
         return inspectorsForWarehouse;
     }
 
@@ -211,8 +212,8 @@ public class DataService {
 
     private void updateRemainingCapacityInPercentForWarehouse(Warehouse warehouse) {
         if (warehouse.getCurrentAvailableCapacity() != 0) {
-            double remainingCapacityInPercent = (warehouse.getCurrentAvailableCapacity() / warehouse.getCapacity())
-                    * 100;
+            double remainingCapacityInPercent = (warehouse.getCurrentAvailableCapacity() / warehouse.getCapacity()) * 100;
+            remainingCapacityInPercent = Math.round(remainingCapacityInPercent * 100.0) / 100.0; // Round to 2 decimal places
             warehouse.setRemainingCapacityInPercent(remainingCapacityInPercent);
         } else {
             warehouse.setRemainingCapacityInPercent(0);
@@ -240,15 +241,14 @@ public class DataService {
                 }
             }
         }
-        int averageDays = numberOfShipments > 0 ? totalDays / numberOfShipments : 0;
-        StringBuilder averageTime = new StringBuilder();
-        if (averageDays > 0) {
-            averageTime.append(averageDays).append(" day");
-            if (averageDays > 1) {
-                averageTime.append("s");
-            }
+        String averageTime;
+        if (numberOfShipments > 0) {
+            int averageDays = totalDays / numberOfShipments;
+            averageTime = averageDays + " day" + (averageDays > 1 ? "s" : "");
+        } else {
+            averageTime = "-";
         }
-        warehouse.setAverageTimeShipmentSpendsAtWarehouse("Shipments spend " + averageTime.toString() + " here on average");
+        warehouse.setAverageTimeShipmentSpendsAtWarehouse(averageTime);
     }
 
 

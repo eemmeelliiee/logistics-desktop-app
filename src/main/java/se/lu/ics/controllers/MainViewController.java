@@ -153,12 +153,13 @@ public class MainViewController {
     void handleButtonAddShipment(ActionEvent event) {
         // Code to execute when the button is pressed
         dataManager.createShipment();
-        labelSystemStatus.setText("Shipment created successgully!");
+        labelSystemStatus.setText("Shipment created successfully!");
 
     }
 
     @FXML
 void handleButtonAddWarehouse(ActionEvent event) {
+    labelSystemStatus.setText("");
 
     String name = textFieldAddWarehouseName.getText();
     String address = textFieldAddWarehouseAddress.getText();
@@ -203,6 +204,8 @@ void handleButtonAddWarehouse(ActionEvent event) {
 
 @FXML
 void handleButtonDeleteShipment(ActionEvent event) {
+    labelSystemStatus.setText("");
+
     Shipment selectedShipment = tableViewShipments.getSelectionModel().getSelectedItem();
     if (selectedShipment != null) {
         // Remove the selected shipment from the data source
@@ -227,6 +230,8 @@ void handleButtonDeleteShipment(ActionEvent event) {
 
 @FXML
 void handleButtonDeleteWarehouse(ActionEvent event) throws Exception {
+    labelSystemStatus.setText("");
+
     Warehouse selectedWarehouse = tableViewWarehouses.getSelectionModel().getSelectedItem();
     if (selectedWarehouse != null) {
         // Remove the selected warehouse from the data source
@@ -240,6 +245,7 @@ void handleButtonDeleteWarehouse(ActionEvent event) throws Exception {
         textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
         tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
         tableViewRegions.refresh(); // Refresh tableViewRegions
+        
     } else {
         // Display an error message
         labelSystemStatus.setText(Constants.NO_ROW_SELECTED);
@@ -255,28 +261,32 @@ void handleButtonDeleteWarehouse(ActionEvent event) throws Exception {
     }
 }
 
-    @FXML
-    public void handleTabSelection(Event event) {
-        if (mainViewTab.isSelected()) {
-            System.out.println("Tab selected");
-            try {
-                System.out.println("Updating all data");
-                dataService.updateAll();
-                refreshMainView();
-            } catch (Exception e) {
-                System.out.println("Exception caught");
-                e.printStackTrace();
-            }
-            System.out.println("Populating table view");
-            try {
-                populateTableView();
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+@FXML
+public void handleTabSelection(Event event) {
+    labelSystemStatus.setText("");
 
+    if (mainViewTab.isSelected()) {
+        System.out.println("Tab selected");
+        try {
+            System.out.println("Updating all data");
+            dataService.updateAll();
+            refreshMainView();
+        } catch (Exception e) {
+            System.out.println("Exception caught");
+            e.printStackTrace();
         }
+        System.out.println("Populating table view");
+        try {
+            populateTableView();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    } else if (shipmentTab.isSelected()) {
+        // Clear views in ShipmentTabController
+        // shipmentTabController.clearViews();
     }
+}
 
     public void initialize() throws Exception {
 
@@ -387,6 +397,8 @@ void handleButtonDeleteWarehouse(ActionEvent event) throws Exception {
                 });
 
                 tableColumnWarehousesLocation.setOnEditCommit(event -> {
+                    labelSystemStatus.setText("");
+
                     Warehouse warehouse = event.getRowValue();
                     Location newValue = event.getNewValue();
                     UpdateFieldWarehouse field = UpdateFieldWarehouse.LOCATION; // Replace with the actual field you want to update
@@ -418,6 +430,8 @@ void handleButtonDeleteWarehouse(ActionEvent event) throws Exception {
         tableColumnWarehousesAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         tableColumnWarehousesAddress.setCellFactory(TextFieldTableCell.forTableColumn());
         tableColumnWarehousesAddress.setOnEditCommit(event -> {
+            labelSystemStatus.setText("");
+
             Warehouse warehouse = event.getRowValue();
             String newValue = event.getNewValue();
             UpdateFieldWarehouse field = UpdateFieldWarehouse.ADDRESS; // Replace with the actual field you want to update
@@ -453,6 +467,8 @@ void handleButtonDeleteWarehouse(ActionEvent event) throws Exception {
             }
         }));
         tableColumnWarehousesCapacity.setOnEditCommit(event -> {
+            labelSystemStatus.setText("");
+
             Warehouse warehouse = event.getRowValue();
             Double newValue = event.getNewValue();
             UpdateFieldWarehouse field = UpdateFieldWarehouse.CAPACITY; // Replace with the actual field you want to update
@@ -502,6 +518,8 @@ void handleButtonDeleteWarehouse(ActionEvent event) throws Exception {
                 .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentId()));
         tableColumnShipmentsID.setCellFactory(TextFieldTableCell.forTableColumn());
         tableColumnShipmentsID.setOnEditCommit(event -> {
+            labelSystemStatus.setText("");
+
             Shipment shipment = event.getRowValue();
         
             String newValue = event.getNewValue();

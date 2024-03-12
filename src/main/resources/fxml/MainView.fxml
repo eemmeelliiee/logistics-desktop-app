@@ -12,15 +12,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="737.0" prefWidth="879.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.lu.ics.controllers.MainViewController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="887.0" prefWidth="1220.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.lu.ics.controllers.MainViewController">
   <tabs>
     <Tab fx:id="mainViewTab" text="Main view">
       <content>
-        <AnchorPane fx:id="mainViewAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="737.0" prefWidth="879.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+        <AnchorPane fx:id="mainViewAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="706.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
              <children>
-                  <Button fx:id="buttonAddWarehouse" layoutX="566.0" layoutY="615.0" mnemonicParsing="false" onAction="#handleButtonAddWarehouse" text="Add" />
-                  <Button fx:id="buttonAddShipment" layoutX="824.0" layoutY="615.0" mnemonicParsing="false" onAction="#handleButtonAddShipment" text="Add" />
-                  <TableView fx:id="tableViewWarehouses" layoutX="9.0" layoutY="332.0" prefHeight="200.0" prefWidth="597.0">
+                  <Button fx:id="buttonAddWarehouse" layoutX="609.0" layoutY="593.0" mnemonicParsing="false" onAction="#handleButtonAddWarehouse" text="Add" />
+                  <Button fx:id="buttonAddShipment" layoutX="1088.0" layoutY="597.0" mnemonicParsing="false" onAction="#handleButtonAddShipment" text="Add" />
+                  <TableView fx:id="tableViewWarehouses" layoutX="52.0" layoutY="310.0" prefHeight="200.0" prefWidth="597.0">
                     <columns>
                       <TableColumn fx:id="tableColumnWarehousesName" editable="true" prefWidth="101.0" text="Name:" />
                       <TableColumn fx:id="tableColumnWarehousesCapacity" editable="true" prefWidth="61.0" text="Capacity" />
@@ -30,57 +30,57 @@
                         <TableColumn fx:id="tableColumnWarehousesInspec" editable="false" prefWidth="125.0" text="Last inspection:" />
                     </columns>
                   </TableView>
-                  <TableView fx:id="tableViewShipments" layoutX="634.0" layoutY="332.0" prefHeight="200.0" prefWidth="237.0">
+                  <TableView fx:id="tableViewShipments" layoutX="843.0" layoutY="314.0" prefHeight="200.0" prefWidth="292.0">
                     <columns>
                       <TableColumn fx:id="tableColumnShipmentsID" editable="true" prefWidth="39.0" text="ID:" />
                       <TableColumn fx:id="tableColumnShipmentsCurrentWarehouse" editable="false" prefWidth="117.0" text="Current warehouse:" />
                         <TableColumn fx:id="tableColumnShipmentsStatus" text="Status:" />
                     </columns>
                   </TableView>
-                  <Button fx:id="buttonDeleteWarehouse" layoutX="553.0" layoutY="539.0" mnemonicParsing="false" onAction="#handleButtonDeleteWarehouse" text="Delete" />
-                  <Button fx:id="buttonDeleteShipment" layoutX="818.0" layoutY="539.0" mnemonicParsing="false" onAction="#handleButtonDeleteShipment" text="Delete" />
-                  <Text fx:id="textInfoEdit" layoutX="383.0" layoutY="688.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Double click a cell to edit. Enter to save. " />
-                  <TextField fx:id="textFieldAddWarehouseName" layoutX="9.0" layoutY="615.0" promptText="Name" />
-                  <Text fx:id="textAddWarehouse" layoutX="9.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a new warehouse:" underline="true" />
-                  <TextField fx:id="textFieldAddWarehouseCapacity" layoutX="179.0" layoutY="615.0" prefHeight="26.0" prefWidth="96.0" promptText="Total capacity" />
-                  <TextField fx:id="textFieldAddWarehouseAddress" layoutX="288.0" layoutY="615.0" prefHeight="26.0" prefWidth="129.0" promptText="Address" />
-                  <ComboBox fx:id="comboBoxAddWarehouseLocation" layoutX="429.0" layoutY="615.0" prefHeight="26.0" prefWidth="112.0" promptText="Location" />
-                  <Text fx:id="textAllWarehouses" layoutX="9.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All warehouses:">
+                  <Button fx:id="buttonDeleteWarehouse" layoutX="596.0" layoutY="517.0" mnemonicParsing="false" onAction="#handleButtonDeleteWarehouse" text="Delete" />
+                  <Button fx:id="buttonDeleteShipment" layoutX="1082.0" layoutY="517.0" mnemonicParsing="false" onAction="#handleButtonDeleteShipment" text="Delete" />
+                  <Text fx:id="textInfoEdit" layoutX="547.0" layoutY="708.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Double click a cell to edit. Enter to save. " />
+                  <TextField fx:id="textFieldAddWarehouseName" layoutX="52.0" layoutY="593.0" promptText="Name" />
+                  <Text fx:id="textAddWarehouse" layoutX="52.0" layoutY="585.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a new warehouse:" underline="true" />
+                  <TextField fx:id="textFieldAddWarehouseCapacity" layoutX="222.0" layoutY="593.0" prefHeight="26.0" prefWidth="96.0" promptText="Total capacity" />
+                  <TextField fx:id="textFieldAddWarehouseAddress" layoutX="331.0" layoutY="593.0" prefHeight="26.0" prefWidth="129.0" promptText="Address" />
+                  <ComboBox fx:id="comboBoxAddWarehouseLocation" layoutX="472.0" layoutY="593.0" prefHeight="26.0" prefWidth="112.0" promptText="Location" />
+                  <Text fx:id="textAllWarehouses" layoutX="52.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All warehouses:">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="textAllShipments" layoutX="634.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All shipments:">
+                  <Text fx:id="textAllShipments" layoutX="843.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All shipments:">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="textAddShipment" layoutX="639.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a new shipment:" underline="true" />
-                  <Text fx:id="textIDAddShipment" fill="#8a8484" layoutX="639.0" layoutY="632.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(ID-nr is generated automatically)">
+                  <Text fx:id="textAddShipment" layoutX="848.0" layoutY="589.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a new shipment:" underline="true" />
+                  <Text fx:id="textIDAddShipment" fill="#8a8484" layoutX="848.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(ID-nr is generated automatically)">
                      <font>
                         <Font name="System Italic" size="11.0" />
                      </font>
                   </Text>
-                  <TableView fx:id="tableViewRegions" layoutX="406.0" layoutY="95.0" prefHeight="180.0" prefWidth="200.0">
+                  <TableView fx:id="tableViewRegions" layoutX="433.0" layoutY="75.0" prefHeight="180.0" prefWidth="200.0">
                     <columns>
                       <TableColumn fx:id="tableColumnRegionsLocation" editable="false" prefWidth="96.0" text="Location:" />
                       <TableColumn fx:id="tableColumnRegionsCurrentCapacity" editable="false" prefWidth="103.0" text="Current capacity:" />
                     </columns>
                   </TableView>
-                  <Text fx:id="textBusiestWarehouse" layoutX="9.0" layoutY="557.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="650.0" />
-                  <Text fx:id="textAllRegions" layoutX="406.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All regions:">
+                  <Text fx:id="textBusiestWarehouse" layoutX="52.0" layoutY="535.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="650.0" />
+                  <Text fx:id="textAllRegions" layoutX="434.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All regions:">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="textMainVIew" layoutX="35.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Main View">
+                  <Text fx:id="textMainVIew" layoutX="66.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Main View">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Text>
-                  <Label fx:id="labelSystemStatus" layoutX="20.0" layoutY="233.0" text="(System status will show here)">
+                  <Label fx:id="labelSystemStatus" layoutX="45.0" layoutY="211.0" textFill="#11cd21">
                      <font>
-                        <Font size="17.0" />
+                        <Font name="System Bold" size="17.0" />
                      </font></Label>
                </children>
         </AnchorPane>

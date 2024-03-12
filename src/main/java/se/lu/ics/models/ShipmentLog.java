@@ -57,6 +57,10 @@ public class ShipmentLog {
         return shipment.getShipmentId();
     }
 
+    public String getShipmentLabel(){
+        return shipment.getLabel();
+    }
+
 
 
     // Used in shipmentloghandler. The ShipmentLog class is responsible for

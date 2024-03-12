@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -143,6 +144,9 @@ public class ShipmentTabController {
     @FXML
     private Text textTotalAmountOfWarehouses;
 
+
+    
+
     @FXML
 void handleButtonCreateInspectionLog(ActionEvent event) {
     try {
@@ -245,6 +249,7 @@ void handleButtonCreateShipmentLog(ActionEvent event) {
                 ObservableList<ShipmentLog> shipmentLogs = dataService.getShipmentLogsForShipment(selectedShipment);
 
                 // Initialize or update the TableViews
+                textTheActualAmount.setText(String.valueOf(selectedShipment.getTotalNumberOfWarehouses()));
                 tableViewInspectionLogs.setItems(inspectionLogs);
                 tableViewShipmentLogs.setItems(shipmentLogs);
             }
@@ -310,6 +315,7 @@ void handleButtonDeleteShipmentLog(ActionEvent event) {
             ObservableList<ShipmentLog> shipmentLogs = dataService.getShipmentLogsForShipment(selectedShipment);
 
             // Initialize or update the TableViews
+            textTheActualAmount.setText(String.valueOf(selectedShipment.getTotalNumberOfWarehouses()));
             tableViewInspectionLogs.setItems(inspectionLogs);
             tableViewShipmentLogs.setItems(shipmentLogs);
         }
@@ -346,6 +352,8 @@ void handleButtonDeleteShipmentLog(ActionEvent event) {
         dataManager = DataManager.getInstance();
         dataService = DataService.getInstance();
         dataService.updateAll();
+
+        clearAll();
 
         setupTableColumns();
         setupComboBoxes();
@@ -458,6 +466,21 @@ void handleButtonDeleteShipmentLog(ActionEvent event) {
 
     public static void updateTextSystemStatus(ShipmentTabController controller, String message) {
         controller.setTextSystemStatus(message);
+    }
+
+    public void clearAll(){
+        textSystemStatus.setText("");
+        textTheActualAmount.setText("");
+        textTotalAmountOfWarehouses.setText("");
+        textCreateInspectionLog.setText("");
+        textCreateShipmentLog.setText("");
+        
+        textAllInspectionLogs.setText("");
+        textAllShipmentLogs.setText("");
+
+        tableViewInspectionLogs.getItems().clear();
+        tableViewShipmentLogs.getItems().clear();
+
     }
 
 }

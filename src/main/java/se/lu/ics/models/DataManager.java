@@ -183,10 +183,14 @@ public void deleteShipment(Shipment shipment) {
         while (shipmentLogIterator.hasNext()) {
             ShipmentLog log = shipmentLogIterator.next();
             if (log.getWarehouse().equals(warehouse)) {
+                Shipment shipment = log.getShipment();
+                if (log.getDirection().equals(Direction.INCOMING)) {
+                    shipment.setLabel(null);
+                }
                 shipmentLogIterator.remove();
                 deleteShipmentLog(log);
+                dataService.updateShipmentInformation(shipment);
             }
-            dataService.updateShipmentInformation(log.getShipment());
         }
     
         // Deletes all inspection logs for the warehouse
