@@ -26,6 +26,9 @@ public class WarehouseHandler {
     // <<-----Create----->>
 
     public Warehouse createWarehouse(String name, Location location, String address, double capacity) throws Exception {
+        if (doesAWarehouseExistWithName(name)) {
+            throw new Exception(ALREADY_EXISTS_WAREHOUSE_WITH_NAME);
+        }
         Warehouse warehouse = new Warehouse(name, location, address, capacity);
         warehouses.add(warehouse);
         return warehouse;

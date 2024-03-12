@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import se.lu.ics.controllers.ShipmentTabController;
 
 public class ShipmentLogHandler {
     private static final String NEEDS_ATTENTION = "Needs attention";
@@ -27,6 +28,7 @@ public class ShipmentLogHandler {
 
     private ShipmentLogHandler() {
         shipmentLogs = FXCollections.observableArrayList();
+       
     }
 
    
@@ -219,9 +221,9 @@ public class ShipmentLogHandler {
 
         if (sameDirectionCount == oppositeDirectionCount && sameDirectionCount > 0) {
             // Make sure warning is printed in the console and in GUI
-            System.err.println("Warning: Transportation loop detected");
+            ShipmentTabController.warningMessage = "Warning: Transportation loop detected";}
+
         }
-    }
 
     // <<------ Used in validateShipmentLog to count the number of logs with a specific shipment, warehouse and direction ------ >>
     private int countLogs(Shipment shipment, Warehouse warehouse, Direction direction) {

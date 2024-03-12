@@ -15,7 +15,7 @@ public class Warehouse {
     private double remainingCapacityInPercent;
     private String averageTimeShipmentSpendsAtWarehouse;
 
-    public static final String CAPACITY_MUST_BE_GREATER_THAN_0 = "Error: Capacity must be greater than 0!";
+    public static final String CAPACITY_MUST_BE_GREATER_THAN_0 = "Error: Capacity must be greater than 0";
 
     public Warehouse(String name, Location location, String address, double capacity) throws Exception {
         this.name = name;

@@ -78,7 +78,10 @@
                         <Font size="25.0" />
                      </font>
                   </Text>
-                  <Label fx:id="labelSystemStatus" layoutX="20.0" layoutY="233.0" text="System status will show here" />
+                  <Label fx:id="labelSystemStatus" layoutX="20.0" layoutY="233.0" text="(System status will show here)">
+                     <font>
+                        <Font size="17.0" />
+                     </font></Label>
                </children>
         </AnchorPane>
       </content>

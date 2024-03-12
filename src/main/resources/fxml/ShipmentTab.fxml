@@ -16,18 +16,19 @@
                   <Button fx:id="buttonCreateInspectionLog" layoutX="378.0" layoutY="611.0" mnemonicParsing="false" onAction="#handleButtonCreateInspectionLog" text="Create" />
                   <TableView fx:id="tableViewShipmentLogs" layoutX="450.0" layoutY="102.0" prefHeight="213.0" prefWidth="398.0">
                     <columns>
-                      <TableColumn fx:id="tableColumnShipmentLogsShipmentID" prefWidth="89.0" text="Shipment ID:" />
-                        <TableColumn fx:id="tableColumnShipmentLogsDate" prefWidth="97.0" text="Date:" />
-                        <TableColumn fx:id="tableColumnShipmentLogsDirection" prefWidth="88.0" text="Direction:" />
-                      <TableColumn fx:id="tableColumnShipmentLogsWarehouse" prefWidth="122.0" text="Warehouse:" />
+                      <TableColumn fx:id="tableColumnShipmentLogsShipmentID" editable="true" prefWidth="89.0" text="Shipment ID:" />
+                        <TableColumn fx:id="tableColumnShipmentLogsDate" editable="true" prefWidth="97.0" text="Date:" />
+                        <TableColumn fx:id="tableColumnShipmentLogsDirection" editable="true" prefWidth="88.0" text="Direction:" />
+                      <TableColumn fx:id="tableColumnShipmentLogsWarehouse" editable="true" prefWidth="122.0" text="Warehouse:" />
                     </columns>
                   </TableView>
                   <TableView fx:id="tableViewInspectionLogs" layoutX="450.0" layoutY="390.0" prefHeight="213.0" prefWidth="398.0">
                     <columns>
-                      <TableColumn fx:id="tableColumnInspectionLogsShipmentID" prefWidth="96.0" text="Shipment ID:" />
-                      <TableColumn fx:id="tableColumnInspectionLogsWarehouse" prefWidth="108.0" text="Warehouse:" />
-                        <TableColumn fx:id="tableColumnInspectionLogsInspector" prefWidth="59.0" text="Inspector:" />
-            <TableColumn fx:id="tableColumnInspectionLogsResult" prefWidth="134.0" text="Result:" />
+                      <TableColumn fx:id="tableColumnInspectionLogsShipmentID" editable="true" prefWidth="73.0" text="Shipment ID:" />
+                      <TableColumn fx:id="tableColumnInspectionLogsDate" editable="true" prefWidth="85.0" text="Date:" />
+            <TableColumn fx:id="tableColumnInspectionLogsWarehouse" editable="true" prefWidth="81.0" text="Warehouse:" />
+                        <TableColumn fx:id="tableColumnInspectionLogsInspector" editable="true" prefWidth="105.0" text="Inspector:" />
+            <TableColumn fx:id="tableColumnInspectionLogsResult" editable="true" prefWidth="53.0" text="Result:" />
                     </columns>
                   </TableView>
                   <Button fx:id="buttonDeleteShipmentLog" layoutX="795.0" layoutY="322.0" mnemonicParsing="false" onAction="#handleButtonDeleteShipmentLog" text="Delete" />
@@ -50,14 +51,23 @@
       <ComboBox fx:id="comboBoxCreateInspectionLogWarehouse" layoutX="101.0" layoutY="611.0" prefHeight="26.0" prefWidth="112.0" promptText="Warehouse" />
       <Text fx:id="textCreateInspectionLog" layoutX="23.0" layoutY="599.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new inspection log:" underline="true" />
       <DatePicker fx:id="datePickerCreateInspectionLog" layoutX="20.0" layoutY="611.0" prefHeight="26.0" prefWidth="71.0" promptText="Date" />
-      <TextField layoutX="224.0" layoutY="611.0" prefHeight="26.0" prefWidth="71.0" promptText="Inspector" />
-      <TextField layoutX="301.0" layoutY="611.0" prefHeight="26.0" prefWidth="71.0" promptText="Result" />
+      <TextField fx:id="textFieldInspector" layoutX="224.0" layoutY="611.0" prefHeight="26.0" prefWidth="71.0" promptText="Inspector" />
+      <TextField fx:id="textFieldResult" layoutX="301.0" layoutY="611.0" prefHeight="26.0" prefWidth="71.0" promptText="Result" />
       <Text fx:id="textEditInfo" layoutX="393.0" layoutY="698.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Double click a cell to edit. Enter to save. " />
       <Text fx:id="textShipmentManager" layoutX="326.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SHIPMENT MANAGER">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Text>
-      <Text fx:id="textSystemStatus" layoutX="23.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="306.21630859375" />
+      <Text fx:id="textSystemStatus" layoutX="23.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(System status will show here)" wrappingWidth="306.21630859375">
+         <font>
+            <Font size="17.0" />
+         </font></Text>
+      <Text fx:id="textTotalAmountOfWarehouses" layoutX="569.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total amount of warehouses:" />
+      <Text fx:id="textTheActualAmount" layoutX="739.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
                </children>
         </AnchorPane>
