@@ -33,7 +33,7 @@
                   <Button fx:id="buttonDeleteShipmentLog" layoutX="795.0" layoutY="322.0" mnemonicParsing="false" onAction="#handleButtonDeleteShipmentLog" text="Delete" />
                   <Button fx:id="buttonDeleteInspectionLog" layoutX="795.0" layoutY="611.0" mnemonicParsing="false" onAction="#handleButtonDeleteInspectionLog" text="Delete" />
                   <Text fx:id="textCreateShipmentLog" layoutX="18.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new shipment log:" underline="true" />
-                  <ComboBox fx:id="comboBoxSelectShipment" layoutX="20.0" layoutY="42.0" prefHeight="26.0" prefWidth="191.0" promptText="Select a shipment" />
+                  <ComboBox fx:id="comboBoxSelectShipment" layoutX="20.0" layoutY="42.0" onAction="#handleComboBoxShipment" prefHeight="26.0" prefWidth="191.0" promptText="Select a shipment" />
                   <Text fx:id="textAllShipmentLogs" layoutX="453.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All shipment logs for shipment:">
                      <font>
                         <Font size="16.0" />
@@ -58,5 +58,6 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Text>
+      <Text fx:id="textSystemStatus" layoutX="23.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="306.21630859375" />
                </children>
         </AnchorPane>

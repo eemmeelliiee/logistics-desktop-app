@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -170,6 +171,8 @@ public class MainViewController {
             textFieldAddWarehouseCapacity.clear();
             textFieldAddWarehouseName.clear();
             comboBoxAddWarehouseLocation.setValue(null);
+            dataService.updateAll();
+            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());    
         } catch (Exception e) {
             labelSystemStatus.setText(e.getMessage());
         }
@@ -177,7 +180,7 @@ public class MainViewController {
     }
 
     @FXML
-    void handleButtonDeleteShipment(ActionEvent event) {
+    void handleButtonDeleteShipment(ActionEvent event) throws Exception{
         Shipment selectedShipment = tableViewShipments.getSelectionModel().getSelectedItem();
         if (selectedShipment != null) {
             // Remove the selected shipment from the data source
@@ -185,6 +188,8 @@ public class MainViewController {
             // Refresh the table view
             tableViewShipments.getItems().remove(selectedShipment);
             labelSystemStatus.setText("Shipment deleted");
+            dataService.updateAll();
+            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());    
         } else {
             // Display an error message
             labelSystemStatus.setText(Constants.NO_ROW_SELECTED);
@@ -196,12 +201,62 @@ public class MainViewController {
     void handleButtonDeleteWarehouse(ActionEvent event) {
 
     }
+    @FXML
+    public void handleTabSelection(Event event) {
+        if (mainViewTab.isSelected()) {
+            System.out.println("Tab selected");
+            try {
+                System.out.println("Updating all data");
+                dataService.updateAll();
+            } catch (Exception e) {
+                System.out.println("Exception caught");
+                e.printStackTrace();
+            }
+            System.out.println("Populating table view");
+            try {
+                populateTableView();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
+        }
+    }
 
     public void initialize() throws Exception {
+        // your existing code...
+        
+        mainViewTab.setOnSelectionChanged(this::handleTabSelection);
 
         dataManager = DataManager.getInstance();
         dataService = DataService.getInstance();
         dataService.updateAll();
+
+        mainViewTab.setOnSelectionChanged(event -> {
+            if (mainViewTab.isSelected())  {
+                System.out.println("Tab selected");
+        
+                try {
+                    System.out.println("Updating all data");
+                    dataService.updateAll();
+                } catch (Exception e) {
+                    System.out.println("Exception caught");
+                    e.printStackTrace();
+                }
+        
+                System.out.println("Populating table view");
+                try {
+                    populateTableView();
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        
+
+        
 
 
         ComboBox<Location> comboBox = (ComboBox<Location>) comboBoxAddWarehouseLocation;
@@ -209,7 +264,7 @@ public class MainViewController {
             comboBox.getItems().add(location);
         }
 
-tableColumnRegionsLocation.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getKey()));
+    tableColumnRegionsLocation.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getKey()));
     // Set value factory for the capacity column
     tableColumnRegionsCurrentCapacity.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getValue()).asObject());
 
@@ -307,6 +362,33 @@ tableColumnRegionsLocation.setCellValueFactory(data -> new SimpleObjectProperty<
             }
         });
 
+        /// Warehouse Capacity
+        tableColumnWarehousesCapacity.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        tableColumnWarehousesCapacity.setOnEditCommit(event -> {
+            Warehouse warehouse = event.getRowValue();
+            Double newValue = event.getNewValue();
+            UpdateFieldWarehouse field = UpdateFieldWarehouse.CAPACITY; // Replace with the actual field you want to
+                                                                        // update
+            try {
+                dataManager.updateWarehouse(warehouse, field, newValue);
+                labelSystemStatus.setText("Warehouse capacity updated!");
+                dataService.updateAll();
+                tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
+                tableViewWarehouses.setItems(dataManager.readWarehouses());
+                tableViewShipments.setItems(dataManager.readShipments());
+            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());    
+
+            } catch (Exception e) {
+                try {
+                    event.getTableView().getItems().get(event.getTablePosition().getRow()).setCapacity(event.getOldValue());
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                labelSystemStatus.setText(e.getMessage());
+            }
+        });
+
        // ShipmentID
         tableColumnShipmentsID.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentId()));
         tableColumnShipmentsID.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -323,7 +405,7 @@ tableColumnRegionsLocation.setCellValueFactory(data -> new SimpleObjectProperty<
 
         textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
 
-
+    
         
         tableColumnWarehousesName.setOnEditCommit(event -> {
             Warehouse warehouse = event.getRowValue();
@@ -345,6 +427,12 @@ tableColumnRegionsLocation.setCellValueFactory(data -> new SimpleObjectProperty<
             try {
                 dataManager.updateWarehouse(warehouse, field, newValue);
                 labelSystemStatus.setText("Warehouse location updated!");
+                dataService.updateAll();
+                tableViewRegions.getItems().clear();
+                tableViewShipments.getItems().clear();
+                tableViewShipments.setItems(dataManager.readShipments());
+                tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
+            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());    
             } catch (Exception e) {
                 event.getOldValue(); // VIKTIGT reset to this value in table!!!
                 labelSystemStatus.setText(e.getMessage());
@@ -364,25 +452,7 @@ tableColumnRegionsLocation.setCellValueFactory(data -> new SimpleObjectProperty<
             }
         });
 
-        tableColumnWarehousesCapacity.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-        tableColumnWarehousesCapacity.setOnEditCommit(event -> {
-            Warehouse warehouse = event.getRowValue();
-            Double newValue = event.getNewValue();
-            UpdateFieldWarehouse field = UpdateFieldWarehouse.CAPACITY; // Replace with the actual field you want to
-                                                                        // update
-            try {
-                dataManager.updateWarehouse(warehouse, field, newValue);
-                labelSystemStatus.setText("Warehouse capacity updated!");
-            } catch (Exception e) {
-                try {
-                    event.getTableView().getItems().get(event.getTablePosition().getRow()).setCapacity(event.getOldValue());
-                } catch (Exception e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-                labelSystemStatus.setText(e.getMessage());
-            }
-        });
+        
 
 
 
@@ -403,13 +473,16 @@ tableColumnRegionsLocation.setCellValueFactory(data -> new SimpleObjectProperty<
         });
     }
 
-        public void populateTableView() {
-                tableViewShipments.getItems().clear();
-                tableViewShipments.setItems(dataManager.readShipments());
+        public void populateTableView() throws Exception{
+            // tableViewShipments.getItems().clear();
+            // tableViewWarehouses.getItems().clear();
+            // tableViewRegions.getItems().clear();
+            dataService.updateAll();
 
-                tableViewWarehouses.getItems().clear();
-                tableViewWarehouses.setItems(dataManager.readWarehouses());
-
+            tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
+            tableViewShipments.setItems(dataManager.readShipments());
+            tableViewWarehouses.setItems(dataManager.readWarehouses());
+            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());    
         
 
         

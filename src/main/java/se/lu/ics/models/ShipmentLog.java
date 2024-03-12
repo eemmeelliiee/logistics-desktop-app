@@ -53,6 +53,11 @@ public class ShipmentLog {
         this.shipment = shipment;
     }
 
+    public String getShipmentId() { // A setter as well?
+        return shipment.getShipmentId();
+    }
+
+
 
     // Used in shipmentloghandler. The ShipmentLog class is responsible for
     // determining if a ShipmentLog is similar to another and if it needs attention.
