@@ -16,24 +16,24 @@
                   <Button fx:id="buttonCreateInspectionLog" layoutX="569.0" layoutY="613.0" mnemonicParsing="false" onAction="#handleButtonCreateInspectionLog" text="Create" />
                   <TableView fx:id="tableViewShipmentLogs" layoutX="641.0" layoutY="104.0" prefHeight="213.0" prefWidth="398.0">
                     <columns>
-                      <TableColumn fx:id="tableColumnShipmentLogsShipmentID" editable="true" prefWidth="89.0" text="Shipment ID:" />
-                        <TableColumn fx:id="tableColumnShipmentLogsDate" editable="true" prefWidth="97.0" text="Date:" />
-                        <TableColumn fx:id="tableColumnShipmentLogsDirection" editable="true" prefWidth="88.0" text="Direction:" />
-                      <TableColumn fx:id="tableColumnShipmentLogsWarehouse" editable="true" prefWidth="122.0" text="Warehouse:" />
+                      <TableColumn fx:id="tableColumnShipmentLogsShipmentID" editable="true" prefWidth="82.0" text="Shipment ID:" />
+                        <TableColumn fx:id="tableColumnShipmentLogsDate" editable="true" prefWidth="139.0" text="Date:" />
+                        <TableColumn fx:id="tableColumnShipmentLogsDirection" editable="true" prefWidth="84.0" text="Direction:" />
+                      <TableColumn fx:id="tableColumnShipmentLogsWarehouse" editable="true" prefWidth="91.0" text="Warehouse:" />
                     </columns>
                   </TableView>
                   <TableView fx:id="tableViewInspectionLogs" layoutX="641.0" layoutY="392.0" prefHeight="213.0" prefWidth="398.0">
                     <columns>
-                      <TableColumn fx:id="tableColumnInspectionLogsShipmentID" editable="true" prefWidth="73.0" text="Shipment ID:" />
-                      <TableColumn fx:id="tableColumnInspectionLogsDate" editable="true" prefWidth="85.0" text="Date:" />
-            <TableColumn fx:id="tableColumnInspectionLogsWarehouse" editable="true" prefWidth="81.0" text="Warehouse:" />
-                        <TableColumn fx:id="tableColumnInspectionLogsInspector" editable="true" prefWidth="105.0" text="Inspector:" />
+                      <TableColumn fx:id="tableColumnInspectionLogsShipmentID" editable="true" prefWidth="87.0" text="Shipment ID:" />
+                      <TableColumn fx:id="tableColumnInspectionLogsDate" editable="true" prefWidth="98.0" text="Date:" />
+            <TableColumn fx:id="tableColumnInspectionLogsWarehouse" editable="true" prefWidth="88.0" text="Warehouse:" />
+                        <TableColumn fx:id="tableColumnInspectionLogsInspector" editable="true" prefWidth="71.0" text="Inspector:" />
             <TableColumn fx:id="tableColumnInspectionLogsResult" editable="true" prefWidth="53.0" text="Result:" />
                     </columns>
                   </TableView>
                   <Button fx:id="buttonDeleteShipmentLog" layoutX="986.0" layoutY="324.0" mnemonicParsing="false" onAction="#handleButtonDeleteShipmentLog" text="Delete" />
                   <Button fx:id="buttonDeleteInspectionLog" layoutX="986.0" layoutY="613.0" mnemonicParsing="false" onAction="#handleButtonDeleteInspectionLog" text="Delete" />
-                  <Text fx:id="textCreateShipmentLog" layoutX="209.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new shipment log:" underline="true" />
+                  <Text fx:id="textCreateShipmentLog" layoutX="209.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create or update a shipment log:" underline="true" />
                   <ComboBox fx:id="comboBoxSelectShipment" layoutX="184.0" layoutY="86.0" onAction="#handleComboBoxShipment" prefHeight="26.0" prefWidth="191.0" promptText="Select a shipment" />
                   <Text fx:id="textAllShipmentLogs" layoutX="644.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All shipment logs for shipment:">
                      <font>
@@ -49,25 +49,27 @@
       <ComboBox fx:id="comboBoxCreateShipmentLogDirection" layoutX="290.0" layoutY="324.0" prefHeight="26.0" prefWidth="100.0" promptText="Direction" />
       <ComboBox fx:id="comboBoxCreateShipmentLogWarehouse" layoutX="401.0" layoutY="324.0" prefHeight="26.0" prefWidth="112.0" promptText="Warehouse" />
       <ComboBox fx:id="comboBoxCreateInspectionLogWarehouse" layoutX="292.0" layoutY="613.0" prefHeight="26.0" prefWidth="112.0" promptText="Warehouse" />
-      <Text fx:id="textCreateInspectionLog" layoutX="214.0" layoutY="601.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new inspection log:" underline="true" />
+      <Text fx:id="textCreateInspectionLog" layoutX="214.0" layoutY="601.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create or update an inspection log:" underline="true" />
       <DatePicker fx:id="datePickerCreateInspectionLog" layoutX="211.0" layoutY="613.0" prefHeight="26.0" prefWidth="71.0" promptText="Date" />
       <TextField fx:id="textFieldInspector" layoutX="415.0" layoutY="613.0" prefHeight="26.0" prefWidth="71.0" promptText="Inspector" />
       <TextField fx:id="textFieldResult" layoutX="492.0" layoutY="613.0" prefHeight="26.0" prefWidth="71.0" promptText="Result" />
-      <Text fx:id="textEditInfo" layoutX="526.0" layoutY="705.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Double click a cell to edit. Enter to save. " />
+      <Text fx:id="textEditInfo" layoutX="494.0" layoutY="711.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To update: Select a row, edit field(s) to update and press &quot;Update&quot;" />
       <Text fx:id="textShipmentManager" layoutX="494.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SHIPMENT MANAGER">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Text>
-      <Text fx:id="textSystemStatus" fill="#11cd21" layoutX="22.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="306.21630859375">
+      <Text fx:id="textSystemStatus" fill="#11cd21" layoutX="179.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="306.21630859375">
          <font>
             <Font name="System Bold" size="17.0" />
          </font></Text>
       <Text fx:id="textTotalAmountOfWarehouses" layoutX="760.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total amount of warehouses:" />
-      <Text fx:id="textTheActualAmount" layoutX="739.0" layoutY="7.0" strokeType="OUTSIDE" strokeWidth="0.0">
+      <Text fx:id="textTheActualAmount" layoutX="926.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
+      <Button fx:id="buttonUpdateShipment" layoutX="569.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleButtonUpdateShipment" text="Update" />
+      <Button fx:id="buttonUpdateInspection" layoutX="569.0" layoutY="648.0" mnemonicParsing="false" onAction="#handleButtonUpdateInspection" text="Update" />
                </children>
         </AnchorPane>

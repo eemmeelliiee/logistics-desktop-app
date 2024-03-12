@@ -15,14 +15,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         DataManager dataManager = DataManager.getInstance();
         DataService dataService = DataService.getInstance();
-        ShipmentTabController stc = new ShipmentTabController();
-        ShipmentLogHandler shipmentLogHandler = ShipmentLogHandler.getInstance();
         
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
         Parent root = fxmlLoader.load();        
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setTitle("VikingExpress Inventory Management System");
 
         MainViewController controller = fxmlLoader.getController();
         controller.populateTableView();

@@ -530,7 +530,6 @@ public void handleTabSelection(Event event) {
                 labelSystemStatus.setText("Shipment ID updated successfully!");
             } catch (Exception e) {
                 event.getOldValue(); // VIKTIGT reset to this value in table!!!
-                labelSystemStatus.setText(e.getMessage());
         
                 // Create an alert dialog for error
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);

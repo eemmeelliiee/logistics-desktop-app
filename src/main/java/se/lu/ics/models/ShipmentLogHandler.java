@@ -7,10 +7,10 @@ import javafx.collections.ObservableList;
 import se.lu.ics.controllers.ShipmentTabController;
 
 public class ShipmentLogHandler {
-    private static final String NEEDS_ATTENTION = "Needs attention";
+    private static final String NEEDS_ATTENTION = "Needs attention!";
     private static final String WAREHOUSE_IS_FULL = "Error: Warehouse is at capacity";
     public static final String SHIPMENT_IS_AT_OTHER_WAREHOUSE = "Error: Shipment is currently incoming at another warehouse";
-    public static final String SHIPMENT_ALREADY_INCOMING_ON_THIS_WAREHOUSE = "Error: Shipment is already incoming at this wareshouse";
+    public static final String SHIPMENT_ALREADY_INCOMING_ON_THIS_WAREHOUSE = "Error: Shipment is already incoming at this warehouse";
     public static final String SAME_SHIPMENT = "Error: ShipmentLog already has this shipment";
     public static final String SAME_WAREHOUSE = "Error: ShipmentLog already has this warehouse";
     public static final String SAME_DIRECTION = "Error: ShipmentLog already has this direction";
