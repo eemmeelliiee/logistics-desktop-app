@@ -32,8 +32,6 @@ public class ShipmentTabController {
 
     private DataService dataService;
 
-    
-
     @FXML
     private Button buttonCreateInspectionLog;
 
@@ -128,17 +126,19 @@ public class ShipmentTabController {
             String result = "Result";
 
             if (date != null && warehouse != null && shipment != null) {
-                InspectionLog inspectionLog = dataManager.createInspectionLog(shipment, warehouse, date, inspector, result);
+                InspectionLog inspectionLog = dataManager.createInspectionLog(shipment, warehouse, date, inspector,
+                        result);
                 textSystemStatus.setText("Inspection log created successfully");
                 Shipment selectedShipment = comboBoxSelectShipment.getValue();
                 if (selectedShipment != null) {
-                    ObservableList<InspectionLog> inspectionLogs = dataService.getInspectionsLogsForShipment(selectedShipment);
+                    ObservableList<InspectionLog> inspectionLogs = dataService
+                            .getInspectionsLogsForShipment(selectedShipment);
                     ObservableList<ShipmentLog> shipmentLogs = dataService.getShipmentLogsForShipment(selectedShipment);
-            
+
                     // Initialize or update the TableViews
                     tableViewInspectionLogs.setItems(inspectionLogs);
                     tableViewShipmentLogs.setItems(shipmentLogs);
-                } 
+                }
             }
         } catch (Exception e) {
             // Create an alert dialog
@@ -154,111 +154,135 @@ public class ShipmentTabController {
     }
 
     @FXML
-void handleButtonCreateShipmentLog(ActionEvent event) {
-    try {
-        LocalDate date = datePickerCreateShipmentLog.getValue();
-        Direction direction = comboBoxCreateShipmentLogDirection.getValue();
-        Warehouse warehouse = comboBoxCreateShipmentLogWarehouse.getValue();
-        Shipment shipment = comboBoxSelectShipment.getValue();
+    void handleButtonCreateShipmentLog(ActionEvent event) {
+        try {
+            LocalDate date = datePickerCreateShipmentLog.getValue();
+            Direction direction = comboBoxCreateShipmentLogDirection.getValue();
+            Warehouse warehouse = comboBoxCreateShipmentLogWarehouse.getValue();
+            Shipment shipment = comboBoxSelectShipment.getValue();
 
-        if (date != null && direction != null && warehouse != null && shipment != null) {
-            ShipmentLog shipmentLog = dataManager.createShipmentLog(date, direction, warehouse, shipment);
-            textSystemStatus.setText("Shipment log created successfully");
-            Shipment selectedShipment = comboBoxSelectShipment.getValue();
-            if (selectedShipment != null) {
-                ObservableList<InspectionLog> inspectionLogs = dataService.getInspectionsLogsForShipment(selectedShipment);
-                ObservableList<ShipmentLog> shipmentLogs = dataService.getShipmentLogsForShipment(selectedShipment);
-        
-                // Initialize or update the TableViews
-                tableViewInspectionLogs.setItems(inspectionLogs);
-                tableViewShipmentLogs.setItems(shipmentLogs);
-            } 
+            if (date != null && direction != null && warehouse != null && shipment != null) {
+                ShipmentLog shipmentLog = dataManager.createShipmentLog(date, direction, warehouse, shipment);
+                textSystemStatus.setText("Shipment log created successfully");
+                Shipment selectedShipment = comboBoxSelectShipment.getValue();
+                if (selectedShipment != null) {
+                    ObservableList<InspectionLog> inspectionLogs = dataService
+                            .getInspectionsLogsForShipment(selectedShipment);
+                    ObservableList<ShipmentLog> shipmentLogs = dataService.getShipmentLogsForShipment(selectedShipment);
+
+                    // Initialize or update the TableViews
+                    tableViewInspectionLogs.setItems(inspectionLogs);
+                    tableViewShipmentLogs.setItems(shipmentLogs);
+                }
+            }
+        } catch (Exception e) {
+            // Create an alert dialog
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error creating shipment log");
+            alert.setContentText(e.getMessage());
+
+            // Show the dialog
+            alert.showAndWait();
         }
-    } catch (Exception e) {
-        // Create an alert dialog
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error Dialog");
-        alert.setHeaderText("Error creating shipment log");
-        alert.setContentText(e.getMessage());
-
-        // Show the dialog
-        alert.showAndWait();
     }
-}
-
-        
-    
 
     @FXML
     void handleButtonDeleteInspectionLog(ActionEvent event) {
+        InspectionLog selectedInspectionLog = tableViewInspectionLogs.getSelectionModel().getSelectedItem();
+        if (selectedInspectionLog != null) {
+            dataManager.deleteInspectionLog(selectedInspectionLog);
+            textSystemStatus.setText("Inspection log deleted successfully");
+            Shipment selectedShipment = comboBoxSelectShipment.getValue();
+            if (selectedShipment != null) {
+                ObservableList<InspectionLog> inspectionLogs = dataService
+                        .getInspectionsLogsForShipment(selectedShipment);
+                ObservableList<ShipmentLog> shipmentLogs = dataService.getShipmentLogsForShipment(selectedShipment);
+
+                // Initialize or update the TableViews
+                tableViewInspectionLogs.setItems(inspectionLogs);
+                tableViewShipmentLogs.setItems(shipmentLogs);
+            }
+        }
 
     }
 
     @FXML
     void handleButtonDeleteShipmentLog(ActionEvent event) {
+        ShipmentLog selectedShipmentLog = tableViewShipmentLogs.getSelectionModel().getSelectedItem();
+        if (selectedShipmentLog != null) {
+            dataManager.deleteShipmentLog(selectedShipmentLog);
+            textSystemStatus.setText("Shipment log deleted successfully");
+            Shipment selectedShipment = comboBoxSelectShipment.getValue();
+            if (selectedShipment != null) {
+                ObservableList<InspectionLog> inspectionLogs = dataService
+                        .getInspectionsLogsForShipment(selectedShipment);
+                ObservableList<ShipmentLog> shipmentLogs = dataService.getShipmentLogsForShipment(selectedShipment);
+
+                // Initialize or update the TableViews
+                tableViewInspectionLogs.setItems(inspectionLogs);
+                tableViewShipmentLogs.setItems(shipmentLogs);
+            }
+        }
 
     }
 
     @FXML
     void handleComboBoxShipment(ActionEvent event) {
-             Shipment selectedShipment = comboBoxSelectShipment.getValue();
-    if (selectedShipment != null) {
-        ObservableList<InspectionLog> inspectionLogs = dataService.getInspectionsLogsForShipment(selectedShipment);
-        ObservableList<ShipmentLog> shipmentLogs = dataService.getShipmentLogsForShipment(selectedShipment);
+        Shipment selectedShipment = comboBoxSelectShipment.getValue();
+        if (selectedShipment != null) {
+            ObservableList<InspectionLog> inspectionLogs = dataService.getInspectionsLogsForShipment(selectedShipment);
+            ObservableList<ShipmentLog> shipmentLogs = dataService.getShipmentLogsForShipment(selectedShipment);
 
-        // Initialize or update the TableViews
-        tableViewInspectionLogs.setItems(inspectionLogs);
-        tableViewShipmentLogs.setItems(shipmentLogs);
+            // Initialize or update the TableViews
+            tableViewInspectionLogs.setItems(inspectionLogs);
+            tableViewShipmentLogs.setItems(shipmentLogs);
+        }
     }
-}
-    
 
-
-    public void initialize()throws Exception{
-
+    public void initialize() throws Exception {
+        // Initialization code remains mostly the same as before, with slight
+        // adjustments for readability
         dataManager = DataManager.getInstance();
         dataService = DataService.getInstance();
         dataService.updateAll();
 
-        tableColumnShipmentLogsDate.setCellValueFactory(new PropertyValueFactory<ShipmentLog, LocalDate>("date"));
-        tableColumnShipmentLogsDirection.setCellValueFactory(new PropertyValueFactory<ShipmentLog, Direction>("direction"));
-        tableColumnShipmentLogsShipmentID.setCellValueFactory(new PropertyValueFactory<ShipmentLog, String>("shipmentId"));
-        tableColumnShipmentLogsWarehouse.setCellValueFactory(new PropertyValueFactory<ShipmentLog, Warehouse>("warehouse"));
+        setupTableColumns();
+        setupComboBoxes();
+        setupButtons();
+        setupDatePickers();
+    }
 
-        tableColumnInspectionLogsInspector.setCellValueFactory(new PropertyValueFactory<InspectionLog, String>("inspector"));
-        tableColumnInspectionLogsResult.setCellValueFactory(new PropertyValueFactory<InspectionLog, String>("result"));
-        tableColumnInspectionLogsShipmentID.setCellValueFactory(new PropertyValueFactory<InspectionLog, Shipment>("shipment"));
-        tableColumnInspectionLogsWarehouse.setCellValueFactory(new PropertyValueFactory<InspectionLog, Warehouse>("warehouse"));
+    private void setupTableColumns() {
+        // Initialize table columns using PropertyValueFactory
+        tableColumnShipmentLogsDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        tableColumnShipmentLogsDirection.setCellValueFactory(new PropertyValueFactory<>("direction"));
+        tableColumnShipmentLogsShipmentID.setCellValueFactory(new PropertyValueFactory<>("shipmentId"));
+        tableColumnShipmentLogsWarehouse.setCellValueFactory(new PropertyValueFactory<>("warehouse"));
 
+        tableColumnInspectionLogsInspector.setCellValueFactory(new PropertyValueFactory<>("inspector"));
+        tableColumnInspectionLogsResult.setCellValueFactory(new PropertyValueFactory<>("result"));
+        tableColumnInspectionLogsShipmentID.setCellValueFactory(new PropertyValueFactory<>("shipment"));
+        tableColumnInspectionLogsWarehouse.setCellValueFactory(new PropertyValueFactory<>("warehouse"));
+    }
+
+    private void setupComboBoxes() {
         comboBoxCreateShipmentLogWarehouse.setItems(dataManager.readWarehouses());
         comboBoxCreateShipmentLogDirection.setItems(FXCollections.observableArrayList(Direction.values()));
         comboBoxSelectShipment.setItems(dataManager.readShipments());
+        comboBoxCreateInspectionLogWarehouse.setItems(dataManager.readWarehouses());
+        comboBoxCreateShipmentLogDirection.setItems(FXCollections.observableArrayList(Direction.values()));
+        comboBoxSelectShipment.setItems(dataManager.readShipments());
+    }
 
-        
-
-        // Set up buttons
+    private void setupButtons() {
         buttonCreateInspectionLog.setOnAction(this::handleButtonCreateInspectionLog);
-        buttonCreateShipmentLog.setOnAction(arg0 -> {
-            try {
-                handleButtonCreateShipmentLog(arg0);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        });
+        buttonCreateShipmentLog.setOnAction(this::handleButtonCreateShipmentLog);
         buttonDeleteInspectionLog.setOnAction(this::handleButtonDeleteInspectionLog);
         buttonDeleteShipmentLog.setOnAction(this::handleButtonDeleteShipmentLog);
+    }
 
-        // Set up ComboBoxes
-        // You need to replace `YourType` with the actual type of the items in the ComboBoxes
-        comboBoxCreateInspectionLogWarehouse.setItems(dataManager.readWarehouses());
-        comboBoxCreateShipmentLogDirection.setItems(FXCollections.observableArrayList(Direction.values()));        comboBoxSelectShipment.setItems(dataManager.readShipments());
-
-        // Set up TableViews
-        // You need to replace `YourType` with the actual type of the items in the TableViews
-        
-
-        // Set up DatePicker default values
+    private void setupDatePickers() {
         datePickerCreateInspectionLog.setValue(LocalDate.now());
         datePickerCreateShipmentLog.setValue(LocalDate.now());
     }

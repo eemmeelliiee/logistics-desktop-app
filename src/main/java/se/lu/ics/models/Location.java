@@ -4,6 +4,9 @@ public enum Location {
     MIDDLE,
     SOUTH;
 
+    
+
+
     public static Location fromString(String string) {
         switch (string.toLowerCase()) {
             case "north":

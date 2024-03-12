@@ -257,6 +257,7 @@ public class DataService {
     public void updateShipmentInformation(Shipment shipment) {
         updateCurrentWarehouseForShipment(shipment);
         updateTotalNumberOfWarehousesForShipment(shipment);
+        shipmentLogHandler.updateAttentionStatus();
     }
 
     private void updateCurrentWarehouseForShipment(Shipment shipment) {

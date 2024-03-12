@@ -57,7 +57,7 @@ public class ShipmentLogHandler {
     // <<------Update------>>
     
     public void warehouseUpdate(){
-        
+
     }
 
     public void updateShipmentLog(ShipmentLog shipmentLog, UpdateFieldShipmentLog field, Object newValue)
@@ -170,9 +170,9 @@ public class ShipmentLogHandler {
         return mostRecentLog.getDirection();
     }
     // Updates the label of the shipment if shipment has spent more than 14 days at a warehouse
-    private void updateAttentionStatus() {
+    public void updateAttentionStatus() {
         for (ShipmentLog shipmentLog : shipmentLogs) {
-            if (shipmentLog.needsAttention(shipmentLog)) {
+            if (shipmentLog.needsAttention()) {
                 shipmentLog.getShipment().setLabel(NEEDS_ATTENTION);
             } else {
                 shipmentLog.getShipment().setLabel("");
