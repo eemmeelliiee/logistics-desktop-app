@@ -67,10 +67,10 @@ public class MainViewController {
     private Tab shipmentTab;
 
     @FXML
-    private TableColumn <Pair<Location, Double>, Double> tableColumnRegionsCurrentCapacity;
+    private TableColumn<Pair<Location, Double>, Double> tableColumnRegionsCurrentCapacity;
 
     @FXML
-    private TableColumn<Pair<Location, Double>, Location>  tableColumnRegionsLocation;
+    private TableColumn<Pair<Location, Double>, Location> tableColumnRegionsLocation;
 
     @FXML
     private TableColumn<Shipment, String> tableColumnShipmentsCurrentWarehouse;
@@ -149,12 +149,11 @@ public class MainViewController {
 
     @FXML
     void handleButtonAddShipment(ActionEvent event) {
-         //Code to execute when the button is pressed
+        // Code to execute when the button is pressed
         dataManager.createShipment();
         labelSystemStatus.setText("Shipment created");
-    }   
 
-    
+    }
 
     @FXML
     void handleButtonAddWarehouse(ActionEvent event) {
@@ -165,22 +164,42 @@ public class MainViewController {
         Location location = (Location) comboBoxAddWarehouseLocation.getValue();
 
         try {
-            dataManager.createWarehouse(name, location,  address, Double.parseDouble(capacity));
+            dataManager.createWarehouse(name, location, address, Double.parseDouble(capacity));
             labelSystemStatus.setText("Warehouse created");
             textFieldAddWarehouseAddress.clear();
             textFieldAddWarehouseCapacity.clear();
             textFieldAddWarehouseName.clear();
             comboBoxAddWarehouseLocation.setValue(null);
             dataService.updateAll();
-            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());    
+            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
         } catch (Exception e) {
             labelSystemStatus.setText(e.getMessage());
         }
 
     }
 
+    // @FXML
+    // void handleButtonDeleteShipment(ActionEvent event) throws Exception{
+    // Shipment selectedShipment =
+    // tableViewShipments.getSelectionModel().getSelectedItem();
+    // if (selectedShipment != null) {
+    // // Remove the selected shipment from the data source
+    // dataManager.deleteShipment(selectedShipment);
+    // // Refresh the table view
+    // tableViewShipments.getItems().remove(selectedShipment);
+    // labelSystemStatus.setText("Shipment deleted");
+    // dataService.updateAll();
+    // tableViewWarehouses.getItems().clear();
+    // populateTableView();
+    // textBusiestWarehouse.setText("");
+    // textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
+    // } else {
+    // // Display an error message
+    // labelSystemStatus.setText(Constants.NO_ROW_SELECTED);
+    // }
+    // }
     @FXML
-    void handleButtonDeleteShipment(ActionEvent event) throws Exception{
+    void handleButtonDeleteShipment(ActionEvent event) {
         Shipment selectedShipment = tableViewShipments.getSelectionModel().getSelectedItem();
         if (selectedShipment != null) {
             // Remove the selected shipment from the data source
@@ -188,19 +207,47 @@ public class MainViewController {
             // Refresh the table view
             tableViewShipments.getItems().remove(selectedShipment);
             labelSystemStatus.setText("Shipment deleted");
-            dataService.updateAll();
-            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());    
         } else {
             // Display an error message
             labelSystemStatus.setText(Constants.NO_ROW_SELECTED);
         }
     }
 
-
     @FXML
-    void handleButtonDeleteWarehouse(ActionEvent event) {
+    void handleButtonDeleteWarehouse(ActionEvent event) throws Exception {
+        Warehouse selectedWarehouse = tableViewWarehouses.getSelectionModel().getSelectedItem();
+        if (selectedWarehouse != null) {
+            // Remove the selected warehouse from the data source
+            dataManager.deleteWarehouse(selectedWarehouse);
+            dataService.updateAll();
+            // Refresh the table view
+            tableViewWarehouses.getItems().remove(selectedWarehouse);
+            labelSystemStatus.setText("Warehouse deleted");
+            tableViewShipments.setItems(dataManager.readShipments());
+            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
+            tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
+        } else {
+            // Display an error message
+            labelSystemStatus.setText(Constants.NO_ROW_SELECTED);
+        }
 
     }
+
+    // @FXML
+    // void handleButtonDeleteWarehouse(ActionEvent event) {
+    // Warehouse selectedWarehouse =
+    // tableViewWarehouses.getSelectionModel().getSelectedItem();
+    // if (selectedWarehouse != null) {
+    // // Remove the selected warehouse from the data source
+    // dataManager.deleteWarehouse(selectedWarehouse);
+    // // Refresh the table view
+    // tableViewWarehouses.getItems().remove(selectedWarehouse);
+    // labelSystemStatus.setText("Warehouse deleted");
+    // } else {
+    // // Display an error message
+    // labelSystemStatus.setText(Constants.NO_ROW_SELECTED);
+    // }
+    // }
     @FXML
     public void handleTabSelection(Event event) {
         if (mainViewTab.isSelected()) {
@@ -219,151 +266,165 @@ public class MainViewController {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            
+
         }
     }
 
-    public void initialize() throws Exception {
-        // your existing code...
-        
-        mainViewTab.setOnSelectionChanged(this::handleTabSelection);
-
-        dataManager = DataManager.getInstance();
-        dataService = DataService.getInstance();
-        dataService.updateAll();
-
-        mainViewTab.setOnSelectionChanged(event -> {
-            if (mainViewTab.isSelected())  {
-                System.out.println("Tab selected");
-        
-                try {
-                    System.out.println("Updating all data");
-                    dataService.updateAll();
-                } catch (Exception e) {
-                    System.out.println("Exception caught");
-                    e.printStackTrace();
-                }
-        
-                System.out.println("Populating table view");
-                try {
-                    populateTableView();
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        
-
-        
-
+    private void initTableColumns() {
+        // Initialize and configure table columns for warehouses, shipments, and regions
+        // Example:
+        tableColumnWarehousesName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tableColumnWarehousesName.setCellFactory(TextFieldTableCell.forTableColumn());
 
         ComboBox<Location> comboBox = (ComboBox<Location>) comboBoxAddWarehouseLocation;
-            for (Location location : Location.values()) {
+        for (Location location : Location.values()) {
             comboBox.getItems().add(location);
         }
 
-    tableColumnRegionsLocation.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getKey()));
-    // Set value factory for the capacity column
-    tableColumnRegionsCurrentCapacity.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getValue()).asObject());
+        tableColumnRegionsLocation.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getKey()));
+        // Set value factory for the capacity column
+        tableColumnRegionsCurrentCapacity
+                .setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getValue()).asObject());
 
-    // Bind the TableView's items property to the ObservableList returned by getCurrentAvailableCapacityForLocations
-    tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
-
-       tableViewShipments.setEditable(true);
-        tableViewWarehouses.setEditable(true);
-
-       // Warehouse
         tableColumnWarehousesName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tableColumnWarehousesName.setCellFactory(TextFieldTableCell.forTableColumn());
 
         // Location
         tableColumnWarehousesLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
-        tableColumnWarehousesLocation.setCellFactory(new Callback<TableColumn<Warehouse, Location>, TableCell<Warehouse, Location>>() {
-            @Override
-            public TableCell<Warehouse, Location> call(TableColumn<Warehouse, Location> param) {
-                return new TableCell<Warehouse, Location>() {
+        tableColumnWarehousesLocation
+                .setCellFactory(new Callback<TableColumn<Warehouse, Location>, TableCell<Warehouse, Location>>() {
                     @Override
-                    protected void updateItem(Location item, boolean empty) {
-                        super.updateItem(item, empty);
-        
-                        if (item == null || empty) {
-                            setText(null);
-                        } else {
-                            setText(item.toString());
-                        }
+                    public TableCell<Warehouse, Location> call(TableColumn<Warehouse, Location> param) {
+                        return new TableCell<Warehouse, Location>() {
+                            @Override
+                            protected void updateItem(Location item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.toString());
+                                }
+                            }
+                        };
                     }
-                };
-            }
-        });
-        
+                });
+
         // Address
         tableColumnWarehousesAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         tableColumnWarehousesAddress.setCellFactory(TextFieldTableCell.forTableColumn());
 
         // Capacity
         tableColumnWarehousesCapacity.setCellValueFactory(new PropertyValueFactory<>("capacity"));
-        tableColumnWarehousesCapacity.setCellFactory(new Callback<TableColumn<Warehouse, Double>, TableCell<Warehouse, Double>>() {
-            @Override
-            public TableCell<Warehouse, Double> call(TableColumn<Warehouse, Double> param) {
-                return new TableCell<Warehouse, Double>() {
+        tableColumnWarehousesCapacity
+                .setCellFactory(new Callback<TableColumn<Warehouse, Double>, TableCell<Warehouse, Double>>() {
                     @Override
-                    protected void updateItem(Double item, boolean empty) {
-                        super.updateItem(item, empty);
-        
-                        if (item == null || empty) {
-                            setText(null);
-                        } else {
-                            setText(item.toString());
-                        }
+                    public TableCell<Warehouse, Double> call(TableColumn<Warehouse, Double> param) {
+                        return new TableCell<Warehouse, Double>() {
+                            @Override
+                            protected void updateItem(Double item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.toString());
+                                }
+                            }
+                        };
                     }
-                };
-            }
-        });
+                });
 
         // Current Capacity
-        tableColumnWarehousesCurrentCapacity.setCellValueFactory(new PropertyValueFactory<>("currentAvailableCapacity"));
-        tableColumnWarehousesCurrentCapacity.setCellFactory(new Callback<TableColumn<Warehouse, Double>, TableCell<Warehouse, Double>>() {
-            @Override
-            public TableCell<Warehouse, Double> call(TableColumn<Warehouse, Double> param) {
-                return new TableCell<Warehouse, Double>() {
+        tableColumnWarehousesCurrentCapacity
+                .setCellValueFactory(new PropertyValueFactory<>("currentAvailableCapacity"));
+        tableColumnWarehousesCurrentCapacity
+                .setCellFactory(new Callback<TableColumn<Warehouse, Double>, TableCell<Warehouse, Double>>() {
                     @Override
-                    protected void updateItem(Double item, boolean empty) {
-                        super.updateItem(item, empty);
-        
-                        if (item == null || empty) {
-                            setText(null);
-                        } else {
-                            setText(item.toString());
-                        }
+                    public TableCell<Warehouse, Double> call(TableColumn<Warehouse, Double> param) {
+                        return new TableCell<Warehouse, Double>() {
+                            @Override
+                            protected void updateItem(Double item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.toString());
+                                }
+                            }
+                        };
                     }
-                };
-            }
-        });
+                });
 
         // Inspection Date
         tableColumnWarehousesInspec.setCellValueFactory(new PropertyValueFactory<>("mostRecentInspectionDate"));
-        tableColumnWarehousesInspec.setCellFactory(new Callback<TableColumn<Warehouse, LocalDate>, TableCell<Warehouse, LocalDate>>() {
-            @Override
-            public TableCell<Warehouse, LocalDate> call(TableColumn<Warehouse, LocalDate> param) {
-                return new TableCell<Warehouse, LocalDate>() {
+        tableColumnWarehousesInspec
+                .setCellFactory(new Callback<TableColumn<Warehouse, LocalDate>, TableCell<Warehouse, LocalDate>>() {
                     @Override
-                    protected void updateItem(LocalDate item, boolean empty) {
-                        super.updateItem(item, empty);
-        
-                        if (item == null || empty) {
-                            setText(null);
-                        } else {
-                            setText(item.toString());
-                        }
+                    public TableCell<Warehouse, LocalDate> call(TableColumn<Warehouse, LocalDate> param) {
+                        return new TableCell<Warehouse, LocalDate>() {
+                            @Override
+                            protected void updateItem(LocalDate item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.toString());
+                                }
+                            }
+                        };
                     }
-                };
-            }
-        });
+                });
 
         /// Warehouse Capacity
         tableColumnWarehousesCapacity.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+
+        // ShipmentID
+        tableColumnShipmentsID
+                .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentId()));
+        tableColumnShipmentsID.setCellFactory(TextFieldTableCell.forTableColumn());
+        // tableColumnShipmentsID.setCellValueFactory(new
+        // PropertyValueFactory<>("shipmentId"));
+
+        // Status
+        tableColumnShipmentsStatus
+                .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLabel()));
+        tableColumnShipmentsStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        // Current Warehouse
+        // tableColumnShipmentsCurrentWarehouse.setCellValueFactory(new
+        // PropertyValueFactory<>("currentWarehouse"));
+        tableColumnShipmentsCurrentWarehouse
+                .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCurrentWarehouse()));
+        tableColumnWarehousesLocation.setCellFactory(TextFieldTableCell.forTableColumn(new LocationStringConverter()));
+
+        textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
+
+        // Configure other columns similarly
+    }
+
+    public void initialize() throws Exception {
+        // your existing code...
+
+        mainViewTab.setOnSelectionChanged(this::handleTabSelection);
+
+        dataManager = DataManager.getInstance();
+        dataService = DataService.getInstance();
+        dataService.updateAll();
+
+
+        initTableColumns();
+
+        // Bind the TableView's items property to the ObservableList returned by
+        // getCurrentAvailableCapacityForLocations
+        tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
+        tableViewShipments.setEditable(true);
+        tableViewWarehouses.setEditable(true);
+
+        // Warehouse
+
         tableColumnWarehousesCapacity.setOnEditCommit(event -> {
             Warehouse warehouse = event.getRowValue();
             Double newValue = event.getNewValue();
@@ -376,11 +437,12 @@ public class MainViewController {
                 tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
                 tableViewWarehouses.setItems(dataManager.readWarehouses());
                 tableViewShipments.setItems(dataManager.readShipments());
-            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());    
+                textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
 
             } catch (Exception e) {
                 try {
-                    event.getTableView().getItems().get(event.getTablePosition().getRow()).setCapacity(event.getOldValue());
+                    event.getTableView().getItems().get(event.getTablePosition().getRow())
+                            .setCapacity(event.getOldValue());
                 } catch (Exception e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -389,24 +451,6 @@ public class MainViewController {
             }
         });
 
-       // ShipmentID
-        tableColumnShipmentsID.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentId()));
-        tableColumnShipmentsID.setCellFactory(TextFieldTableCell.forTableColumn());
-        // tableColumnShipmentsID.setCellValueFactory(new PropertyValueFactory<>("shipmentId"));
-
-        // Status
-        tableColumnShipmentsStatus.setCellValueFactory(new PropertyValueFactory<>("label"));
-        tableColumnShipmentsStatus.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        // Current Warehouse
-        tableColumnShipmentsCurrentWarehouse.setCellValueFactory(new PropertyValueFactory<>("currentWarehouse"));
-        tableColumnWarehousesLocation.setCellFactory(TextFieldTableCell.forTableColumn(new LocationStringConverter()));
-
-
-        textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
-
-    
-        
         tableColumnWarehousesName.setOnEditCommit(event -> {
             Warehouse warehouse = event.getRowValue();
             String newValue = event.getNewValue();
@@ -423,7 +467,8 @@ public class MainViewController {
         tableColumnWarehousesLocation.setOnEditCommit(event -> {
             Warehouse warehouse = event.getRowValue();
             Location newValue = event.getNewValue();
-            UpdateFieldWarehouse field = UpdateFieldWarehouse.LOCATION; // Replace with the actual field you want to update
+            UpdateFieldWarehouse field = UpdateFieldWarehouse.LOCATION; // Replace with the actual field you want to
+                                                                        // update
             try {
                 dataManager.updateWarehouse(warehouse, field, newValue);
                 labelSystemStatus.setText("Warehouse location updated!");
@@ -432,7 +477,7 @@ public class MainViewController {
                 tableViewShipments.getItems().clear();
                 tableViewShipments.setItems(dataManager.readShipments());
                 tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
-            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());    
+                textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
             } catch (Exception e) {
                 event.getOldValue(); // VIKTIGT reset to this value in table!!!
                 labelSystemStatus.setText(e.getMessage());
@@ -442,7 +487,8 @@ public class MainViewController {
         tableColumnWarehousesAddress.setOnEditCommit(event -> {
             Warehouse warehouse = event.getRowValue();
             String newValue = event.getNewValue();
-            UpdateFieldWarehouse field = UpdateFieldWarehouse.ADDRESS; // Replace with the actual field you want to update
+            UpdateFieldWarehouse field = UpdateFieldWarehouse.ADDRESS; // Replace with the actual field you want to
+                                                                       // update
             try {
                 dataManager.updateWarehouse(warehouse, field, newValue);
                 labelSystemStatus.setText("Warehouse address updated!");
@@ -451,11 +497,6 @@ public class MainViewController {
                 labelSystemStatus.setText(e.getMessage());
             }
         });
-
-        
-
-
-
 
         tableColumnShipmentsID.setOnEditCommit(event -> {
             Shipment shipment = event.getRowValue();
@@ -473,19 +514,16 @@ public class MainViewController {
         });
     }
 
-        public void populateTableView() throws Exception{
-            // tableViewShipments.getItems().clear();
-            // tableViewWarehouses.getItems().clear();
-            // tableViewRegions.getItems().clear();
-            dataService.updateAll();
+    public void populateTableView() throws Exception {
+        // tableViewShipments.getItems().clear();
+        // tableViewWarehouses.getItems().clear();
+        // tableViewRegions.getItems().clear();
+        dataService.updateAll();
 
-            tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
-            tableViewShipments.setItems(dataManager.readShipments());
-            tableViewWarehouses.setItems(dataManager.readWarehouses());
-            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());    
-        
+        tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
+        tableViewShipments.setItems(dataManager.readShipments());
+        tableViewWarehouses.setItems(dataManager.readWarehouses());
+        textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
 
-        
+    }
 }
-}
-

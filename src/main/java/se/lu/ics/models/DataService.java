@@ -195,7 +195,9 @@ public class DataService {
             if (shipmentLog.getDirection().equals(Direction.INCOMING)) {
                 currentStockLevel++;
             } else {
-                currentStockLevel--;
+                if (currentStockLevel > 0) {
+                    currentStockLevel--;
+                }
             }
         }
         warehouse.setCurrentStockLevel(currentStockLevel);

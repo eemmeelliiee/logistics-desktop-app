@@ -73,10 +73,10 @@ public class WarehouseHandler {
             forceUpdateOfObservableList();
             for (ShipmentLog log : ShipmentLogHandler.getInstance().getShipmentLogs()) {
                 if (log.getWarehouse().equals(warehouse)) {
-                    ShipmentLogHandler.getInstance().updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
+                    // ShipmentLogHandler.getInstance().updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
                 }
-                DataService.getInstance().updateWarehouseShipmentInformation(warehouse);
-                DataService.getInstance().updateShipmentInformation(log.getShipment());
+                // DataService.getInstance().updateWarehouseShipmentInformation(warehouse);
+                // DataService.getInstance().updateShipmentInformation(log.getShipment());
             } // maybe this should be a part of all public methods that can change its
                                            // state )
             return;

@@ -1,6 +1,8 @@
 package se.lu.ics.models;
 
 import java.time.LocalDate;
+
+import java.util.Iterator;
 import javafx.collections.ObservableList;
 
 public class DataManager {
@@ -62,23 +64,49 @@ public class DataManager {
         }
     }
 
-    public void deleteShipment(Shipment shipment) {
-        shipmentHandler.deleteShipment(shipment);
+//     public void deleteShipment(Shipment shipment) {
+//         shipmentHandler.deleteShipment(shipment);
 
-        // Deletes all shipmentlogs for the shipment
-        for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
-            if (log.getShipment().equals(shipment)) {
-                deleteShipmentLog(log);
-            }
-        }
-        // Deletes all inspectionlogs for the shipment
-        for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
-            if (log.getShipment().equals(shipment)) {
-                deleteInspectionLog(log);
-            }
+//         // Deletes all shipmentlogs for the shipment
+//         for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+//             if (log.getShipment().equals(shipment)) {
+//                 deleteShipmentLog(log);
+//             }dataService.updateWarehouseShipmentInformation(log.getWarehouse());
+
+//         }
+//         // Deletes all inspectionlogs for the shipment
+//         for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
+//             if (log.getShipment().equals(shipment)) {
+//                 deleteInspectionLog(log);
+//             }dataService.updateWarehouseShipmentInformation(log.getWarehouse());
+
+// }    }
+
+public void deleteShipment(Shipment shipment) {
+    shipmentHandler.deleteShipment(shipment);
+
+    // Deletes all shipmentlogs for the shipment
+    Iterator<ShipmentLog> shipmentLogIterator = shipmentLogHandler.getShipmentLogs().iterator();
+    while (shipmentLogIterator.hasNext()) {
+        ShipmentLog log = shipmentLogIterator.next();
+        if (log.getShipment().equals(shipment)) {
+            shipmentLogIterator.remove(); // Use iterator's remove method
+            deleteShipmentLog(log);
+            dataService.updateWarehouseShipmentInformation(log.getWarehouse());
         }
     }
 
+    // Deletes all inspectionlogs for the shipment
+    Iterator<InspectionLog> inspectionLogIterator = inspectionLogHandler.getInspectionLogs().iterator();
+    while (inspectionLogIterator.hasNext()) {
+        InspectionLog log = inspectionLogIterator.next();
+        if (log.getShipment().equals(shipment)) {
+            inspectionLogIterator.remove(); // Use iterator's remove method
+            deleteInspectionLog(log);
+            dataService.updateWarehouseShipmentInformation(log.getWarehouse());
+        }
+    }
+}
 
     // <<---------------- CRUD-methods for Warehouses ----------------->>
 
@@ -111,19 +139,62 @@ public class DataManager {
         }
     }
 
+    // public void deleteWarehouse(Warehouse warehouse) {
+    //     warehouseHandler.deleteWarehouse(warehouse);
+
+    //     // Deletes all shipmentlogs for the warehouse
+    //     for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+    //         if (log.getWarehouse().equals(warehouse)) {
+    //             deleteShipmentLog(log);
+    //         }
+    //         dataService.updateShipmentInformation(log.getShipment());
+    //     }
+    //     // Deletes all inspectionlogs for the warehouse
+    //     for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
+    //         if (log.getWarehouse().equals(warehouse)) {
+    //             deleteInspectionLog(log);
+    //         }
+    //     }
+    // }'
+    // public void deleteWarehouse(Warehouse warehouse) {
+    //     warehouseHandler.deleteWarehouse(warehouse);
+    
+    //     // Deletes all shipment logs for the warehouse
+    //     for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+    //         if (log.getWarehouse().equals(warehouse)) {
+    //             deleteShipmentLog(log);
+    //         }
+    //         dataService.updateShipmentInformation(log.getShipment());
+    //     }
+    
+    //     // Deletes all inspection logs for the warehouse
+    //     for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
+    //         if (log.getWarehouse().equals(warehouse)) {
+    //             deleteInspectionLog(log);
+    //         }
+    //     }
+    // }
+
     public void deleteWarehouse(Warehouse warehouse) {
         warehouseHandler.deleteWarehouse(warehouse);
-
-        // Deletes all shipmentlogs for the warehouse
-        for (ShipmentLog log : shipmentLogHandler.getShipmentLogs()) {
+    
+        // Deletes all shipment logs for the warehouse
+        Iterator<ShipmentLog> shipmentLogIterator = shipmentLogHandler.getShipmentLogs().iterator();
+        while (shipmentLogIterator.hasNext()) {
+            ShipmentLog log = shipmentLogIterator.next();
             if (log.getWarehouse().equals(warehouse)) {
+                shipmentLogIterator.remove();
                 deleteShipmentLog(log);
             }
             dataService.updateShipmentInformation(log.getShipment());
         }
-        // Deletes all inspectionlogs for the warehouse
-        for (InspectionLog log : inspectionLogHandler.getInspectionLogs()) {
+    
+        // Deletes all inspection logs for the warehouse
+        Iterator<InspectionLog> inspectionLogIterator = inspectionLogHandler.getInspectionLogs().iterator();
+        while (inspectionLogIterator.hasNext()) {
+            InspectionLog log = inspectionLogIterator.next();
             if (log.getWarehouse().equals(warehouse)) {
+                inspectionLogIterator.remove();
                 deleteInspectionLog(log);
             }
         }
