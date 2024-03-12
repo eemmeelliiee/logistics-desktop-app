@@ -13,4 +13,31 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <dependencies>  
+<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-fxml</artifactId>
+    <version>22-ea+28</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-controls</artifactId>
+    <version>22-ea+28</version>
+</dependency>
+ <!-- JUnit 5 dependency -->
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.8.2</version>
+        <scope>test</scope>
+    </dependency>
+  
+
+
+
+    </dependencies>
+
+
 </project>

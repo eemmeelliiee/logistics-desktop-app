@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="warehouseTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="706.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.lu.ics.controllers.WarehouseTabController">
+   <children>
+      <TableView fx:id="tableViewShipmentLogs" layoutX="177.0" layoutY="157.0" prefHeight="213.0" prefWidth="391.0">
+         <columns>
+            <TableColumn fx:id="tableColumnShipmentLogsShipmentID" editable="true" prefWidth="89.0" text="Shipment ID:" />
+            <TableColumn fx:id="tableColumnShipmentLogsDate" editable="true" prefWidth="97.0" text="Date:" />
+            <TableColumn fx:id="tableColumnShipmentLogsDirection" editable="true" prefWidth="103.0" text="Direction:" />
+            <TableColumn fx:id="tableColumnShipmentNeedsAttention" prefWidth="107.0" />
+         </columns>
+      </TableView>
+      <TableView fx:id="tableViewInspectionLogs" layoutX="177.0" layoutY="444.0" prefHeight="213.0" prefWidth="398.0">
+         <columns>
+            <TableColumn fx:id="tableColumnInspectionLogsShipmentID" editable="true" prefWidth="82.0" text="Shipment ID:" />
+            <TableColumn fx:id="tableColumnInspectionLogsDate" editable="true" prefWidth="89.0" text="Date:" />
+            <TableColumn fx:id="tableColumnInspectionLogsInspector" editable="true" prefWidth="92.0" text="Inspector:" />
+            <TableColumn fx:id="tableColumnInspectionLogsResult" editable="true" prefWidth="134.0" text="Result:" />
+         </columns>
+      </TableView>
+      <TableView fx:id="tableViewAllInspectors" layoutX="712.0" layoutY="444.0" prefHeight="213.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="tableColumnAllInspectors" prefWidth="199.0" text="All inspectors involved:" />
+        </columns>
+      </TableView>
+      <Text fx:id="textStockLevel" layoutX="610.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stock level:" />
+      <Text fx:id="textRemainingCapacity" layoutX="609.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining capacity: " />
+      <ComboBox fx:id="comboBoxSelectWarehouse" layoutX="177.0" layoutY="79.0" onAction="#handleComboBoxSelectWarehouse" prefHeight="26.0" prefWidth="182.0" promptText="Select a warehouse" />
+      <Text fx:id="textAllShipmentLogs" layoutX="177.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All shipment logs for warehouse:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text fx:id="textAllInspectionLogs" layoutX="177.0" layoutY="436.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All inspection logs for warehouse:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text fx:id="textAverageTime" layoutX="610.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average time shipment spends at warehouse:" />
+      <Text fx:id="textActualStockLevel" layoutX="733.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="textActualRemainingCapacity" layoutX="732.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="textActualAverageTime" layoutX="887.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="textWarehouseStatus" layoutX="492.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAREHOUSE STATUS">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
