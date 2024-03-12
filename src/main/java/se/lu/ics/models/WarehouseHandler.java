@@ -35,13 +35,11 @@ public class WarehouseHandler {
 
     }
 
-
     // <<-----Read----->>
 
     public ObservableList<Warehouse> getWarehouses() {
         return warehouses;
     }
-
 
     // <<-----Update----->>
 
@@ -62,9 +60,6 @@ public class WarehouseHandler {
             case CAPACITY:
                 updateWarehouseCapacity(warehouse, (Double) newValue);
                 break;
-            // break;
-            // default:
-            // throw new Exception(Constants.INVALID_FIELD);
         }
     }
 
@@ -76,12 +71,10 @@ public class WarehouseHandler {
             forceUpdateOfObservableList();
             for (ShipmentLog log : ShipmentLogHandler.getInstance().getShipmentLogs()) {
                 if (log.getWarehouse().equals(warehouse)) {
-                    // ShipmentLogHandler.getInstance().updateShipmentLog(log, UpdateFieldShipmentLog.WAREHOUSE, warehouse);
+
                 }
-                // DataService.getInstance().updateWarehouseShipmentInformation(warehouse);
-                // DataService.getInstance().updateShipmentInformation(log.getShipment());
-            } // maybe this should be a part of all public methods that can change its
-                                           // state )
+
+            }
             return;
         }
     }
@@ -89,7 +82,7 @@ public class WarehouseHandler {
     public void updateWarehouseLocation(Warehouse warehouse, Location newLocation) {
         // if (warehouse != null){
         warehouse.setLocation(newLocation);
-        forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
+        forceUpdateOfObservableList();
         return;
         // }
     }
@@ -97,18 +90,16 @@ public class WarehouseHandler {
     public void updateWarehouseAddress(Warehouse warehouse, String newAddress) {
         // if (warehouse != null){
         warehouse.setAddress(newAddress);
-        forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
+        forceUpdateOfObservableList();
         return;
-        // }
 
     }
 
     public void updateWarehouseCapacity(Warehouse warehouse, double newCapacity) throws Exception {
         // if (warehouse != null){
         warehouse.setCapacity(newCapacity);
-        forceUpdateOfObservableList(); // maybe this should be a part of all public methods that can change its state )
+        forceUpdateOfObservableList();
         return;
-        // }
 
     }
 
@@ -118,9 +109,7 @@ public class WarehouseHandler {
         warehouses.remove(warehouse);
     }
 
-
-
-    // only needed to updated ComboBoxes!
+    // Needed to update ComboBoxes in GUI
     public void forceUpdateOfObservableList() {
         warehouses.add(0, null);
         warehouses.remove(0);

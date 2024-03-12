@@ -61,16 +61,4 @@ public class InspectionLog {
     public void setResult(String result) {
         this.result = result;
     }
-
-
-    // för tester bara (tror jag)
-    @Override
-    public String toString() {
-        return "\n\nShipmentID: " + shipment +
-                "\n Warehouse: " + warehouse +
-                "\n Date: " + date +
-                "\n Inspector: " + inspector + 
-                "\n Result: " + result ;
-    }
-
 }

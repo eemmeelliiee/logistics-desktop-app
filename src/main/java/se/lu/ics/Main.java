@@ -12,10 +12,7 @@ import se.lu.ics.models.ShipmentLogHandler;
 
 public class Main extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        DataManager dataManager = DataManager.getInstance();
-        DataService dataService = DataService.getInstance();
-        
+    public void start(Stage primaryStage) throws Exception{ 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
         Parent root = fxmlLoader.load();        
         Scene scene = new Scene(root);

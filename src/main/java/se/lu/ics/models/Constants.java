@@ -1,7 +1,6 @@
 package se.lu.ics.models;
 
 public class Constants {
-// alla måste vara public static final
     public static final String NO_ROW_SELECTED = "Error: No row selected";
     public static final String CANNOT_BE_EMPTY = "Error: Field cannot be empty";
     public static final String INVALID_FIELD = "Error: Invalid field";

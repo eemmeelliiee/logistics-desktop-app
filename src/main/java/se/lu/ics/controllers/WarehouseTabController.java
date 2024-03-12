@@ -4,22 +4,20 @@ import se.lu.ics.models.DataManager;
 import se.lu.ics.models.DataService;
 import se.lu.ics.models.Direction;
 import se.lu.ics.models.InspectionLog;
-import se.lu.ics.models.Shipment;
 import se.lu.ics.models.ShipmentLog;
+import se.lu.ics.models.Warehouse;
 
 import java.time.LocalDate;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import se.lu.ics.models.Warehouse;
+
 
 public class WarehouseTabController {
 
@@ -106,12 +104,9 @@ public class WarehouseTabController {
         setupTableColumns();
         populateTableView();
 
-        
-
-
     }
 
-    public void initialize() throws Exception{
+    public void initialize() throws Exception {
 
         dataManager = DataManager.getInstance();
         dataService = DataService.getInstance();
@@ -120,22 +115,25 @@ public class WarehouseTabController {
 
         setupTableColumns();
         comboBoxSelectWarehouse.setItems(dataManager.readWarehouses());
-        
+
     }
 
     private void setupTableColumns() {
-                tableColumnShipmentLogsDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-                tableColumnShipmentLogsDirection.setCellValueFactory(new PropertyValueFactory<>("direction"));
-                tableColumnShipmentLogsShipmentID.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentId()));                
-                tableColumnShipmentNeedsAttention.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentLabel()));
+        tableColumnShipmentLogsDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        tableColumnShipmentLogsDirection.setCellValueFactory(new PropertyValueFactory<>("direction"));
+        tableColumnShipmentLogsShipmentID
+                .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentId()));
+        tableColumnShipmentNeedsAttention
+                .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipmentLabel()));
 
-                tableColumnAllInspectors.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()));
+        tableColumnAllInspectors.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()));
 
-                tableColumnInspectionLogsDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-                tableColumnInspectionLogsInspector.setCellValueFactory(new PropertyValueFactory<>("inspector"));
-                tableColumnInspectionLogsResult.setCellValueFactory(new PropertyValueFactory<>("result"));
-                tableColumnInspectionLogsShipmentID.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShipment().getShipmentId()));
-                
+        tableColumnInspectionLogsDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        tableColumnInspectionLogsInspector.setCellValueFactory(new PropertyValueFactory<>("inspector"));
+        tableColumnInspectionLogsResult.setCellValueFactory(new PropertyValueFactory<>("result"));
+        tableColumnInspectionLogsShipmentID.setCellValueFactory(
+                cellData -> new SimpleStringProperty(cellData.getValue().getShipment().getShipmentId()));
+
     }
 
     public void populateTableView() {
@@ -143,14 +141,12 @@ public class WarehouseTabController {
         tableViewShipmentLogs.setItems(dataService.getShipmentLogsForWarehouse(selectedWarehouse));
         tableViewInspectionLogs.setItems(dataService.getInspectionLogsForWarehouse(selectedWarehouse));
         tableViewAllInspectors.setItems(dataService.getInspectorsForWarehouse(selectedWarehouse));
-}
+    }
 
-public void clearAll() {
+    public void clearAll() {
         tableViewShipmentLogs.getItems().clear();
         tableViewInspectionLogs.getItems().clear();
         tableViewAllInspectors.getItems().clear();
     }
 
 }
-
-

@@ -1,16 +1,29 @@
 package se.lu.ics.controllers;
 
-import java.time.LocalDate;
-import java.util.Arrays;
+import se.lu.ics.models.DataManager;
+import se.lu.ics.models.DataService;
+import se.lu.ics.models.Location;
+import se.lu.ics.models.LocationStringConverter;
+import se.lu.ics.models.Shipment;
+import se.lu.ics.models.UpdateFieldWarehouse;
+import se.lu.ics.models.Warehouse;
+import se.lu.ics.models.Constants;
 
+import java.time.LocalDate;
+
+import javafx.util.Pair;
+import javafx.util.StringConverter;
 import javafx.util.Callback;
+
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
+
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+
 import javafx.fxml.FXML;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -24,17 +37,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
-import javafx.util.converter.DoubleStringConverter;
-import javafx.util.StringConverter;
-import se.lu.ics.models.DataManager;
-import se.lu.ics.models.DataService;
-import se.lu.ics.models.Location;
-import se.lu.ics.models.LocationStringConverter;
-import se.lu.ics.models.Shipment;
-import se.lu.ics.models.UpdateFieldWarehouse;
-import se.lu.ics.models.Warehouse;
-import se.lu.ics.models.Constants;
 
 public class MainViewController {
 
@@ -158,135 +160,135 @@ public class MainViewController {
     }
 
     @FXML
-void handleButtonAddWarehouse(ActionEvent event) {
-    labelSystemStatus.setText("");
+    void handleButtonAddWarehouse(ActionEvent event) {
+        labelSystemStatus.setText("");
 
-    String name = textFieldAddWarehouseName.getText();
-    String address = textFieldAddWarehouseAddress.getText();
-    String capacity = textFieldAddWarehouseCapacity.getText();
-    Location location = (Location) comboBoxAddWarehouseLocation.getValue();
+        String name = textFieldAddWarehouseName.getText();
+        String address = textFieldAddWarehouseAddress.getText();
+        String capacity = textFieldAddWarehouseCapacity.getText();
+        Location location = (Location) comboBoxAddWarehouseLocation.getValue();
 
-    try {
-        if (name.isEmpty() || address.isEmpty() || capacity.isEmpty() || location == null) {
-            throw new Exception("Please fill in all fields");
-        }
-
-        // Check if capacity is a valid number
-        double capacityValue;
         try {
-            capacityValue = Double.parseDouble(capacity);
-        } catch (NumberFormatException e) {
-            throw new Exception("Capacity must be a number.");
-        }
+            if (name.isEmpty() || address.isEmpty() || capacity.isEmpty() || location == null) {
+                throw new Exception("Please fill in all fields");
+            }
 
-        dataManager.createWarehouse(name, location, address, capacityValue);
-        labelSystemStatus.setText("Warehouse created successfully!");
-        textFieldAddWarehouseAddress.clear();
-        textFieldAddWarehouseCapacity.clear();
-        textFieldAddWarehouseName.clear();
-        comboBoxAddWarehouseLocation.getSelectionModel().clearSelection();
-        comboBoxAddWarehouseLocation.setPromptText("Location");
-        dataService.updateAll();
-        textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
-        tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
-        tableViewRegions.refresh(); // Refresh tableViewRegions
-    } catch (Exception e) {
-        // Create an alert dialog for error
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setTitle("Error Dialog");
-        errorAlert.setHeaderText("Error creating warehouse");
-        errorAlert.setContentText(e.getMessage());
+            // Check if capacity is a valid number
+            double capacityValue;
+            try {
+                capacityValue = Double.parseDouble(capacity);
+            } catch (NumberFormatException e) {
+                throw new Exception("Capacity must be a number.");
+            }
 
-        // Show the dialog
-        errorAlert.showAndWait();
-    }
-}
-
-@FXML
-void handleButtonDeleteShipment(ActionEvent event) {
-    labelSystemStatus.setText("");
-
-    Shipment selectedShipment = tableViewShipments.getSelectionModel().getSelectedItem();
-    if (selectedShipment != null) {
-        // Remove the selected shipment from the data source
-        dataManager.deleteShipment(selectedShipment);
-        // Refresh the table view
-        tableViewShipments.getItems().remove(selectedShipment);
-        labelSystemStatus.setText("Shipment deleted successfully!");
-    } else {
-        // Display an error message
-        labelSystemStatus.setText(Constants.NO_ROW_SELECTED);
-
-        // Create an alert dialog for error
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setTitle("Error Dialog");
-        errorAlert.setHeaderText("Error deleting shipment");
-        errorAlert.setContentText(Constants.NO_ROW_SELECTED);
-
-        // Show the dialog
-        errorAlert.showAndWait();
-    }
-}
-
-@FXML
-void handleButtonDeleteWarehouse(ActionEvent event) throws Exception {
-    labelSystemStatus.setText("");
-
-    Warehouse selectedWarehouse = tableViewWarehouses.getSelectionModel().getSelectedItem();
-    if (selectedWarehouse != null) {
-        // Remove the selected warehouse from the data source
-        dataManager.deleteWarehouse(selectedWarehouse);
-        dataService.updateAll();
-        // Refresh the table view
-        tableViewWarehouses.getItems().remove(selectedWarehouse);
-        labelSystemStatus.setText("Warehouse deleted successfully!");
-        tableViewShipments.setItems(dataManager.readShipments());
-        tableViewShipments.refresh(); // Refresh tableViewShipments
-        textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
-        tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
-        tableViewRegions.refresh(); // Refresh tableViewRegions
-        
-    } else {
-        // Display an error message
-        labelSystemStatus.setText(Constants.NO_ROW_SELECTED);
-
-        // Create an alert dialog for error
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setTitle("Error Dialog");
-        errorAlert.setHeaderText("Error deleting warehouse");
-        errorAlert.setContentText(Constants.NO_ROW_SELECTED);
-
-        // Show the dialog
-        errorAlert.showAndWait();
-    }
-}
-
-@FXML
-public void handleTabSelection(Event event) {
-    labelSystemStatus.setText("");
-
-    if (mainViewTab.isSelected()) {
-        System.out.println("Tab selected");
-        try {
-            System.out.println("Updating all data");
+            dataManager.createWarehouse(name, location, address, capacityValue);
+            labelSystemStatus.setText("Warehouse created successfully!");
+            textFieldAddWarehouseAddress.clear();
+            textFieldAddWarehouseCapacity.clear();
+            textFieldAddWarehouseName.clear();
+            comboBoxAddWarehouseLocation.getSelectionModel().clearSelection();
+            comboBoxAddWarehouseLocation.setPromptText("Location");
             dataService.updateAll();
-            refreshMainView();
+            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
+            tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
+            tableViewRegions.refresh(); // Refresh tableViewRegions
         } catch (Exception e) {
-            System.out.println("Exception caught");
-            e.printStackTrace();
+            // Create an alert dialog for error
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Error Dialog");
+            errorAlert.setHeaderText("Error creating warehouse");
+            errorAlert.setContentText(e.getMessage());
+
+            // Show the dialog
+            errorAlert.showAndWait();
         }
-        System.out.println("Populating table view");
-        try {
-            populateTableView();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    } else if (shipmentTab.isSelected()) {
-        // Clear views in ShipmentTabController
-        // shipmentTabController.clearViews();
     }
-}
+
+    @FXML
+    void handleButtonDeleteShipment(ActionEvent event) {
+        labelSystemStatus.setText("");
+
+        Shipment selectedShipment = tableViewShipments.getSelectionModel().getSelectedItem();
+        if (selectedShipment != null) {
+            // Remove the selected shipment from the data source
+            dataManager.deleteShipment(selectedShipment);
+            // Refresh the table view
+            tableViewShipments.getItems().remove(selectedShipment);
+            labelSystemStatus.setText("Shipment deleted successfully!");
+        } else {
+            // Display an error message
+            labelSystemStatus.setText(Constants.NO_ROW_SELECTED);
+
+            // Create an alert dialog for error
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Error Dialog");
+            errorAlert.setHeaderText("Error deleting shipment");
+            errorAlert.setContentText(Constants.NO_ROW_SELECTED);
+
+            // Show the dialog
+            errorAlert.showAndWait();
+        }
+    }
+
+    @FXML
+    void handleButtonDeleteWarehouse(ActionEvent event) throws Exception {
+        labelSystemStatus.setText("");
+
+        Warehouse selectedWarehouse = tableViewWarehouses.getSelectionModel().getSelectedItem();
+        if (selectedWarehouse != null) {
+            // Remove the selected warehouse from the data source
+            dataManager.deleteWarehouse(selectedWarehouse);
+            dataService.updateAll();
+            // Refresh the table view
+            tableViewWarehouses.getItems().remove(selectedWarehouse);
+            labelSystemStatus.setText("Warehouse deleted successfully!");
+            tableViewShipments.setItems(dataManager.readShipments());
+            tableViewShipments.refresh(); // Refresh tableViewShipments
+            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
+            tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
+            tableViewRegions.refresh(); // Refresh tableViewRegions
+
+        } else {
+            // Display an error message
+            labelSystemStatus.setText(Constants.NO_ROW_SELECTED);
+
+            // Create an alert dialog for error
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Error Dialog");
+            errorAlert.setHeaderText("Error deleting warehouse");
+            errorAlert.setContentText(Constants.NO_ROW_SELECTED);
+
+            // Show the dialog
+            errorAlert.showAndWait();
+        }
+    }
+
+    @FXML
+    public void handleTabSelection(Event event) {
+        labelSystemStatus.setText("");
+
+        if (mainViewTab.isSelected()) {
+            System.out.println("Tab selected");
+            try {
+                System.out.println("Updating all data");
+                dataService.updateAll();
+                refreshMainView();
+            } catch (Exception e) {
+                System.out.println("Exception caught");
+                e.printStackTrace();
+            }
+            System.out.println("Populating table view");
+            try {
+                populateTableView();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } else if (shipmentTab.isSelected()) {
+            // Clear views in ShipmentTabController
+            // shipmentTabController.clearViews();
+        }
+    }
 
     public void initialize() throws Exception {
 
@@ -328,6 +330,8 @@ public void handleTabSelection(Event event) {
         tableColumnWarehousesAddress.setEditable(true);
         tableColumnWarehousesCapacity.setEditable(true);
         tableColumnShipmentsID.setEditable(true);
+        tableColumnWarehousesLocation.setEditable(true);
+        tableViewWarehouses.setEditable(true);
     }
 
     private void initTableColumns() {
@@ -353,13 +357,13 @@ public void handleTabSelection(Event event) {
                 labelSystemStatus.setText("Warehouse name updated successfully!");
             } catch (Exception e) {
                 event.getOldValue(); // VIKTIGT reset to this value in table!!!
-    
+
                 // Create an alert dialog for error
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Error Dialog");
                 errorAlert.setHeaderText("Error updating warehouse");
                 errorAlert.setContentText(e.getMessage());
-    
+
                 // Show the dialog
                 errorAlert.showAndWait();
             }
@@ -376,55 +380,41 @@ public void handleTabSelection(Event event) {
     }
 
     private void initWarehousesLocationColumn() {
-        tableColumnWarehousesLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
-        tableColumnWarehousesLocation
-                .setCellFactory(new Callback<TableColumn<Warehouse, Location>, TableCell<Warehouse, Location>>() {
-                    @Override
-                    public TableCell<Warehouse, Location> call(TableColumn<Warehouse, Location> param) {
-                        return new TableCell<Warehouse, Location>() {
-                            @Override
-                            protected void updateItem(Location item, boolean empty) {
-                                super.updateItem(item, empty);
+    tableColumnWarehousesLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+    tableColumnWarehousesLocation.setCellFactory(TextFieldTableCell.forTableColumn(new LocationStringConverter()));
 
-                                if (item == null || empty) {
-                                    setText(null);
-                                } else {
-                                    setText(item.toString());
-                                }
-                            }
-                        };
-                    }
-                });
+    tableColumnWarehousesLocation.setOnEditCommit(event -> {
+        labelSystemStatus.setText("");
 
-                tableColumnWarehousesLocation.setOnEditCommit(event -> {
-                    labelSystemStatus.setText("");
+        Warehouse warehouse = event.getRowValue();
+        Location newValue = event.getNewValue();
+        UpdateFieldWarehouse field = UpdateFieldWarehouse.LOCATION; // Replace with the actual field you want to update
+        try {
+            dataManager.updateWarehouse(warehouse, field, newValue);
+            labelSystemStatus.setText("Warehouse location updated successfully!");
+            dataService.updateAll();
+            tableViewRegions.getItems().clear();
+            tableViewShipments.getItems().clear();
+            tableViewShipments.setItems(dataManager.readShipments());
+            tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
+            textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
+        } catch (Exception e) {
+            event.getOldValue(); // VIKTIGT reset to this value in table!!!
 
-                    Warehouse warehouse = event.getRowValue();
-                    Location newValue = event.getNewValue();
-                    UpdateFieldWarehouse field = UpdateFieldWarehouse.LOCATION; // Replace with the actual field you want to update
-                    try {
-                        dataManager.updateWarehouse(warehouse, field, newValue);
-                        labelSystemStatus.setText("Warehouse location updated successfully!");
-                        dataService.updateAll();
-                        tableViewRegions.getItems().clear();
-                        tableViewShipments.getItems().clear();
-                        tableViewShipments.setItems(dataManager.readShipments());
-                        tableViewRegions.setItems(dataService.getCurrentAvailableCapacityForLocations());
-                        textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
-                    } catch (Exception e) {
-                        event.getOldValue(); // VIKTIGT reset to this value in table!!!
-                
-                        // Create an alert dialog for error
-                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                        errorAlert.setTitle("Error Dialog");
-                        errorAlert.setHeaderText("Error updating warehouse location");
-                        errorAlert.setContentText(e.getMessage());
-                
-                        // Show the dialog
-                        errorAlert.showAndWait();
-                    }
-                });
-    }
+            // Create an alert dialog for error
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Error Dialog");
+            errorAlert.setHeaderText("Error updating warehouse location");
+            errorAlert.setContentText(e.getMessage());
+
+            // Show the dialog
+            errorAlert.showAndWait();
+        }
+    });
+
+    tableColumnWarehousesLocation.setEditable(true);
+    tableViewWarehouses.setEditable(true);
+}
 
     private void initWarehousesAddressColumn() {
         tableColumnWarehousesAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -434,19 +424,20 @@ public void handleTabSelection(Event event) {
 
             Warehouse warehouse = event.getRowValue();
             String newValue = event.getNewValue();
-            UpdateFieldWarehouse field = UpdateFieldWarehouse.ADDRESS; // Replace with the actual field you want to update
+            UpdateFieldWarehouse field = UpdateFieldWarehouse.ADDRESS; // Replace with the actual field you want to
+                                                                       // update
             try {
                 dataManager.updateWarehouse(warehouse, field, newValue);
                 labelSystemStatus.setText("Warehouse address updated successfully!");
             } catch (Exception e) {
                 event.getOldValue(); // VIKTIGT reset to this value in table!!!
-        
+
                 // Create an alert dialog for error
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Error Dialog");
                 errorAlert.setHeaderText("Error updating warehouse address");
                 errorAlert.setContentText(e.getMessage());
-        
+
                 // Show the dialog
                 errorAlert.showAndWait();
             }
@@ -471,7 +462,8 @@ public void handleTabSelection(Event event) {
 
             Warehouse warehouse = event.getRowValue();
             Double newValue = event.getNewValue();
-            UpdateFieldWarehouse field = UpdateFieldWarehouse.CAPACITY; // Replace with the actual field you want to update
+            UpdateFieldWarehouse field = UpdateFieldWarehouse.CAPACITY; // Replace with the actual field you want to
+                                                                        // update
             try {
                 dataManager.updateWarehouse(warehouse, field, newValue);
                 labelSystemStatus.setText("Warehouse capacity updated successfully!");
@@ -480,7 +472,7 @@ public void handleTabSelection(Event event) {
                 tableViewWarehouses.setItems(dataManager.readWarehouses());
                 tableViewShipments.setItems(dataManager.readShipments());
                 textBusiestWarehouse.setText(dataService.getBusiestWarehouse());
-        
+
             } catch (Exception e) {
                 try {
                     event.getTableView().getItems().get(event.getTablePosition().getRow())
@@ -489,13 +481,13 @@ public void handleTabSelection(Event event) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-        
+
                 // Create an alert dialog for error
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Error Dialog");
                 errorAlert.setHeaderText("Error updating warehouse capacity");
                 errorAlert.setContentText(e.getMessage());
-        
+
                 // Show the dialog
                 errorAlert.showAndWait();
             }
@@ -521,22 +513,22 @@ public void handleTabSelection(Event event) {
             labelSystemStatus.setText("");
 
             Shipment shipment = event.getRowValue();
-        
+
             String newValue = event.getNewValue();
             String newValueAsStringProperty = newValue;
-        
+
             try {
                 dataManager.updateShipmentId(shipment, newValueAsStringProperty);
                 labelSystemStatus.setText("Shipment ID updated successfully!");
             } catch (Exception e) {
                 event.getOldValue(); // VIKTIGT reset to this value in table!!!
-        
+
                 // Create an alert dialog for error
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Error Dialog");
                 errorAlert.setHeaderText("Error updating shipment ID");
                 errorAlert.setContentText(e.getMessage());
-        
+
                 // Show the dialog
                 errorAlert.showAndWait();
             }

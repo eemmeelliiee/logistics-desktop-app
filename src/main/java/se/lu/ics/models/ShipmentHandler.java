@@ -23,7 +23,6 @@ public class ShipmentHandler {
         return instance;
     }
 
-
     // <<------Create------>>
 
     public Shipment createShipment() {
@@ -32,13 +31,11 @@ public class ShipmentHandler {
         return shipment;
     }
 
-
     // <<------Read------>>
 
     public ObservableList<Shipment> getShipments() {
         return shipments;
     }
-
 
     // <<-----Update----->>
 
@@ -65,9 +62,7 @@ public class ShipmentHandler {
         shipments.remove(shipment);
     }
 
-    // INTE REKOMMENDERAT, manually edit the observable list in the controller
-    // instead !!!
-    // only needed to updated ComboBoxes!
+    // Used to update comboboxes in GUI
     public void forceUpdateOfObservableList() {
         // shipments = FXCollections.observableList(shipments);
 
