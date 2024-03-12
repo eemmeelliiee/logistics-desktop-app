@@ -33,13 +33,11 @@ public class InspectionLogHandler {
         return inspectionLog;
     }
 
-
     // <<------Read------>>
 
     public ObservableList<InspectionLog> getInspectionLogs() {
         return inspectionLogs;
     }
-
 
     // <<------Update------>>
 
@@ -63,9 +61,6 @@ public class InspectionLogHandler {
                 break;
             case RESULT:
                 updateInspectionLogResult(inspectionLog, (String) newValue);
-                // break;
-                // default:
-                // throw new Exception(Constants.INVALID_FIELD);
         }
     }
 
@@ -89,12 +84,10 @@ public class InspectionLogHandler {
         inspectionLog.setResult(newResult);
     }
 
-
     // <<------Delete------>>
     public void deleteInspectionLog(InspectionLog inspectionLog) {
         inspectionLogs.remove(inspectionLog);
     }
-
 
     // For testing purposes only
     public void clearData() {

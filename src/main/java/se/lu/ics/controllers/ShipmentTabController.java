@@ -2,36 +2,24 @@ package se.lu.ics.controllers;
 
 import se.lu.ics.models.DataManager;
 import se.lu.ics.models.DataService;
-import se.lu.ics.models.DatePickerTableCell;
 import se.lu.ics.models.Direction;
 import se.lu.ics.models.InspectionLog;
-import se.lu.ics.models.Location;
 import se.lu.ics.models.Shipment;
 import se.lu.ics.models.ShipmentLog;
 import se.lu.ics.models.UpdateFieldInspectionLog;
 import se.lu.ics.models.UpdateFieldShipmentLog;
-import se.lu.ics.models.UpdateFieldWarehouse;
 import se.lu.ics.models.Warehouse;
-
-import se.lu.ics.models.DatePickerTableCell;
-
-import javafx.scene.control.DatePicker;
-import javafx.util.converter.LocalDateStringConverter;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.time.LocalDate;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -39,7 +27,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.util.converter.LocalDateStringConverter;
 
 public class ShipmentTabController {
 
@@ -211,7 +198,7 @@ public class ShipmentTabController {
 
             // Refresh the TableView
             tableViewShipmentLogs.setItems(dataService.getShipmentLogsForShipment(comboBoxSelectShipment.getValue()));
-            textTheActualAmount.setText(String.valueOf(comboBoxSelectShipment.getValue().getTotalNumberOfWarehouses()));    
+            textTheActualAmount.setText(String.valueOf(comboBoxSelectShipment.getValue().getTotalNumberOfWarehouses()));
 
             tableViewShipmentLogs.refresh();
 
@@ -287,7 +274,8 @@ public class ShipmentTabController {
             // Refresh the TableView
             tableViewInspectionLogs.refresh();
             textTheActualAmount.setText(String.valueOf(comboBoxSelectShipment.getValue().getTotalNumberOfWarehouses()));
-            tableViewInspectionLogs.setItems(dataService.getInspectionsLogsForShipment(comboBoxSelectShipment.getValue()));
+            tableViewInspectionLogs
+                    .setItems(dataService.getInspectionsLogsForShipment(comboBoxSelectShipment.getValue()));
             tableViewShipmentLogs.setItems(dataService.getShipmentLogsForShipment(comboBoxSelectShipment.getValue()));
 
         } catch (Exception e) {
@@ -522,9 +510,8 @@ public class ShipmentTabController {
     private void setupTableColumns() {
         // Initialize table columns using PropertyValueFactory
         tableColumnShipmentLogsDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        
+
         // Set the on edit commit event
-        
 
         tableColumnShipmentLogsDirection.setCellValueFactory(new PropertyValueFactory<>("direction"));
         tableColumnShipmentLogsDirection.setOnEditCommit(e -> {
@@ -556,34 +543,17 @@ public class ShipmentTabController {
 
         tableColumnShipmentLogsWarehouse.setCellValueFactory(new PropertyValueFactory<>("warehouse"));
         // tableColumnShipmentLogsWarehouse.setCellFactory(TextFieldTableCell.forTableColumn());
-        
 
         tableColumnInspectionLogsDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         tableColumnInspectionLogsInspector.setCellValueFactory(new PropertyValueFactory<>("inspector"));
         tableColumnInspectionLogsInspector.setCellFactory(TextFieldTableCell.forTableColumn());
-        
+
         tableColumnInspectionLogsResult.setCellValueFactory(new PropertyValueFactory<>("result"));
         tableColumnInspectionLogsResult.setCellFactory(TextFieldTableCell.forTableColumn());
-      
 
         tableColumnInspectionLogsShipmentID.setCellValueFactory(new PropertyValueFactory<>("shipment"));
         tableColumnInspectionLogsWarehouse.setCellValueFactory(new PropertyValueFactory<>("warehouse"));
-    }
-
-    private void makeEditable() {
-        tableViewInspectionLogs.setEditable(true);
-        tableViewShipmentLogs.setEditable(true);
-        tableColumnInspectionLogsDate.setEditable(true);
-        tableColumnInspectionLogsInspector.setEditable(true);
-        tableColumnInspectionLogsResult.setEditable(true);
-        tableColumnInspectionLogsShipmentID.setEditable(true);
-        tableColumnInspectionLogsWarehouse.setEditable(true);
-        tableColumnShipmentLogsDate.setEditable(true);
-        tableColumnShipmentLogsDirection.setEditable(true);
-        tableColumnShipmentLogsShipmentID.setEditable(true);
-        tableColumnShipmentLogsWarehouse.setEditable(true);
-
     }
 
     private void setupComboBoxes() {
@@ -601,8 +571,6 @@ public class ShipmentTabController {
         buttonDeleteInspectionLog.setOnAction(this::handleButtonDeleteInspectionLog);
         buttonDeleteShipmentLog.setOnAction(this::handleButtonDeleteShipmentLog);
     }
-
-    
 
     public void setTextSystemStatus(String message) {
         textSystemStatus.setText(message);

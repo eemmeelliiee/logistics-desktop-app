@@ -91,7 +91,6 @@ public class DataService {
                 inspectorsForWarehouse.add(inspectionLog.getInspector());
             }
         }
-        warehouse.setInspectors(inspectorsForWarehouse);
         return inspectorsForWarehouse;
     }
 
@@ -146,13 +145,12 @@ public class DataService {
             }
             String isOrAre = busiestWarehouses.size() > 1 ? "s are" : " is";
             String formattedPercentage = String.format("%.2f", highestStockLevelRatio * 100);
-                return "Busiest warehouse" + isOrAre + ": " + busiestWarehousesNames.toString() + ", using "
-                        + formattedPercentage + "% of capacity";
+            return "Busiest warehouse" + isOrAre + ": " + busiestWarehousesNames.toString() + ", using "
+                    + formattedPercentage + "% of capacity";
         }
     }
 
     // <<----------------- Update Information ----------------->>
-
 
     // For filling with test data
     public void updateAll() throws Exception {
@@ -212,8 +210,10 @@ public class DataService {
 
     private void updateRemainingCapacityInPercentForWarehouse(Warehouse warehouse) {
         if (warehouse.getCurrentAvailableCapacity() != 0) {
-            double remainingCapacityInPercent = (warehouse.getCurrentAvailableCapacity() / warehouse.getCapacity()) * 100;
-            remainingCapacityInPercent = Math.round(remainingCapacityInPercent * 100.0) / 100.0; // Round to 2 decimal places
+            double remainingCapacityInPercent = (warehouse.getCurrentAvailableCapacity() / warehouse.getCapacity())
+                    * 100;
+            remainingCapacityInPercent = Math.round(remainingCapacityInPercent * 100.0) / 100.0; // Round to 2 decimal
+                                                                                                 // places
             warehouse.setRemainingCapacityInPercent(remainingCapacityInPercent);
         } else {
             warehouse.setRemainingCapacityInPercent(0);
@@ -251,7 +251,6 @@ public class DataService {
         warehouse.setAverageTimeShipmentSpendsAtWarehouse(averageTime);
     }
 
-
     // Update Shipment Information
 
     public void updateShipmentInformation(Shipment shipment) {
@@ -265,7 +264,7 @@ public class DataService {
         ObservableList<ShipmentLog> shipmentLogs = getShipmentLogsForShipment(shipment);
         int incomingCount = 0;
         int outgoingCount = 0;
-    
+
         if (!shipmentLogs.isEmpty()) {
             for (ShipmentLog shipmentLog : shipmentLogs) {
                 if (shipmentLog.getDirection().equals(Direction.INCOMING)) {
@@ -274,14 +273,15 @@ public class DataService {
                 } else {
                     outgoingCount++;
                 }
-    
-                // If there's an outgoing shipment for every incoming one, set currentWarehouse to null
+
+                // If there's an outgoing shipment for every incoming one, set currentWarehouse
+                // to null
                 if (incomingCount == outgoingCount) {
                     currentWarehouse = null;
                 }
             }
         }
-    
+
         shipment.setCurrentWarehouse(currentWarehouse);
     }
 
@@ -297,7 +297,5 @@ public class DataService {
         }
         shipment.setTotalNumberOfWarehouses(totalNumberOfWarehouses);
     }
-
-    
 
 }

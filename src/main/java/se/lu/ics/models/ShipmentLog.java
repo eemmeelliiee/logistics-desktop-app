@@ -53,7 +53,7 @@ public class ShipmentLog {
         this.shipment = shipment;
     }
 
-    public String getShipmentId() { // A setter as well?
+    public String getShipmentId() { // Currently has no setter
         return shipment.getShipmentId();
     }
 
@@ -63,10 +63,10 @@ public class ShipmentLog {
 
 
 
-    // Used in shipmentloghandler. The ShipmentLog class is responsible for
+    // Used in shipmentLogHandler. The ShipmentLog class is responsible for
     // determining if a ShipmentLog is similar to another and if it needs attention.
-    // This follows the Single Responsibility Principle,
-    // making my code cleaner and easier to maintain.
+    // Follows the Single Responsibility Principle,
+    // making the code cleaner and easier to maintain.
     public boolean needsAttention() {
         boolean isIncoming = this.getDirection() == Direction.INCOMING;
     
@@ -75,25 +75,4 @@ public class ShipmentLog {
     
         return needsAttention;
     }
-    // public boolean needsAttention(ShipmentLog other) {
-    //     boolean isPairAndNeedsAttention = this.getShipment().equals(other.getShipment()) &&
-    //             this.getWarehouse().equals(other.getWarehouse()) &&
-    //             this.getDirection() == Direction.INCOMING &&
-    //             other.getDirection() == Direction.OUTGOING;
-
-    //     boolean needsAttention = isPairAndNeedsAttention
-    //             && ChronoUnit.DAYS.between(this.getDate(), other.getDate()) > 14;
-
-    //     return needsAttention;
-    // }
-
-    @Override
-    public String toString(){
-        return "\n\nShipmentID: " + shipment.getShipmentId()
-        +       "\nWarehouse: " + warehouse.getName()
-        +       "\nDate: " + date
-        +       "\nDirection: " + direction;
-        
-    }
-
 }
